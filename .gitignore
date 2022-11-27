@@ -1,0 +1,42 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/nwt-kts-ui/dist
+/nwt-kts-ui/tmp
+/nwt-kts-ui/out-tsc
+/nwt-kts-ui/bazel-out
+
+# Node
+/nwt-kts-ui/node_modules
+/nwt-kts-ui/npm-debug.log
+/nwt-kts-ui/yarn-error.log
+
+# IDEs and editors
+/nwt-kts-ui/.idea/
+/nwt-kts-ui/.project
+/nwt-kts-ui/.classpath
+/nwt-kts-ui/.c9/
+/nwt-kts-ui/*.launch
+/nwt-kts-ui/.settings/
+/nwt-kts-ui/*.sublime-workspace
+
+# Visual Studio Code
+/nwt-kts-ui/.vscode/*
+/nwt-kts-ui/!.vscode/settings.json
+/nwt-kts-ui/!.vscode/tasks.json
+/nwt-kts-ui/!.vscode/launch.json
+/nwt-kts-ui/!.vscode/extensions.json
+/nwt-kts-ui/.history/*
+
+# Miscellaneous
+/nwt-kts-ui/.angular/cache
+/nwt-kts-ui/.sass-cache/
+/nwt-kts-ui/connect.lock
+/nwt-kts-ui/coverage
+/nwt-kts-ui/libpeerconnection.log
+/nwt-kts-ui/testem.log
+/nwt-kts-ui/typings
+
+# System files
+/nwt-kts-ui/.DS_Store
+/nwt-kts-ui/Thumbs.db

@@ -3,8 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SharedModule } from './shared/shared.module';
-import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+import {
+  BrowserAnimationsModule,
+  NoopAnimationsModule,
+} from '@angular/platform-browser/animations';
 import { MaterialModule } from './shared/material/material/material.module';
+import { StartpageModule } from './features/startpage/startpage.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [AppComponent],
@@ -13,7 +18,10 @@ import { MaterialModule } from './shared/material/material/material.module';
     AppRoutingModule,
     SharedModule,
     NoopAnimationsModule,
+    BrowserAnimationsModule,
     MaterialModule,
+    StartpageModule,
+    FontAwesomeModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

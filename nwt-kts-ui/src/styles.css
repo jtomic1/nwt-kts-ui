@@ -3,3 +3,25 @@
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #303030;}
 a {color: #69F0AE}
+
+/* Message Styles -----------------------------------------------------------------------------------*/
+
+.success {
+  background-color: green !important;
+  color: white !important;
+}
+
+.error {
+  background-color: red !important;
+  color: white !important;
+}
+
+.info {
+  background-color: rgb(15, 93, 238) !important;
+  color: white !important;
+}
+
+.warning {
+  background-color: orange !important;
+  color: white !important;
+}

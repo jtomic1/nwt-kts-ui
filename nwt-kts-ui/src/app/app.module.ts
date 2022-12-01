@@ -10,11 +10,12 @@ import {
 import { MaterialModule } from './shared/material/material/material.module';
 import { StartpageModule } from './features/startpage/startpage.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { LiveChatComponent } from './features/live-chat/live-chat.component';
-import { FormsModule } from '@angular/forms'; 
+import { LiveChatComponent } from './features/live-chat-client/live-chat.component';
+import { FormsModule } from '@angular/forms';
+import { LiveChatAdminComponent } from './features/live-chat-admin/live-chat-admin.component'; 
 
 @NgModule({
-  declarations: [AppComponent, LiveChatComponent],
+  declarations: [AppComponent, LiveChatComponent, LiveChatAdminComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

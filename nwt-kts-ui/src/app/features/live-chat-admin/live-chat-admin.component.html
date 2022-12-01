@@ -1,0 +1,43 @@
+<p>live-chat-admin works!</p>
+<div class="col-sm-12">
+    <div class="row" style="height: 85vh;">
+
+        <div class="col-sm-3 people-nearby">
+            
+                <div class="nearby-user" (click)="changeReceiver('user1')">
+                    <div class="row">
+                        <div class="col-sm-5 profile-img">
+                            <img src="../../../assets/images/profilePhotoDefault.png" alt="user" class="profile-photo-lg">
+                        </div>
+                        <div class="col-sm-7">
+                            <h3 style="color: white;">user1</h3>
+                            <h4 style="color: rgb(230, 195, 195);">Last message</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="nearby-user"  (click)="changeReceiver('user2')">
+                    <div class="row">
+                        <div class="col-sm-5 profile-img">
+                            <img src="../../../assets/images/profilePhotoDefault.png" alt="user" class="profile-photo-lg">
+                        </div>
+                        <div class="col-sm-7">
+                            <h3 style="color: white;">user2</h3>
+                            <h4 style="color: rgb(230, 195, 195);">Last message</h4>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="col-sm-9"  >
+            <div class="chat-messages" style="height: 100%;">
+                <div class="chat-messages-show-container" style="height: 85%;">
+                    <ul class="chat-messages-show-list" id="message-list">
+                    </ul>
+                </div>
+                <div class="chat-messages-create-container"> 
+                    <input class="chat-messages-create-input" type="text" [(ngModel)] = 'message'>
+                    <button  class="chat-messages-create-button" (click)="SendMessage()"> Send </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

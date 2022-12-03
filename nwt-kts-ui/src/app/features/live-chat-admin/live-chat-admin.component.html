@@ -2,34 +2,37 @@
 <div class="col-sm-12">
     <div class="row" style="height: 85vh;">
 
-        <div class="col-sm-3 people-nearby">
+        <div class="col-sm-3 contacts">
             
-                <div class="nearby-user" (click)="changeReceiver('user1')">
+                <div [ngClass]="{'active' : receiver == 'user1' }" class="user" (click)="changeReceiver('user1')" id='user_user1'>
                     <div class="row">
                         <div class="col-sm-5 profile-img">
                             <img src="../../../assets/images/profilePhotoDefault.png" alt="user" class="profile-photo-lg">
                         </div>
                         <div class="col-sm-7">
                             <h3 style="color: white;">user1</h3>
-                            <h4 style="color: rgb(230, 195, 195);">Last message</h4>
+                            <h4 class="lastMessage" id="user_user1_lastMessage" >Last message</h4>
                         </div>
                     </div>
                 </div>
-                <div class="nearby-user"  (click)="changeReceiver('user2')">
+                <div class="user" [ngClass]="{'active' : receiver == 'user2' }"   (click)="changeReceiver('user2')" id='user_user2'>
                     <div class="row">
                         <div class="col-sm-5 profile-img">
                             <img src="../../../assets/images/profilePhotoDefault.png" alt="user" class="profile-photo-lg">
                         </div>
                         <div class="col-sm-7">
                             <h3 style="color: white;">user2</h3>
-                            <h4 style="color: rgb(230, 195, 195);">Last message</h4>
+                            <h4 class="lastMessage" id="user_user2_lastMessage" >Last message</h4>
                         </div>
                     </div>
                 </div>
         </div>
         <div class="col-sm-9"  >
-            <div class="chat-messages" style="height: 100%;">
-                <div class="chat-messages-show-container" style="height: 85%;">
+            <div class="chat-head" style="height: 7%;">
+                    <h2 class="username" >{{receiver}}</h2>
+            </div>
+            <div class="chat-messages" style="height: 93%;">
+                <div class="chat-messages-show-container" style="height: 82%;">
                     <ul class="chat-messages-show-list" id="message-list">
                     </ul>
                 </div>

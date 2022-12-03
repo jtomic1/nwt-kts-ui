@@ -1,6 +1,5 @@
 .chat-messages-show-container{
     background: #c3c3c3;
-    height: 400px;
     display: flex;
     flex-direction: column;
     overflow: auto;
@@ -27,12 +26,31 @@
     width: 100px;
  }
 
-.people-nearby .nearby-user{
+.contacts .user{
   padding: 5px 0;
-  border-top: 1px solid #f1f2f2;
   border-bottom: 1px solid #f1f2f2;
+  transition: 0.7s;
 }
 
+.contacts .user .lastMessage{
+   color: rgb(230, 195, 195);
+}
+
+.contacts .active{  
+   transform: scale(0.9);
+   background: linear-gradient(41deg, transparent,#7b1fa2,transparent)
+}
+
+.contacts .blink{
+   
+   background: linear-gradient(41deg, transparent,red,transparent);
+   animation:blinking 2s infinite;
+}
+@keyframes blinking{
+    0%{     opacity: 0.5;}
+    50%{  opacity: 1; }
+    100%{    opacity: 0.5; }
+}
 
 .profile-img{
     display: flex;
@@ -41,6 +59,10 @@
 }
 
 img.profile-photo-lg{
-  width: 100%;
+  width: 80%;
   border-radius: 50%;
+}
+
+.chat-head .username{
+   color: white;
 }

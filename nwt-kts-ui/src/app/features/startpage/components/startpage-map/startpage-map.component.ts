@@ -52,6 +52,24 @@ export class StartpageMapComponent implements AfterViewInit {
     
     L.control.layers(baseMaps).addTo(this.map);
 
+    var taxiFreeIcon = L.icon({
+      iconUrl: 'assets/taxi-free.png',
+      iconSize: [32, 32]
+    });
+    var markerTaxiFree = L.marker([45.249602, 19.849632], {icon: taxiFreeIcon})
+                          .bindPopup('Vozilo je slobodno.');
+    
+    markerTaxiFree.addTo(this.map);
+
+    var taxiTakenIcon = L.icon({
+      iconUrl: 'assets/taxi-taken.png',
+      iconSize: [32, 32]
+    });
+    var markerTaxiTaken = L.marker([45.253534, 19.840869], {icon: taxiTakenIcon})
+                           .bindPopup('Vozilo je zauzeto.');
+    
+    markerTaxiTaken.addTo(this.map);
+
     this.map.on('click',  (e: {latlng: any}) => {
       if (!this.isStartSet) {
         this.setStartingMarker(e.latlng, true);

@@ -1,4 +1,5 @@
 import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
@@ -9,13 +10,15 @@ import { MapService } from 'src/app/shared/services/map-service/map.service';
   styleUrls: ['./startpage-map.component.css']
 })
 export class StartpageMapComponent implements AfterViewInit {
-
+  
   private map: any;
 
   private startMarker: any;
   isStartSet: boolean = false;
   private destinationMarker: any;
   isDestinationSet: boolean = false;
+
+  form: FormGroup = this.createFormGroup();
 
   constructor(private mapService: MapService) { }
 
@@ -57,6 +60,15 @@ export class StartpageMapComponent implements AfterViewInit {
     
   }
 
+  createFormGroup(): FormGroup {
+    return new FormGroup({
+      start: new FormControl(''),
+      destination: new FormControl(''),
+      price: new FormControl(''),
+      time: new FormControl('')
+    });
+  }
+
   setStartingMarker(latlng: any, setAddress: boolean): void {
     this.startMarker = L.marker([latlng.lat, latlng.lng], {draggable: true});
     this.startMarker.addTo(this.map);
@@ -85,5 +97,13 @@ export class StartpageMapComponent implements AfterViewInit {
         }
       );
     }
+  }
+
+  onStartSearch(): void {
+
+  }
+
+  onDestinationSearch(): void {
+
   }
 }

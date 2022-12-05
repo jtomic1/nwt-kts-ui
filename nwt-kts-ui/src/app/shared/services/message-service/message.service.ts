@@ -11,7 +11,7 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class MessageServiceService {
+export class MessageService {
   constructor(private matSnack: MatSnackBar) {}
 
   public showMessage(message: string, type: MessageType) {

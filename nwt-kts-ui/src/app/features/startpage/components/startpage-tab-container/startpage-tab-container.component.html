@@ -1,9 +1,13 @@
 <mat-card>
-  <mat-tab-group mat-align-tabs="center">
+  <mat-tab-group [(selectedIndex)]="selectedIndex" mat-align-tabs="center">
     <mat-tab label="Prijava">
       <app-startpage-login></app-startpage-login>
     </mat-tab>
-    <mat-tab label="Registracija">Registracija</mat-tab>
+    <mat-tab label="Registracija">
+      <app-startpage-register
+        (registrationEvent)="switchActiveTab($event)"
+      ></app-startpage-register>
+    </mat-tab>
     <mat-tab label="Pregled Mape">Pregled Mape</mat-tab>
   </mat-tab-group>
 </mat-card>

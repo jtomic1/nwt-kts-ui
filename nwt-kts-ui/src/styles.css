@@ -22,6 +22,6 @@ a {color: #69F0AE}
 }
 
 .warning {
-  background-color: orange !important;
+  background-color: rgb(192, 126, 2) !important;
   color: white !important;
 }

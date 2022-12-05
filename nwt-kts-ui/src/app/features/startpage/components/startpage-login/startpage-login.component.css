@@ -21,6 +21,10 @@ mat-form-field {
   justify-content: space-around;
 }
 
+.icon-button{
+  transition: 0.3s;
+}
+
 .icon-button:hover {
   cursor: pointer;
   color: white;

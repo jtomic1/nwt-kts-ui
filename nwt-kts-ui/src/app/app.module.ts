@@ -23,7 +23,7 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     StartpageModule,
     FontAwesomeModule,
-    HttpClientModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

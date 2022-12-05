@@ -6,14 +6,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { StartpageLoginComponent } from './components/startpage-login/startpage-login.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { StartpageMapComponent } from './components/startpage-map/startpage-map.component';
 import { StartpageRegisterComponent } from './components/startpage-register/startpage-register.component';
 
 @NgModule({
-  declarations: [
-    StartpageTabContainerComponent,
-    StartpageLoginComponent,
-    StartpageRegisterComponent,
-  ],
+  declarations: [StartpageTabContainerComponent, StartpageLoginComponent, StartpageMapComponent, StartpageRegisterComponent],
   imports: [
     CommonModule,
     SharedModule,

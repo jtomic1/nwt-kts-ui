@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
@@ -18,12 +18,14 @@ export class StartpageMapComponent implements AfterViewInit {
   private destinationMarker: any;
   isDestinationSet: boolean = false;
 
+  private route: any;
+
   form: FormGroup = this.createFormGroup();
 
   constructor(private mapService: MapService) { }
 
   ngAfterViewInit(): void {
-  this.initMap(); 
+    this.initMap(); 
   }
 
   private initMap(): void {
@@ -55,6 +57,11 @@ export class StartpageMapComponent implements AfterViewInit {
         this.setStartingMarker(e.latlng, true);
       } else if (!this.isDestinationSet) {
         this.setDestinationMarker(e.latlng, true);
+
+        this.map.removeLayer(this.startMarker);
+        this.map.removeLayer(this.destinationMarker);
+
+        this.makeRoute();      
       }
     });
     
@@ -78,7 +85,7 @@ export class StartpageMapComponent implements AfterViewInit {
       this.mapService.getAddress(latlng).subscribe(
         (result: any) => {      
           var data = result.features[0].properties.geocoding;
-          //this.setStartFormControl(data);
+          this.setStartFormControl(data);
         }
       );
     }
@@ -93,17 +100,82 @@ export class StartpageMapComponent implements AfterViewInit {
       this.mapService.getAddress(latlng).subscribe(
         (result: any) => {
           var data = result.features[0].properties.geocoding;
-          //this.setDestinationFormControl(data);
+          this.setDestinationFormControl(data);
         }
       );
     }
   }
 
   onStartSearch(): void {
-
+    
   }
 
   onDestinationSearch(): void {
+    
+  }
 
+  makeRoute(): void {
+    this.route = L.Routing.control({
+      waypoints: [
+        L.latLng(this.startMarker.getLatLng()),
+        L.latLng(this.destinationMarker.getLatLng())
+      ],
+      showAlternatives: true,
+      altLineOptions: {
+        styles: [
+          {color: 'black', opacity: 0.15, weight: 9},
+          {color: 'white', opacity: 0.8, weight: 6},
+          {color: 'blue', opacity: 0.5, weight: 2}
+        ],
+        extendToWaypoints: false,
+        missingRouteTolerance: 0
+      }
+    }).on('routesfound',  (e) => {
+      //console.log(e);
+      this.mapService.getAddress(e.waypoints[0].latLng).subscribe(
+        (result: any) => {
+          //console.log(result);
+          var data = result.features[0].properties.geocoding;
+          this.setStartFormControl(data);
+        }
+      );
+      this.mapService.getAddress(e.waypoints[1].latLng).subscribe(
+        (result: any) => {
+          var data = result.features[0].properties.geocoding;
+          this.setDestinationFormControl(data);
+        }        
+      );
+      this.form.controls['time'].setValue(Math.round(e.routes[0].summary.totalTime / 60) + ' minuta');
+      this.form.controls['price'].setValue(Math.round(250 + (e.routes[0].summary.totalDistance / 1000)*120) + ' dinara');
+    })
+    .on('routeselected', (e) => {
+      this.form.controls['time'].setValue(Math.round(e.route.summary.totalTime / 60) + ' minuta');
+      this.form.controls['price'].setValue(Math.round(250 + (e.route.summary.totalDistance / 1000)*120) + ' dinara');
+    })
+    .addTo(this.map);
+
+    this.route.hide();
+  }
+
+  setStartFormControl(data: any): void {
+    if (data.housenumber !== undefined && data.street !== undefined) {
+      this.form.controls['start'].setValue(data.street + ' ' + data.housenumber);
+    }            
+    else if (data.housenumber === undefined && data.street !== undefined) {
+      this.form.controls['start'].setValue(data.street);
+    } else {
+      this.form.controls['start'].setValue(data.label);
+    }
+  }
+
+  setDestinationFormControl(data: any): void {
+    if (data.housenumber !== undefined && data.street !== undefined) {
+      this.form.controls['destination'].setValue(data.street + ' ' + data.housenumber);
+    }            
+    else if (data.housenumber === undefined && data.street !== undefined) {
+      this.form.controls['destination'].setValue(data.street);
+    } else {
+      this.form.controls['destination'].setValue(data.label);
+    }
   }
 }

@@ -1,0 +1,33 @@
+mat-card {
+    max-width: 90%;
+    margin: 2em auto;
+    text-align: center;
+}
+
+mat-grid-tile {
+    height: 53%;
+    position: absolute;
+}
+ 
+.map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 10px;
+}
+
+.map-frame {
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+}
+
+.data-card {
+    margin-bottom: 20px;
+    width: 100%;
+}

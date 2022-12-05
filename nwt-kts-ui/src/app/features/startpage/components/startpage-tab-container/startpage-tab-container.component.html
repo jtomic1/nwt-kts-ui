@@ -4,6 +4,10 @@
       <app-startpage-login></app-startpage-login>
     </mat-tab>
     <mat-tab label="Registracija">Registracija</mat-tab>
-    <mat-tab label="Pregled Mape">Pregled Mape</mat-tab>
+    <mat-tab label="Pregled Mape">
+      <ng-template matTabContent>
+        <app-startpage-map></app-startpage-map>
+      </ng-template>
+    </mat-tab>
   </mat-tab-group>
 </mat-card>

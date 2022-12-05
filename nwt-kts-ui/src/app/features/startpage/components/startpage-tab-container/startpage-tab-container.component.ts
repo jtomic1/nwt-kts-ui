@@ -3,13 +3,16 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-startpage-tab-container',
   templateUrl: './startpage-tab-container.component.html',
-  styleUrls: ['./startpage-tab-container.component.css']
+  styleUrls: ['./startpage-tab-container.component.css'],
 })
 export class StartpageTabContainerComponent implements OnInit {
+  selectedIndex: number = 0;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  switchActiveTab(registrationEvent: boolean) {
+    if (registrationEvent) this.selectedIndex = 0;
   }
-
 }

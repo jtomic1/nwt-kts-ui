@@ -7,9 +7,10 @@ import { StartpageLoginComponent } from './components/startpage-login/startpage-
 import { ReactiveFormsModule } from '@angular/forms';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { StartpageMapComponent } from './components/startpage-map/startpage-map.component';
+import { StartpageRegisterComponent } from './components/startpage-register/startpage-register.component';
 
 @NgModule({
-  declarations: [StartpageTabContainerComponent, StartpageLoginComponent, StartpageMapComponent],
+  declarations: [StartpageTabContainerComponent, StartpageLoginComponent, StartpageMapComponent, StartpageRegisterComponent],
   imports: [
     CommonModule,
     SharedModule,

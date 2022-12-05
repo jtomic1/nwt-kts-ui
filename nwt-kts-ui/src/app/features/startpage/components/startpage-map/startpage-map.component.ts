@@ -69,7 +69,7 @@ export class StartpageMapComponent implements AfterViewInit {
                            .bindPopup('Vozilo je zauzeto.');
     
     markerTaxiTaken.addTo(this.map);
-
+    
     this.map.on('click',  (e: {latlng: any}) => {
       if (!this.isStartSet) {
         this.setStartingMarker(e.latlng, true);
@@ -125,11 +125,58 @@ export class StartpageMapComponent implements AfterViewInit {
   }
 
   onStartSearch(): void {
-    
+    this.mapService.getCoordinates(this.form.controls['start'].value + ', Novi Sad').subscribe(
+      (result: any) => {
+        console.log(result);
+        //console.log(result.features[0].geometry.coordinates)
+        //console.log(this.route.getWaypoints());
+        if (result.features.length !== 0) {
+          if (!this.isStartSet) {
+            var latlng = {lat: result.features[0].geometry.coordinates[1],
+                          lng: result.features[0].geometry.coordinates[0]};
+            this.setStartingMarker(latlng , false);
+          } else {
+            var destination = [this.route.getWaypoints()[1].latLng.lat, this.route.getWaypoints()[1].latLng.lng]
+            this.route.setWaypoints([
+            L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]]),
+            L.latLng([destination[0], destination[1]])
+          ]);
+          }
+        } else {
+          alert('Pretraga neuspesna!');
+        }
+      },
+      (error: any) => {
+        console.log(error);
+      }
+    );
   }
 
   onDestinationSearch(): void {
-    
+    this.mapService.getCoordinates(this.form.controls['destination'].value + ', Novi Sad').subscribe(
+      (result: any) => {
+        if (result.features.length !== 0) {
+          if (!this.isDestinationSet) {
+            var latlng = {lat: result.features[0].geometry.coordinates[1],
+                          lng: result.features[0].geometry.coordinates[0]};
+            this.setDestinationMarker(latlng, false);
+  
+            this.map.removeLayer(this.startMarker);
+            this.map.removeLayer(this.destinationMarker);
+  
+            this.makeRoute();
+          } else {
+            var start = [this.route.getWaypoints()[0].latLng.lat, this.route.getWaypoints()[0].latLng.lng]
+            this.route.setWaypoints([
+              L.latLng([start[0], start[1]]),
+              L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]])
+            ]);
+          }
+        } else {
+          alert('Pretraga neuspesna!')
+        }
+      }
+    );
   }
 
   makeRoute(): void {

@@ -1,0 +1,15 @@
+<mat-card>
+  <mat-card-content>
+    <h2>Registracija</h2>
+    <app-personal-data [form]="registrationForm"></app-personal-data>
+    <button
+      mat-raised-button
+      color="primary"
+      type="button"
+      style="margin-top: 10px"
+      (click)="saveRequest()"
+    >
+      Registruj se!
+    </button>
+  </mat-card-content>
+</mat-card>

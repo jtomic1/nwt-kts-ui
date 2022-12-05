@@ -1,6 +1,7 @@
 import { AfterViewChecked, AfterViewInit, Component, OnInit } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
+import { MapService } from 'src/app/shared/services/map-service/map.service';
 
 @Component({
   selector: 'app-startpage-map',
@@ -11,7 +12,12 @@ export class StartpageMapComponent implements AfterViewInit {
 
   private map: any;
 
-  constructor() { }
+  private startMarker: any;
+  isStartSet: boolean = false;
+  private destinationMarker: any;
+  isDestinationSet: boolean = false;
+
+  constructor(private mapService: MapService) { }
 
   ngAfterViewInit(): void {
   this.initMap(); 
@@ -41,7 +47,43 @@ export class StartpageMapComponent implements AfterViewInit {
     
     L.control.layers(baseMaps).addTo(this.map);
 
+    this.map.on('click',  (e: {latlng: any}) => {
+      if (!this.isStartSet) {
+        this.setStartingMarker(e.latlng, true);
+      } else if (!this.isDestinationSet) {
+        this.setDestinationMarker(e.latlng, true);
+      }
+    });
     
-    
+  }
+
+  setStartingMarker(latlng: any, setAddress: boolean): void {
+    this.startMarker = L.marker([latlng.lat, latlng.lng], {draggable: true});
+    this.startMarker.addTo(this.map);
+    this.isStartSet = true;
+      
+    if (setAddress) {
+      this.mapService.getAddress(latlng).subscribe(
+        (result: any) => {      
+          var data = result.features[0].properties.geocoding;
+          //this.setStartFormControl(data);
+        }
+      );
+    }
+  }
+
+  setDestinationMarker(latlng: any, setAddress: boolean): void {
+    this.destinationMarker = L.marker([latlng.lat, latlng.lng], {draggable: true});
+    this.destinationMarker.addTo(this.map);
+    this.isDestinationSet = true;
+        
+    if (setAddress) {
+      this.mapService.getAddress(latlng).subscribe(
+        (result: any) => {
+          var data = result.features[0].properties.geocoding;
+          //this.setDestinationFormControl(data);
+        }
+      );
+    }
   }
 }

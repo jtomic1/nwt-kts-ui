@@ -30,7 +30,7 @@ io.on('connection', (socket) => {
         console.log("private msg '" + content +"' to: "+to);
         socket.to(to).emit("private message", {
           content,
-          from: socket.userId,
+          userId: socket.userId,
         });
     });
 

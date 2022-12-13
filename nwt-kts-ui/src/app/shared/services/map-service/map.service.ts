@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MapService {
-
-  private baseUrl: string = 'https://nominatim.openstreetmap.org';
 
   constructor(private httpClient: HttpClient) { }
 
@@ -19,7 +18,8 @@ export class MapService {
           .set('lon', query.lng)
           .set('accept-language', 'en-US')
     } : {};
-    return this.httpClient.get(this.baseUrl + '/reverse', options);    
+    let url = `${environment.nominatimUrl}/reverse`;
+    return this.httpClient.get(url, options);    
   }
 
   public getCoordinates(query: string) {
@@ -29,6 +29,7 @@ export class MapService {
           .set('q', query)
           .set('format', 'geocodejson')
     } : {};
-    return this.httpClient.get(this.baseUrl + '/search', options);
+    let url = `${environment.nominatimUrl}/search`;
+    return this.httpClient.get(url, options);
   }
 }

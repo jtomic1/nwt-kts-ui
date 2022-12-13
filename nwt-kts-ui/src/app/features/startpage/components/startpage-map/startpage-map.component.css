@@ -1,5 +1,5 @@
-mat-card {
-    max-width: 90%;
+.main-card {
+    width: 95%;
     margin: 2em auto;
     text-align: center;
 }

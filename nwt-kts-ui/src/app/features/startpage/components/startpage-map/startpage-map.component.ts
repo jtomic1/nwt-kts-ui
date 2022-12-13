@@ -1,31 +1,38 @@
-import { AfterViewInit, Component } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
+import { Subject, takeUntil } from 'rxjs';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
+import { MessageService, MessageType } from 'src/app/shared/services/message-service/message.service';
 
 @Component({
   selector: 'app-startpage-map',
   templateUrl: './startpage-map.component.html',
   styleUrls: ['./startpage-map.component.css']
 })
-export class StartpageMapComponent implements AfterViewInit {
+export class StartpageMapComponent implements AfterViewInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
   
   private map: any;
-
   private startMarker: any;
   isStartSet: boolean = false;
   private destinationMarker: any;
   isDestinationSet: boolean = false;
-
   private route: any;
 
   form: FormGroup = this.createFormGroup();
 
-  constructor(private mapService: MapService) { }
+  constructor(private mapService: MapService,
+              private messageService: MessageService) { }  
 
   ngAfterViewInit(): void {
     this.initMap(); 
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
 
   private initMap(): void {
@@ -100,8 +107,10 @@ export class StartpageMapComponent implements AfterViewInit {
     this.isStartSet = true;
       
     if (setAddress) {
-      this.mapService.getAddress(latlng).subscribe(
-        (result: any) => {      
+      this.mapService
+        .getAddress(latlng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {      
           var data = result.features[0].properties.geocoding;
           this.setStartFormControl(data);
         }
@@ -115,7 +124,10 @@ export class StartpageMapComponent implements AfterViewInit {
     this.isDestinationSet = true;
         
     if (setAddress) {
-      this.mapService.getAddress(latlng).subscribe(
+      this.mapService
+        .getAddress(latlng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
         (result: any) => {
           var data = result.features[0].properties.geocoding;
           this.setDestinationFormControl(data);
@@ -125,11 +137,10 @@ export class StartpageMapComponent implements AfterViewInit {
   }
 
   onStartSearch(): void {
-    this.mapService.getCoordinates(this.form.controls['start'].value + ', Novi Sad').subscribe(
-      (result: any) => {
-        console.log(result);
-        //console.log(result.features[0].geometry.coordinates)
-        //console.log(this.route.getWaypoints());
+    this.mapService
+      .getCoordinates(this.form.controls['start'].value + ', Novi Sad')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {                
         if (result.features.length !== 0) {
           if (!this.isStartSet) {
             var latlng = {lat: result.features[0].geometry.coordinates[1],
@@ -143,18 +154,16 @@ export class StartpageMapComponent implements AfterViewInit {
           ]);
           }
         } else {
-          alert('Pretraga neuspesna!');
+          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
         }
-      },
-      (error: any) => {
-        console.log(error);
-      }
-    );
+      });
   }
 
   onDestinationSearch(): void {
-    this.mapService.getCoordinates(this.form.controls['destination'].value + ', Novi Sad').subscribe(
-      (result: any) => {
+    this.mapService
+      .getCoordinates(this.form.controls['destination'].value + ', Novi Sad')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
         if (result.features.length !== 0) {
           if (!this.isDestinationSet) {
             var latlng = {lat: result.features[0].geometry.coordinates[1],
@@ -173,7 +182,7 @@ export class StartpageMapComponent implements AfterViewInit {
             ]);
           }
         } else {
-          alert('Pretraga neuspesna!')
+          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
         }
       }
     );
@@ -185,6 +194,7 @@ export class StartpageMapComponent implements AfterViewInit {
         L.latLng(this.startMarker.getLatLng()),
         L.latLng(this.destinationMarker.getLatLng())
       ],
+      addWaypoints: false,
       showAlternatives: true,
       altLineOptions: {
         styles: [
@@ -195,21 +205,21 @@ export class StartpageMapComponent implements AfterViewInit {
         extendToWaypoints: false,
         missingRouteTolerance: 0
       }
-    }).on('routesfound',  (e) => {
-      //console.log(e);
-      this.mapService.getAddress(e.waypoints[0].latLng).subscribe(
-        (result: any) => {
-          //console.log(result);
+    }).on('routesfound',  (e) => {      
+      this.mapService
+        .getAddress(e.waypoints[0].latLng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {          
           var data = result.features[0].properties.geocoding;
           this.setStartFormControl(data);
-        }
-      );
-      this.mapService.getAddress(e.waypoints[1].latLng).subscribe(
-        (result: any) => {
+        });
+      this.mapService
+        .getAddress(e.waypoints[1].latLng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {
           var data = result.features[0].properties.geocoding;
           this.setDestinationFormControl(data);
-        }        
-      );
+        });
       this.form.controls['time'].setValue(Math.round(e.routes[0].summary.totalTime / 60) + ' minuta');
       this.form.controls['price'].setValue(Math.round(250 + (e.routes[0].summary.totalDistance / 1000)*120) + ' dinara');
     })

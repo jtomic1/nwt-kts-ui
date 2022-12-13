@@ -194,6 +194,7 @@ export class StartpageMapComponent implements AfterViewInit, OnDestroy {
         L.latLng(this.startMarker.getLatLng()),
         L.latLng(this.destinationMarker.getLatLng())
       ],
+      addWaypoints: false,
       showAlternatives: true,
       altLineOptions: {
         styles: [

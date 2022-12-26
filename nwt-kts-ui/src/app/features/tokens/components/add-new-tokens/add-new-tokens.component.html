@@ -1,25 +1,26 @@
 <mat-card>
     <mat-card-content>
-      <form >
         <h2>Kupovina tokena</h2>
         <h4> Trenutno na stanju imate 
-            <app-tokens-count></app-tokens-count></h4>
+            <app-tokens-count></app-tokens-count>
+        </h4>
         <mat-form-field>
           <input
             matInput
-            formControlName="tokens"
-            type="number"
             placeholder="Koliko tokena želite da kupite"
             name="tokens"
-            required
+            type="number"
+            [(ngModel)]="value"
+            [attr.disabled]="showPayPal? true : null"
           />
-          <button *ngIf="value > 0 " matSuffix mat-icon-button aria-label="Clear" (click)="value=0">
+          <button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=undefined;showPayPal=false;">
             <mat-icon>close</mat-icon>
           </button>
         </mat-form-field>
   
-        <button mat-raised-button color="primary">Kupi</button>
-        
-      </form>
+        <button *ngIf="!showPayPal && value" mat-raised-button color="primary" (click)="processPayPal()">Kupi</button>
+        <div>
+          <ngx-paypal *ngIf="showPayPal" [config]="payPalConfig"></ngx-paypal>
+        </div>
     </mat-card-content>
   </mat-card>

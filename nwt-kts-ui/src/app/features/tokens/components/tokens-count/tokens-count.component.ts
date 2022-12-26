@@ -14,6 +14,10 @@ export class TokensCountComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    this.updateTokensForUser();
+  }
+
+  updateTokensForUser(){
     this.tokensService.getTokensForUser(1).subscribe( 
       (data)=>{
         this.value = data;  

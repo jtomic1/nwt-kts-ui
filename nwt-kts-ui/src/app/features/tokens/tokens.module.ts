@@ -4,6 +4,7 @@ import { AddNewTokensComponent } from './components/add-new-tokens/add-new-token
 import { SharedModule } from 'src/app/shared/shared.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TokensCountComponent } from './components/tokens-count/tokens-count.component';
+import { NgxPayPalModule } from 'ngx-paypal';
 
 
 
@@ -16,7 +17,8 @@ import { TokensCountComponent } from './components/tokens-count/tokens-count.com
     CommonModule,
     SharedModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    NgxPayPalModule
   ]
 })
 export class TokensModule { }

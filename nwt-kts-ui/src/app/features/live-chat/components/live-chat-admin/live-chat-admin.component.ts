@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { UserDTO } from 'src/app/shared/models/UserDTO';
 import { MessageService } from 'src/app/shared/services/message-service/message.service';
 import { UserService } from 'src/app/shared/services/user-service/user.service';
 import { MessageDTO } from '../../models/MessageDTO';
 import { ChatMessagesService } from '../../services/chat-messages-service/chat-messages.service';
+import { ChatHeadComponent } from '../chat-head/chat-head.component';
 import { LiveChatComponent } from '../live-chat/live-chat.component';
 
 @Component({
@@ -36,6 +37,9 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
   @ViewChild(LiveChatComponent)
   private liveChatComponent!: LiveChatComponent;
 
+  @ViewChildren(ChatHeadComponent)
+  private chatHeads! : QueryList<ChatHeadComponent>;
+
 
   constructor(
     private chatMessageService: ChatMessagesService,
@@ -55,7 +59,15 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
   }
 
   newMessageInContacts(messageDTO:MessageDTO){
-
+      console.log(messageDTO);
+      this.chatHeads.forEach(chatHead => {
+        if(chatHead.userId == messageDTO.userId)
+        {  
+          chatHead.newMessage(messageDTO.content);
+          if( chatHead.userId != this.selectedUser.id)
+            chatHead.newMessageAnimation()
+        }
+      });
   }
 
   changeReceiver(user: UserDTO) {
@@ -64,6 +76,16 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
     this.liveChatComponent.receiverId = user.id;
     this.liveChatComponent.getAndDisplayMessagesHistory();
     this.removeVisualizationFromContact(user.id);
+
+    this.chatHeads.forEach(chatHead => {
+      if(chatHead.userId == user.id)
+      {  
+        chatHead.activeChat = true;
+      }
+      else{
+        chatHead.activeChat = false;
+      }
+    });
   }
 
   displayLastMessage(senderId:number, content:string){

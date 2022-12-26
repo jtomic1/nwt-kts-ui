@@ -5,7 +5,7 @@ import { LiveChatComponent } from './components/live-chat/live-chat.component';
 import { LiveChatAdminComponent } from './components/live-chat-admin/live-chat-admin.component';
 import { FormsModule } from '@angular/forms';
 import { LiveChatClientComponent } from './components/live-chat-client/live-chat-client.component';
-
+import { MaterialModule } from 'src/app/shared/material/material/material.module';
 
 
 @NgModule({
@@ -14,11 +14,11 @@ import { LiveChatClientComponent } from './components/live-chat-client/live-chat
     LiveChatAdminComponent,
     ChatHeadComponent,
     LiveChatClientComponent,
-    
   ],
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    MaterialModule
   ]
 })
 export class LiveChatModule { }

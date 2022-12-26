@@ -74,6 +74,7 @@ export class LiveChatComponent implements OnInit, OnDestroy {
     console.log(`user_${userId} joined his chanel`);
     this.socket.emit('join', userId);
     this.socket.emit('setUserId', userId);
+    this.receiverId = +userId;
   }
 
 
@@ -138,6 +139,7 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   }
 
   saveMessageInDB() {
+    this.messageDTO.userId = this.receiverId;
     this.messageDTO.content = this.message;
     this.messageDTO.timeStamp = this.datePipe.transform(
       new Date(),

@@ -3,12 +3,11 @@
 
         <div class="col-sm-3 contacts">
             <app-chat-head *ngFor="let user of allUsers" [userId]="user.id"
-            [ngClass]="{'active': selectedUser.id === user.id }" 
             (clickedChatHead)="changeReceiver($any($event))"></app-chat-head>
         </div>
         <div class="col-sm-9"  >
             <div class="chat-head" style="color: white;">
-                    <h2 class="username" >{{selectedUser.id +" )"+ selectedUser.name +" "+ selectedUser.lastName}} </h2>
+                    <h2 class="username" >{{selectedUser.name +" "+ selectedUser.lastName}} </h2>
             </div>
             <app-live-chat [isAdminChat]="true" [receiverId]="receiverId" (newMessageArived)="newMessageInContacts($event)"></app-live-chat>
         </div>

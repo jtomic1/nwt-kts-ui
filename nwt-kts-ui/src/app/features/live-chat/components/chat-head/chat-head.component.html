@@ -1,4 +1,5 @@
-<div class="user" (click)="chatHeadClicked()" id='user_1'>
+<div class="user" (click)="chatHeadClicked()" 
+    [ngClass]="{'blink': unreadMessage === true , 'active': activeChat === true}" >
     <div class="row">
         <div class="col-sm-5 profile-img">
             <img src="../../../assets/images/profilePhotoDefault.png" alt="user" class="profile-photo-lg">

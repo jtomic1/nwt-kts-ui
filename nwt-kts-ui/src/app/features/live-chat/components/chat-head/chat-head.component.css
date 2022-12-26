@@ -8,7 +8,7 @@
   color: rgb(230, 195, 195);
 }
 
-.active .user{
+.active {
   transform: scale(0.9);
   background: linear-gradient(41deg, transparent, #7b1fa2, transparent);
 }

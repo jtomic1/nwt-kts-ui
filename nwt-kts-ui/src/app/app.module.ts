@@ -13,6 +13,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { LiveChatModule } from './features/live-chat/live-chat.module';
+import { TokensModule } from './features/tokens/tokens.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -27,7 +28,8 @@ import { LiveChatModule } from './features/live-chat/live-chat.module';
     LiveChatModule,
     FontAwesomeModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    TokensModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

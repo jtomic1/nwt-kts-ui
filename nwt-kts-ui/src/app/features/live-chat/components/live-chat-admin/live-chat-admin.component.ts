@@ -42,8 +42,6 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
 
 
   constructor(
-    private chatMessageService: ChatMessagesService,
-    private messageService: MessageService,
     private userService:UserService,
   ) {}
 

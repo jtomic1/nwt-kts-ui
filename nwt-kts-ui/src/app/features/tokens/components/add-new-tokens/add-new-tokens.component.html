@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-content>
+      <form >
+        <h2>Kupovina tokena</h2>
+        <h4> Trenutno na stanju imate 
+            <app-tokens-count></app-tokens-count></h4>
+        <mat-form-field>
+          <input
+            matInput
+            formControlName="tokens"
+            type="number"
+            placeholder="Koliko tokena želite da kupite"
+            name="tokens"
+            required
+          />
+          <button *ngIf="value > 0 " matSuffix mat-icon-button aria-label="Clear" (click)="value=0">
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+  
+        <button mat-raised-button color="primary">Kupi</button>
+        
+      </form>
+    </mat-card-content>
+  </mat-card>

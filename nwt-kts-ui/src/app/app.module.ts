@@ -10,7 +10,9 @@ import {
 import { MaterialModule } from './shared/material/material/material.module';
 import { StartpageModule } from './features/startpage/startpage.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { LiveChatModule } from './features/live-chat/live-chat.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +24,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserAnimationsModule,
     MaterialModule,
     StartpageModule,
+    LiveChatModule,
     FontAwesomeModule,
+    FormsModule,
     HttpClientModule
   ],
   providers: [],

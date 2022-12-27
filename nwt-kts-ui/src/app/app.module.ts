@@ -11,6 +11,7 @@ import { MaterialModule } from './shared/material/material/material.module';
 import { StartpageModule } from './features/startpage/startpage.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { HttpClientModule } from '@angular/common/http';
+import { ClientpageModule } from './features/clientpage/clientpage.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -23,7 +24,8 @@ import { HttpClientModule } from '@angular/common/http';
     MaterialModule,
     StartpageModule,
     FontAwesomeModule,
-    HttpClientModule
+    HttpClientModule,
+    ClientpageModule
   ],
   providers: [],
   bootstrap: [AppComponent],

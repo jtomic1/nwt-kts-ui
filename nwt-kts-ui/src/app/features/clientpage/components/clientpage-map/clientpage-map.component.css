@@ -1,0 +1,113 @@
+.main-card {
+    width: 95%;
+    margin: 2em auto;
+    text-align: center;
+    margin-top: 10px;
+}
+
+mat-grid-tile {
+    height: 53%;
+    position: absolute;
+}
+ 
+.map-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 10px;
+}
+
+.map-frame {
+    height: 100%;
+    width: 100%;
+}
+
+#map {
+    height: 100%;
+}
+
+.data-card {
+    width: 100%;
+}
+
+.card-title {
+    text-align: center;
+    margin-bottom: 18px;
+}
+
+.search-part {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+}
+
+.search-button {
+    height: 48px;
+    width: 35px !important;
+    min-width: unset!important;
+    cursor:pointer;
+    border: none;
+    border-radius: 2px;
+}
+  
+.search-button:hover {
+    background-color: #dad6d6;
+}
+
+.input-field {
+    width: 100%;
+    margin-top: 18px;
+}
+
+.input-field-last {
+    width: 100%;
+    margin-top: 0px;
+  }
+  
+  .expansion-panel-neighbours {
+    margin-top: 10px;
+  }
+  
+  .accordion-input-field {
+    width: 100%;
+  }
+  
+  .add-stations-button {
+    margin-bottom: 22px;
+  }
+
+  mat-panel-title {
+    color: rgb(97, 97, 97);
+  }
+  
+  .chip-list {
+    width: 100% !important;
+  }
+  
+  mat-chip {
+    padding: 10px 10px 10px 10px !important;
+  }
+  
+  .remove-button {
+    margin-left: 0;
+  }
+  
+  mat-radio-button {
+    margin: 5px;
+  }
+
+  .buttons {
+    display: flex;
+    gap: 5px;
+    margin-top: 5px;
+    margin-bottom: 7px;
+  }
+  
+  .buttons button {
+    width: 100%;
+    z-index: 999;
+  }

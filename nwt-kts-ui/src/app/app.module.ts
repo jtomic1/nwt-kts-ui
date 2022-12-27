@@ -11,9 +11,10 @@ import { MaterialModule } from './shared/material/material/material.module';
 import { StartpageModule } from './features/startpage/startpage.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
 import { LiveChatModule } from './features/live-chat/live-chat.module';
 import { TokensModule } from './features/tokens/tokens.module';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -31,7 +32,13 @@ import { TokensModule } from './features/tokens/tokens.module';
     HttpClientModule,
     TokensModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

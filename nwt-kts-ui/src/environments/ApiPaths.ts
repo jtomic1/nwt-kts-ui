@@ -3,4 +3,5 @@ export enum ApiPaths {
   ChatMessages = 'messages',
   Users = 'users',
   Tokens = 'tokens',
+  Login = 'login'
 }

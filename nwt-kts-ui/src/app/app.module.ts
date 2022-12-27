@@ -10,7 +10,8 @@ import {
 import { MaterialModule } from './shared/material/material/material.module';
 import { StartpageModule } from './features/startpage/startpage.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
 
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +26,13 @@ import { HttpClientModule } from '@angular/common/http';
     FontAwesomeModule,
     HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

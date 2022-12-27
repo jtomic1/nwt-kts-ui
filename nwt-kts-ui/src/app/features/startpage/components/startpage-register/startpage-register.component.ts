@@ -65,7 +65,6 @@ export class StartpageRegisterComponent implements OnInit, OnDestroy {
       );
     } else {
       let data: RegistrationData = this.registrationForm.getRawValue();
-      console.log(typeof data);
       this.registrationService
         .sendRegistrationRequest(data)
         .pipe(takeUntil(this.destroy$))

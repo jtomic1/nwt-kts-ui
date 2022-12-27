@@ -92,7 +92,7 @@
                                         Izbor vozila
                                     </mat-panel-title>
                                 </mat-expansion-panel-header>
-                                <mat-radio-group aria-label="Select an option">
+                                <mat-radio-group aria-label="Select an option" (change)="onRadioButtonGroupChange($event)">
                                     <mat-radio-button value="1" [checked]="true">Basic</mat-radio-button>
                                     <mat-radio-button value="2">Lux</mat-radio-button>
                                     <mat-radio-button value="3">Karavan</mat-radio-button>
@@ -106,8 +106,8 @@
                         <mat-form-field class="input-field" appearance="fill">
                             <mat-label>Cena vožnje</mat-label>
                             <input matInput formControlName="price" readonly>
-                            <!-- <mat-icon matSuffix>attach_money</mat-icon>-->
-                            <mat-icon matSuffix>money</mat-icon>
+                            <mat-icon matSuffix>attach_money</mat-icon>
+                            <!-- <mat-icon matSuffix>money</mat-icon> -->
                         </mat-form-field>
 
                         <mat-form-field class="input-field-last" appearance="fill">

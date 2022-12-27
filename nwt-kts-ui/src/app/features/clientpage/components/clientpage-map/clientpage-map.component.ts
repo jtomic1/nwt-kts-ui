@@ -1,13 +1,14 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { Subject } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 import { OnWayStation } from '../../model/OnWayStation';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
-import { MessageService } from 'src/app/shared/services/message-service/message.service';
+import { MessageService, MessageType } from 'src/app/shared/services/message-service/message.service';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
+import { VehiclePriceService } from '../../services/vehicle-price-service/vehicle-price.service';
 
 @Component({
   selector: 'app-clientpage-map',
@@ -34,7 +35,11 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   onWayStations: OnWayStation[] = [];
   splitFare: string[] = [];
 
+  private vehiclePrice: number = 250;
+  private routeLength: number = 0;
+
   constructor(private mapService: MapService,
+              private vehiclePriceService: VehiclePriceService,
               private messageService: MessageService) { }
 
   ngAfterViewInit(): void {
@@ -112,9 +117,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   }
 
   onStartSearch(): void {
-    this.mapService.getCoordinates(this.form.controls['start'].value + ', Novi Sad').subscribe(
-      (result: any) => {
-        console.log(result);        
+    this.mapService.getCoordinates(this.form.controls['start'].value + ', Novi Sad')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {       
         if (result.features.length !== 0) {
           if (!this.isStartSet) {
             var latlng = {lat: result.features[0].geometry.coordinates[1],
@@ -128,15 +133,16 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
           ]);
           }
         } else {
-          alert('Pretraga neuspesna!');
+          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
         }
       }    
     );
   }
 
   onDestinationSearch(): void {
-    this.mapService.getCoordinates(this.form.controls['destination'].value + ', Novi Sad').subscribe(
-      (result: any) => {
+    this.mapService.getCoordinates(this.form.controls['destination'].value + ', Novi Sad')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
         if (result.features.length !== 0) {
           if (!this.isDestinationSet) {
             var latlng = {lat: result.features[0].geometry.coordinates[1],
@@ -155,7 +161,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
             ]);
           }
         } else {
-          alert('Pretraga neuspesna!')
+          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
         }
       }
     );
@@ -167,8 +173,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     this.isStartSet = true;
       
     if (setAddress) {
-      this.mapService.getAddress(latlng).subscribe(
-        (result: any) => {          
+      this.mapService.getAddress(latlng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {          
           var data = result.features[0].properties.geocoding;
           this.setStartFormControl(data);
         }
@@ -182,9 +189,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     this.isDestinationSet = true;
         
     if (setAddress) {
-      this.mapService.getAddress(latlng).subscribe(
-        (result: any) => {
-          //console.log(result);
+      this.mapService.getAddress(latlng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {
           var data = result.features[0].properties.geocoding;
           this.setDestinationFormControl(data);
         }
@@ -208,31 +215,31 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         extendToWaypoints: false,
         missingRouteTolerance: 0
       }
-    }).on('routesfound',  (e) => {
-      //console.log(e);
-      this.mapService.getAddress(e.waypoints[0].latLng).subscribe(
-        (result: any) => {
-          //console.log(result);
+    }).on('routesfound',  (e) => {    
+      this.mapService.getAddress(e.waypoints[0].latLng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {        
           var data = result.features[0].properties.geocoding;
           this.setStartFormControl(data);
         }
       );
-      this.mapService.getAddress(e.waypoints[e.waypoints.length - 1].latLng).subscribe(
-        (result: any) => {
+      this.mapService.getAddress(e.waypoints[e.waypoints.length - 1].latLng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {
           var data = result.features[0].properties.geocoding;
           this.setDestinationFormControl(data);
         }        
       );
       this.form.controls['time'].setValue(Math.round(e.routes[0].summary.totalTime / 60) + ' minuta');
-      this.form.controls['price'].setValue(Math.round(250 + (e.routes[0].summary.totalDistance / 1000)*120) + ' dinara');
+      this.routeLength = e.routes[0].summary.totalDistance;
+      this.form.controls['price'].setValue(Math.round(this.vehiclePrice + (this.routeLength / 1000)*120) + ' dinara');
     })
     .on('routeselected', (e) => {
       this.form.controls['time'].setValue(Math.round(e.route.summary.totalTime / 60) + ' minuta');
-      this.form.controls['price'].setValue(Math.round(250 + (e.route.summary.totalDistance / 1000)*120) + ' dinara');
+      this.routeLength = e.route.summary.totalDistance;
+      this.form.controls['price'].setValue(Math.round(this.vehiclePrice + (this.routeLength / 1000)*120) + ' dinara');
     })
-    .on('waypointschanged',  (e) => {
-      console.log('waypointchanged');
-      console.log(e);
+    .on('waypointschanged',  (e) => {      
       this.addStationWithMarkerDrag(e.waypoints);
     })
     .addTo(this.map);
@@ -255,8 +262,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
 
   addStation(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-    this.mapService.getCoordinates((event.value).trim() + ', Novi Sad').subscribe(
-      (result: any) => {
+    this.mapService.getCoordinates((event.value).trim() + ', Novi Sad')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
         if (result.features.length !== 0 && this.isStartSet && this.isDestinationSet) {                             
           var station: OnWayStation = {address: value, lat: result.features[0].geometry.coordinates[1],
                                         lng: result.features[0].geometry.coordinates[0]};
@@ -264,9 +272,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
           this.route.spliceWaypoints(this.route.getWaypoints().length - 1, 0, L.latLng([station.lat, station.lng]));    
         } 
         else if (!this.isStartSet || !this.isDestinationSet) {
-          alert('Prvo unesite polaziste i krajnju lokaciju');
+          this.messageService.showMessage('Prvo unesite polazište i krajnju lokaciju!', MessageType.WARNING);
         } else {
-          alert('Neuspesno dodavanje medjustanica!');
+          this.messageService.showMessage('Neuspešno dodavanje međustanice!', MessageType.ERROR);
         }
       }    
     );
@@ -284,11 +292,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
 
   addEmail(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
-
     if (value) {
       this.splitFare.push(value);
     }
-
     event.chipInput!.clear();
   }
 
@@ -317,8 +323,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   addStationWithMarkerDrag(waypoints: any) {
     this.onWayStations = [];
     for (let i = 1; i < waypoints.length - 1; i++) {
-      this.mapService.getAddress(waypoints[i].latLng).subscribe(
-        (result: any) => {
+      this.mapService.getAddress(waypoints[i].latLng)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {
           var data = result.features[0].properties.geocoding;
           if (data.housenumber !== undefined && data.street !== undefined) {
             var station: OnWayStation = {address: data.street + ' ' + data.housenumber, lat: waypoints[i].latLng.lat, lng: waypoints[i].latLng.lng};
@@ -331,6 +338,18 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         }
       );
     }
+  }
+
+  onRadioButtonGroupChange(event: any) {    
+    this.vehiclePriceService.getVehiclePrice(event.value)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
+        this.vehiclePrice = result;
+        if (this.routeLength !== 0) {
+          this.form.controls['price'].setValue(Math.round(this.vehiclePrice + (this.routeLength / 1000)*120) + ' dinara');
+        }
+      }
+    );
   }
 
 }

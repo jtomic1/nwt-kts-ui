@@ -127,8 +127,7 @@ export class StartpageMapComponent implements AfterViewInit, OnDestroy {
       this.mapService
         .getAddress(latlng)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(
-        (result: any) => {
+        .subscribe((result: any) => {
           var data = result.features[0].properties.geocoding;
           this.setDestinationFormControl(data);
         }

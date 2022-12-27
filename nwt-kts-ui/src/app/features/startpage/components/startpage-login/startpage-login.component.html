@@ -24,7 +24,14 @@
         />
       </mat-form-field>
 
-      <button mat-raised-button color="primary">Prijavi se</button>
+      <button
+        mat-raised-button
+        color="primary"
+        [disabled]="form.invalid"
+        (click)="loginRequest()"
+      >
+        Prijavi se
+      </button>
       <mat-divider
         style="margin-top: 15px; margin-bottom: 15px"
         inset
@@ -34,7 +41,6 @@
         <fa-icon class="icon-button" [icon]="faFacebook" size="4x"></fa-icon>
         <fa-icon class="icon-button" [icon]="faGoogle" size="4x"></fa-icon>
       </div>
-      <!-- <pre>{{form.value | json}}</pre> -->
     </form>
   </mat-card-content>
 </mat-card>

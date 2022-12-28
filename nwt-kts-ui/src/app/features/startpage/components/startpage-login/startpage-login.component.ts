@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
@@ -26,10 +27,40 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
 
   constructor(
     private loginService: LoginService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private route: ActivatedRoute
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (this.loginService.isTokenPresent) {
+      this.redirectLoggedUser();
+    }
+    let activationStatus = this.route.snapshot.paramMap.get('status');
+
+    switch (activationStatus) {
+      case 'success': {
+        this.messageService.showMessage(
+          'Nalog uspešno aktiviran!',
+          MessageType.SUCCESS
+        );
+        break;
+      }
+      case 'alreadyactive': {
+        this.messageService.showMessage(
+          'Nalog je već aktivan!',
+          MessageType.WARNING
+        );
+        break;
+      }
+      case 'invalidactivation': {
+        this.messageService.showMessage(
+          'Neuspešan pokušaj aktivacije!',
+          MessageType.ERROR
+        );
+        break;
+      }
+    }
+  }
 
   createLoginForm(): FormGroup {
     return new FormGroup({
@@ -52,6 +83,8 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
         },
       });
   }
+
+  redirectLoggedUser() {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

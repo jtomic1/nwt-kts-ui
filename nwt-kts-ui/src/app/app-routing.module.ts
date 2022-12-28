@@ -5,9 +5,9 @@ import { StartpageTabContainerComponent } from './features/startpage/components/
 
 const routes: Routes = [
   { path: '', component: StartpageTabContainerComponent },
-
+  { path: 'login/:status', component: StartpageTabContainerComponent },
   //*************//
-  { path: 'clientmap', component: ClientpageMapComponent}
+  { path: 'clientmap', component: ClientpageMapComponent },
 ];
 
 @NgModule({

@@ -1,4 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { LiveChatComponent } from '../live-chat/live-chat.component';
 
 @Component({
@@ -9,17 +10,20 @@ import { LiveChatComponent } from '../live-chat/live-chat.component';
 export class LiveChatClientComponent implements OnInit {
   
   receiverIdTXT:string ="";
+  currentUserId:number=-1;
 
   @ViewChild(LiveChatComponent)
   private liveChatComponent!: LiveChatComponent;
   
-  constructor() { }
+  constructor(
+    private loginService: LoginService
+  ) { }
 
   ngOnInit(): void {
+    this.currentUserId = this.loginService.user?.id!;
   }
 
-  joinChanel(){
-    this.liveChatComponent.joinChanel(this.receiverIdTXT);
-  }
+
+
 
 }

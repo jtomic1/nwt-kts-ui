@@ -1,3 +1,1 @@
-
-<input  type="text" [(ngModel)] = 'receiverIdTXT'><button (click)="joinChanel()"> Join chanel</button>
-<app-live-chat></app-live-chat>
+<app-live-chat [isAdminChat]="false" [receiverId]="currentUserId"></app-live-chat>

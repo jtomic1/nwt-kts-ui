@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ApiPaths } from 'src/environments/ApiPaths';
 import { environment } from 'src/environments/environment';
-import { UserDTO } from '../../models/UserDTO';
+import { User } from '../../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -13,13 +13,13 @@ export class UserService {
 
   constructor(private http: HttpClient) {}
 
-  getAllUsers(): Observable<UserDTO[]>{
+  getAllUsers(): Observable<User[]>{
     let url = `${this.url}/all`;
-    return this.http.get<UserDTO[]>(url);
+    return this.http.get<User[]>(url);
   }
 
-  getUser( userId:number ): Observable<UserDTO>{
+  getUser( userId:number ): Observable<User>{
     let url = `${this.url}/getUser/${userId}`;
-    return this.http.get<UserDTO>(url);
+    return this.http.get<User>(url);
   }
 }

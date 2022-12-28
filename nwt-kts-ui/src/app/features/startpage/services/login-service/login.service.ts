@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Role } from 'src/app/shared/models/enums/Role';
 import { User } from 'src/app/shared/models/User';
 import { ApiPaths } from 'src/environments/ApiPaths';
@@ -14,6 +14,9 @@ import { LoginResponseData } from '../../models/LoginResponseData';
 export class LoginService {
   private accessToken: string | null = null;
   private _user: User | null = null;
+
+  private userChangedSubject =new BehaviorSubject<User>(this._user!);
+  public userChanged = this.userChangedSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -39,6 +42,10 @@ export class LoginService {
     this._user = data.user;
     let roleStr = data.user.roleString.split('_')[1];
     this._user.role = Role[roleStr as keyof typeof Role];
+
+    this.userChangedSubject.next(this._user);
+    console.log(this._user);
+    console.log("upisan u servis!");
   }
 
   logout() {

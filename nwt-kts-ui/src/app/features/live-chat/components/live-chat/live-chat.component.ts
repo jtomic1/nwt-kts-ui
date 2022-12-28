@@ -66,6 +66,9 @@ export class LiveChatComponent implements OnInit, OnDestroy {
     {
       this.joinChanel('admin');
     }
+    else{
+      this.joinChanel(this.receiverId.toString());
+    }
 
     console.log("socket set up!")
   }
@@ -141,9 +144,10 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   saveMessageInDB() {
     this.messageDTO.userId = this.receiverId;
     this.messageDTO.content = this.message;
+    this.messageDTO.isAdminMessage = this.isAdminChat;
     this.messageDTO.timeStamp = this.datePipe.transform(
       new Date(),
-      'YYYY-MM-ddTHH:M:SS'
+      'YYYY-MM-ddTHH:mm:ss'
     );
     this.chatMessageService
       .addNewMessage(this.messageDTO)

@@ -1,3 +1,6 @@
 <mat-toolbar color="primary" class="flexExpand">
-  <span>RideShare</span>
+  <span class="logo" [routerLink]="['/']" >RideShare</span>
+  <div class="user-data">
+    <span calss="username">[ {{username}} ]</span>
+  </div>
 </mat-toolbar>

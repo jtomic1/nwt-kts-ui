@@ -7,7 +7,7 @@
         </div>
         <div class="col-sm-9"  >
             <div class="chat-head" style="color: white;">
-                    <h2 class="username" >{{selectedUser.name +" "+ selectedUser.lastName}} </h2>
+                <h3 class="username" *ngIf="selectedUser.id != -1">{{selectedUser!.name +" "+ selectedUser!.lastName +" ["+selectedUser!.email+"]"}} </h3>
             </div>
             <app-live-chat [isAdminChat]="true" [receiverId]="receiverId" (newMessageArived)="newMessageInContacts($event)"></app-live-chat>
         </div>

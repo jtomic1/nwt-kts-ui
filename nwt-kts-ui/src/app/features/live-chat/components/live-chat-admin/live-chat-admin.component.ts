@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { UserDTO } from 'src/app/shared/models/UserDTO';
+import { Role } from 'src/app/shared/models/enums/Role';
+import { User } from 'src/app/shared/models/User';
 import { MessageService } from 'src/app/shared/services/message-service/message.service';
 import { UserService } from 'src/app/shared/services/user-service/user.service';
 import { MessageDTO } from '../../models/MessageDTO';
@@ -19,12 +20,18 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
   socket: any;
   message: string = '';
   receiverId: number = -1;
-  allUsers: UserDTO[] = [];
-  selectedUser:UserDTO = {
-    id: 0,
+  allUsers: User[] = [];
+  selectedUser:User = {
+    id: -1,
     email: '',
     name: '',
-    lastName: ''
+    lastName: '',
+    active: false,
+    blocked: false,
+    phone: '',
+    username: '',
+    roleString: '',
+    role:Role.USER
   }
 
   messageDTO: MessageDTO = {
@@ -52,6 +59,7 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.allUsers = data;
+        console.log(this.allUsers);
       });
     
   }
@@ -68,7 +76,7 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
       });
   }
 
-  changeReceiver(user: UserDTO) {
+  changeReceiver(user: User) {
     this.selectedUser = user;
     this.receiverId = user.id;
     this.liveChatComponent.receiverId = user.id;

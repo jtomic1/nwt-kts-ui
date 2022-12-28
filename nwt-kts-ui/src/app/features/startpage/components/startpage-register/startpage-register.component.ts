@@ -77,7 +77,11 @@ export class StartpageRegisterComponent implements OnInit, OnDestroy {
             this.registrationEvent.emit(true);
           },
           error: (err) => {
-            this.messageService.showMessage(err, MessageType.ERROR);
+            console.log(err);
+            this.messageService.showMessage(
+              err.error.message,
+              MessageType.ERROR
+            );
           },
         });
     }

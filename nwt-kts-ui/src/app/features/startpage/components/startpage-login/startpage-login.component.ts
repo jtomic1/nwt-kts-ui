@@ -48,7 +48,7 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
           this.loginService.setUserData(res);
         },
         error: (err) => {
-          this.messageService.showMessage(err, MessageType.ERROR);
+          this.messageService.showMessage(err.error.message, MessageType.ERROR);
         },
       });
   }

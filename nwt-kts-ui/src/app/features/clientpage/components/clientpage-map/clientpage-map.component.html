@@ -1,0 +1,130 @@
+<mat-card class="main-card">
+    <mat-card-content>
+        <mat-grid-list cols="4" rowHeight="160px">
+            <mat-grid-tile colspan="3" rowspan="4">
+                <div class="map-container">
+                    <div class="map-frame">
+                      <div id="map"></div>
+                    </div>
+                </div>
+            </mat-grid-tile>
+            <mat-grid-tile colspan="1" rowspan="4">
+                <mat-card class="data-card">                        
+                    <mat-card-title class="card-title">Podaci o vožnji</mat-card-title>  
+                    <mat-card-content [style.overflow]="'auto'" [style.height.px]="'550'">
+                      <form class="form" [formGroup]="form">
+                        <div class="search-part">
+                            <mat-form-field class="input-field" appearance="fill">
+                                <mat-label>Polazište</mat-label>
+                                <input matInput formControlName="start">
+                            </mat-form-field>
+                            <button class="search-button" (click)="onStartSearch()"><mat-icon>search</mat-icon></button>
+                        </div>
+
+                        <mat-accordion>
+                            <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Dodaj međustanice
+                                    </mat-panel-title>
+                                    <!-- <mat-panel-description>
+                                        <mat-icon> map</mat-icon>
+                                    </mat-panel-description> -->
+                                </mat-expansion-panel-header>
+                                <mat-form-field class="chip-list" appearance="fill">
+                                    <mat-label>Međustanica</mat-label>
+                                    <mat-chip-list #chipList1 aria-label="Međustanica">
+                                      <mat-chip *ngFor="let station of onWayStations" (removed)="removeStation(station)">
+                                        {{station.address}}
+                                        <button class="remove-button" matChipRemove>
+                                          <mat-icon>cancel</mat-icon>
+                                        </button>
+                                      </mat-chip>
+                                      <input placeholder="Dodaj međustanicu"
+                                             [matChipInputFor]="chipList1"
+                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                             [matChipInputAddOnBlur]="addOnBlur"
+                                             (matChipInputTokenEnd)="addStation($event)">
+                                    </mat-chip-list>
+                                  </mat-form-field>                                                                     
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+                        <div class="search-part">
+                            <mat-form-field class="input-field" appearance="fill">
+                                <mat-label>Odredište</mat-label>
+                                <input matInput formControlName="destination">
+                            </mat-form-field>                                
+                            <button class="search-button" (click)="onDestinationSearch()"><mat-icon>search</mat-icon></button>
+                        </div>      
+                        
+                        <mat-accordion>
+                            <mat-expansion-panel class="expansion-panel-neighbours" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Podela plaćanja
+                                    </mat-panel-title>                                        
+                                </mat-expansion-panel-header>
+                                <mat-form-field class="chip-list" appearance="fill">
+                                    <mat-label>E-mail druge osobe</mat-label>
+                                    <mat-chip-list #chipList2 aria-label="split-fare">
+                                      <mat-chip *ngFor="let email of splitFare" (removed)="removeEmail(email)">
+                                        {{email}}
+                                        <button matChipRemove>
+                                          <mat-icon>cancel</mat-icon>
+                                        </button>
+                                        <!--Mozda je bolja praksa da button bude ispred {{email}}-->
+                                      </mat-chip>
+                                      <input placeholder="Dodaj e-mail"
+                                             [matChipInputFor]="chipList2"
+                                             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                             [matChipInputAddOnBlur]="addOnBlur"
+                                             (matChipInputTokenEnd)="addEmail($event)">
+                                    </mat-chip-list>
+                                  </mat-form-field>                                                                          
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                        
+                        <mat-accordion>
+                            <mat-expansion-panel class="expansion-panel-neighbours" (opened)="panelOpenState = true" (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        Izbor vozila
+                                    </mat-panel-title>
+                                </mat-expansion-panel-header>
+                                <mat-radio-group aria-label="Select an option" (change)="onRadioButtonGroupChange($event)">
+                                    <mat-radio-button value="1" [checked]="true">Basic</mat-radio-button>
+                                    <mat-radio-button value="2">Lux</mat-radio-button>
+                                    <mat-radio-button value="3">Karavan</mat-radio-button>
+                                    <mat-radio-button value="4">Beba u autu</mat-radio-button>                                        
+                                    <mat-radio-button value="5">Ljubimac u autu</mat-radio-button>
+                                  </mat-radio-group>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+
+
+                        <mat-form-field class="input-field" appearance="fill">
+                            <mat-label>Cena vožnje</mat-label>
+                            <input matInput formControlName="price" readonly>
+                            <mat-icon matSuffix>attach_money</mat-icon>
+                            <!-- <mat-icon matSuffix>money</mat-icon> -->
+                        </mat-form-field>
+
+                        <mat-form-field class="input-field-last" appearance="fill">
+                            <mat-label>Trajanje vožnje</mat-label>
+                            <input matInput formControlName="time" readonly>
+                            <mat-icon matSuffix>access_time</mat-icon>        
+                        </mat-form-field>
+                        
+                        <div class="buttons">
+                            <button mat-raised-button>Zakaži</button>
+                            <button mat-raised-button color="primary">Poruči</button>
+                        </div>        
+                    
+                      </form>                                         
+                    </mat-card-content>                                                                                              
+                  </mat-card>
+            </mat-grid-tile>           
+        </mat-grid-list>
+    </mat-card-content>
+</mat-card>

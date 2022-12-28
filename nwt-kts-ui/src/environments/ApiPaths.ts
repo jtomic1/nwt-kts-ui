@@ -1,4 +1,5 @@
 export enum ApiPaths {
   Registration = 'reg',
-  VehiclePrice = 'vehicleprice'
+  VehiclePrice = 'vehicleprice',
+  Login = 'login',
 }

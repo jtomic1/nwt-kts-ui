@@ -65,16 +65,20 @@ export class StartpageRegisterComponent implements OnInit, OnDestroy {
       );
     } else {
       let data: RegistrationData = this.registrationForm.getRawValue();
-      console.log(typeof data);
       this.registrationService
         .sendRegistrationRequest(data)
         .pipe(takeUntil(this.destroy$))
-        .subscribe(() => {
-          this.messageService.showMessage(
-            'Registracija uspešna! Aktivacioni E-mail je poslat na Vašu E-mail adresu!',
-            MessageType.SUCCESS
-          );
-          this.registrationEvent.emit(true);
+        .subscribe({
+          next: () => {
+            this.messageService.showMessage(
+              'Registracija uspešna! Aktivacioni E-mail je poslat na Vašu E-mail adresu!',
+              MessageType.SUCCESS
+            );
+            this.registrationEvent.emit(true);
+          },
+          error: (err) => {
+            this.messageService.showMessage(err, MessageType.ERROR);
+          },
         });
     }
   }

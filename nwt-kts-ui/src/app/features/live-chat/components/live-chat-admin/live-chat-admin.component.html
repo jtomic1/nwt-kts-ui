@@ -1,0 +1,15 @@
+<div class="col-sm-12">
+    <div class="row" style="height: 85vh;">
+
+        <div class="col-sm-3 contacts">
+            <app-chat-head *ngFor="let user of allUsers" [userId]="user.id"
+            (clickedChatHead)="changeReceiver($any($event))" [lastMessage]="lastMessages[user.id]"></app-chat-head>
+        </div>
+        <div class="col-sm-9"  >
+            <div class="chat-head" style="color: white;">
+                <h3 class="username" *ngIf="selectedUser.id != -1">{{selectedUser!.name +" "+ selectedUser!.lastName +" ["+selectedUser!.email+"]"}} </h3>
+            </div>
+            <app-live-chat [isAdminChat]="true" [receiverId]="receiverId" (newMessageArived)="newMessageInContacts($event)" (newMessageSent)="newMessageInContactsSent($event)" ></app-live-chat>
+        </div>
+    </div>
+</div>

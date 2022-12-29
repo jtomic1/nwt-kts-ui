@@ -10,6 +10,9 @@ import {
 import { MaterialModule } from './shared/material/material/material.module';
 import { StartpageModule } from './features/startpage/startpage.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
+import { LiveChatModule } from './features/live-chat/live-chat.module';
+import { TokensModule } from './features/tokens/tokens.module';
 import { ClientpageModule } from './features/clientpage/clientpage.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
@@ -24,8 +27,11 @@ import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
     BrowserAnimationsModule,
     MaterialModule,
     StartpageModule,
+    LiveChatModule,
     FontAwesomeModule,
+    FormsModule,
     HttpClientModule,
+    TokensModule,
     ClientpageModule
   ],
   providers: [

@@ -10,7 +10,7 @@ const routes: Routes = [
   { path: '', component: StartpageTabContainerComponent },
   { path: 'liveChat', component: LiveChatClientComponent },
   { path: 'liveChatAdmin', component: LiveChatAdminComponent },
-  { path: 'tokens',component:AddNewTokensComponent}
+  { path: 'tokens',component:AddNewTokensComponent},
 
   //*************//
   { path: 'clientmap', component: ClientpageMapComponent}

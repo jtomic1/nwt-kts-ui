@@ -5,11 +5,11 @@ import {
   MessageService,
   MessageType,
 } from 'src/app/shared/services/message-service/message.service';
+import { environment } from 'src/environments/environment';
 import { MessageDTO } from '../../models/MessageDTO';
 import { ChatMessagesService } from '../../services/chat-messages-service/chat-messages.service';
 
 const io = require('socket.io-client');
-const SOCKET_ENDPOINT = 'localhost:3000';
 
 @Component({
   selector: 'app-live-chat',
@@ -50,11 +50,11 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   ngOnInit() {
     
     this.setupSocketConnection();
-    this.displayMessagesHistory();
+    this.getAndDisplayMessagesHistory();
   }
 
   setupSocketConnection() {
-    this.socket = io(SOCKET_ENDPOINT);
+    this.socket = io(environment.chatSocketEndpoint);
 
     this.socket.on('private message', (data: any) => {
       // console.log(data);

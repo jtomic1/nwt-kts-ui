@@ -9,11 +9,7 @@ import { LiveChatComponent } from '../live-chat/live-chat.component';
 })
 export class LiveChatClientComponent implements OnInit {
   
-  receiverIdTXT:string ="";
   currentUserId:number=-1;
-
-  @ViewChild(LiveChatComponent)
-  private liveChatComponent!: LiveChatComponent;
   
   constructor(
     private loginService: LoginService

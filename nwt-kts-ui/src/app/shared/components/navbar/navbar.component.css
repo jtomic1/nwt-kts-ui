@@ -9,4 +9,6 @@ mat-toolbar{
 .user-data{
   position: absolute;
   right: 30px;
+  display: flex;
+  gap:15px;
 }

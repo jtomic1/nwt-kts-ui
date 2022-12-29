@@ -3,7 +3,8 @@ import { ICreateOrderRequest, IPayPalConfig } from 'ngx-paypal';
 import { TokensDTO } from 'src/app/shared/models/ToknesDTO';
 import { MessageService, MessageType } from 'src/app/shared/services/message-service/message.service';
 import { TokensService } from 'src/app/shared/services/tokens-service/tokens.service';
-import { TokensCountComponent } from '../tokens-count/tokens-count.component';
+import { TokensCountComponent } from 'src/app/shared/components/tokens-count/tokens-count.component';
+import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 
 @Component({
   selector: 'app-add-new-tokens',
@@ -22,7 +23,7 @@ export class AddNewTokensComponent implements OnInit {
   showPayPal : boolean = false;
 
   tokensForUser:TokensDTO = {
-    userId: 1,
+    userId: -1,
     tokens: 0
   }
 
@@ -31,11 +32,16 @@ export class AddNewTokensComponent implements OnInit {
   
   constructor(
     private tokensService:TokensService,
-    private messageService:MessageService
+    private messageService:MessageService,
+    private loginService:LoginService
   ) { }
 
   ngOnInit(): void {
-    // this.initConfig();
+    this.loginService.userChanged.subscribe(
+      (user)=>{
+        this.tokensForUser.userId = user.id;
+      }
+    );
   }
 
   processPayPal(){
@@ -118,6 +124,7 @@ export class AddNewTokensComponent implements OnInit {
         this.tokensCountComponent.updateTokensForUser();
         this.showPayPal=false;
         this.value = undefined;
+        this.tokensService.currentUserTokensChangedSubject.next('');
       }
     );
   }

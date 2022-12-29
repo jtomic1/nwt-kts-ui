@@ -8,9 +8,10 @@ import { PersonalDataComponent } from './components/personal-data/personal-data.
 import { ReactiveFormsModule } from '@angular/forms';
 import { ChatButtonComponent } from './components/chat-button/chat-button.component';
 import { RouterModule } from '@angular/router';
+import { TokensCountComponent } from './components/tokens-count/tokens-count.component';
 
 @NgModule({
-  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent],
+  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent],
   imports: [
     CommonModule,
     MaterialModule,
@@ -18,6 +19,6 @@ import { RouterModule } from '@angular/router';
     ReactiveFormsModule,
     RouterModule
   ],
-  exports: [MaterialModule, NavbarComponent, PersonalDataComponent,ChatButtonComponent],
+  exports: [MaterialModule, NavbarComponent, PersonalDataComponent,ChatButtonComponent,TokensCountComponent],
 })
 export class SharedModule {}

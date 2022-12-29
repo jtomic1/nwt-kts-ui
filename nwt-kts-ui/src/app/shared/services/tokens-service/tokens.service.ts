@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, Subject } from 'rxjs';
 import { ApiPaths } from 'src/environments/ApiPaths';
 import { environment } from 'src/environments/environment';
 import { TokensDTO } from '../../models/ToknesDTO';
@@ -10,7 +10,10 @@ import { TokensDTO } from '../../models/ToknesDTO';
 })
 export class TokensService {
 
-  url:string =`${environment.baseUrl}/${ApiPaths.Tokens}`;  
+  url:string =`${environment.baseUrl}/${ApiPaths.Tokens}`; 
+
+  public currentUserTokensChangedSubject =new Subject();
+  public currentUserTokensChanged = this.currentUserTokensChangedSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 

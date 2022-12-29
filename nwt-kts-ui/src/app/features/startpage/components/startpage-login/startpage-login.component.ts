@@ -45,7 +45,6 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (res: any) => {
-          res = JSON.parse(res);
           this.loginService.setUserData(res);
         },
         error: (err) => {

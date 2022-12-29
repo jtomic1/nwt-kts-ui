@@ -26,15 +26,15 @@ export class ChatButtonComponent implements OnInit {
     
     this.socket = io(environment.chatSocketEndpoint);
 
+    this.socket.on('private message', (data: any) => {
+      // console.log(data);
+      this.isAnimated = true;
+      console.log("stigla!")
+    });
 
     this.loginService.userChanged.subscribe(
       (data) =>{
         
-        this.socket.on('private message', (data: any) => {
-          // console.log(data);
-          this.isAnimated = true;
-          console.log("stigla!")
-        });
         this.loggedUserId = data.id;
         this.socket.emit('join', data.id,toString());
         this.socket.emit('setUserId', data.id.toString());

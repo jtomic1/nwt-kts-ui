@@ -37,6 +37,7 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   };
 
   @Output() newMessageArived = new EventEmitter<MessageDTO>();
+  @Output() newMessageSent = new EventEmitter<MessageDTO>();
 
 
 
@@ -138,6 +139,7 @@ export class LiveChatComponent implements OnInit, OnDestroy {
     }
     this.saveMessageInDB();
     this.sendMessageInChat(this.message);
+    this.newMessageSent.emit(this.messageDTO);
     this.message = '';
   }
 

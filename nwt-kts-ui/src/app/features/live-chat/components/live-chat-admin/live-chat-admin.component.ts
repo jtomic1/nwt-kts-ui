@@ -21,6 +21,9 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
   message: string = '';
   receiverId: number = -1;
   allUsers: User[] = [];
+
+  lastMessages:{[id:number]:string} = {}
+
   selectedUser:User = {
     id: -1,
     email: '',
@@ -50,6 +53,7 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
 
   constructor(
     private userService:UserService,
+    private chatMessageService: ChatMessagesService
   ) {}
 
   ngOnInit() {
@@ -59,9 +63,25 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.allUsers = data;
-        console.log(this.allUsers);
+        this.fillLastMessages();    
       });
     
+  }
+
+  fillLastMessages(){
+    this.chatMessageService
+      .getLastMessagesForUser()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((data) => {
+        
+        data.forEach( message =>{
+          this.lastMessages[message.userId] = message.content;
+        })
+      });
+      
+  }
+  newMessageInContactsSent(messageDTO:MessageDTO){
+    this.lastMessages[messageDTO.userId] = messageDTO.content;
   }
 
   newMessageInContacts(messageDTO:MessageDTO){

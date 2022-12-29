@@ -33,6 +33,7 @@ export class ChatHeadComponent implements OnInit, OnDestroy {
     lastName: '',
   };
 
+  @Input()
   lastMessage: string = '';
 
   constructor(private userService: UserService) {}

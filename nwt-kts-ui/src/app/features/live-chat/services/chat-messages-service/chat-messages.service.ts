@@ -21,4 +21,9 @@ export class ChatMessagesService {
     let url = `${this.url}/newMessage`;
     return this.http.post<MessageDTO>(url,messageDTO);
   }
+
+  getLastMessagesForUser() : Observable<MessageDTO[]>{
+    let url = `${this.url}/lastMessageForUsers`;
+    return this.http.get<MessageDTO[]>(url);
+  }
 }

@@ -9,6 +9,8 @@ import { MessageService, MessageType } from 'src/app/shared/services/message-ser
 import * as L from 'leaflet';
 import 'leaflet-routing-machine';
 import { VehiclePriceService } from '../../services/vehicle-price-service/vehicle-price.service';
+import { Ride } from 'src/app/shared/models/Ride';
+import { RideService } from '../../services/ride-service/ride.service';
 
 @Component({
   selector: 'app-clientpage-map',
@@ -35,11 +37,13 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   onWayStations: OnWayStation[] = [];
   splitFare: string[] = [];
 
+  private vehicleType: number = 0;
   private vehiclePrice: number = 250;
   private routeLength: number = 0;
 
   constructor(private mapService: MapService,
               private vehiclePriceService: VehiclePriceService,
+              private rideSerice: RideService,
               private messageService: MessageService) { }
 
   ngAfterViewInit(): void {
@@ -117,54 +121,62 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   }
 
   onStartSearch(): void {
-    this.mapService.getCoordinates(this.form.controls['start'].value + ', Novi Sad')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((result: any) => {       
-        if (result.features.length !== 0) {
-          if (!this.isStartSet) {
-            var latlng = {lat: result.features[0].geometry.coordinates[1],
-                          lng: result.features[0].geometry.coordinates[0]};
-            this.setStartingMarker(latlng , false);
+    if (this.form.controls['start'].value === '') {
+      this.messageService.showMessage('Unesite naziv ulice!', MessageType.WARNING);
+    } else {
+      this.mapService.getCoordinates(this.form.controls['start'].value + ', Novi Sad')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {       
+          if (result.features.length !== 0) {
+            if (!this.isStartSet) {
+              var latlng = {lat: result.features[0].geometry.coordinates[1],
+                            lng: result.features[0].geometry.coordinates[0]};
+              this.setStartingMarker(latlng , false);
+            } else {
+              var destination = [this.route.getWaypoints()[this.route.getWaypoints().length - 1].latLng.lat, this.route.getWaypoints()[this.route.getWaypoints().length - 1].latLng.lng]
+              this.route.setWaypoints([
+              L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]]),
+              L.latLng([destination[0], destination[1]])
+            ]);
+            }
           } else {
-            var destination = [this.route.getWaypoints()[this.route.getWaypoints().length - 1].latLng.lat, this.route.getWaypoints()[this.route.getWaypoints().length - 1].latLng.lng]
-            this.route.setWaypoints([
-            L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]]),
-            L.latLng([destination[0], destination[1]])
-          ]);
+            this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
           }
-        } else {
-          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
-        }
-      }    
-    );
+        }    
+      );
+    }
   }
 
   onDestinationSearch(): void {
-    this.mapService.getCoordinates(this.form.controls['destination'].value + ', Novi Sad')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((result: any) => {
-        if (result.features.length !== 0) {
-          if (!this.isDestinationSet) {
-            var latlng = {lat: result.features[0].geometry.coordinates[1],
-                          lng: result.features[0].geometry.coordinates[0]};
-            this.setDestinationMarker(latlng, false);
-  
-            this.map.removeLayer(this.startMarker);
-            this.map.removeLayer(this.destinationMarker);
-  
-            this.makeRoute();
+    if (this.form.controls['destination'].value === '') {
+      this.messageService.showMessage('Unesite naziv ulice!', MessageType.WARNING);
+    } else {
+      this.mapService.getCoordinates(this.form.controls['destination'].value + ', Novi Sad')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {
+          if (result.features.length !== 0) {
+            if (!this.isDestinationSet) {
+              var latlng = {lat: result.features[0].geometry.coordinates[1],
+                            lng: result.features[0].geometry.coordinates[0]};
+              this.setDestinationMarker(latlng, false);
+    
+              this.map.removeLayer(this.startMarker);
+              this.map.removeLayer(this.destinationMarker);
+    
+              this.makeRoute();
+            } else {
+              var start = [this.route.getWaypoints()[0].latLng.lat, this.route.getWaypoints()[0].latLng.lng]
+              this.route.setWaypoints([
+                L.latLng([start[0], start[1]]),
+                L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]])
+              ]);
+            }
           } else {
-            var start = [this.route.getWaypoints()[0].latLng.lat, this.route.getWaypoints()[0].latLng.lng]
-            this.route.setWaypoints([
-              L.latLng([start[0], start[1]]),
-              L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]])
-            ]);
+            this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
           }
-        } else {
-          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
         }
-      }
-    );
+      );
+    }
   }
 
   setStartingMarker(latlng: any, setAddress: boolean): void {
@@ -340,7 +352,8 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     }
   }
 
-  onRadioButtonGroupChange(event: any) {    
+  onRadioButtonGroupChange(event: any) { 
+    this.vehicleType = event.value;   
     this.vehiclePriceService.getVehiclePrice(event.value)
       .pipe(takeUntil(this.destroy$))
       .subscribe((result: any) => {
@@ -350,6 +363,40 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         }
       }
     );
+  }
+
+  orderRide(): void {
+    if (this.isStartSet && this.isDestinationSet) {
+      var allStops: String = '';
+      var waypoints: L.Routing.Waypoint[] = this.route.getWaypoints();
+      allStops += this.form.controls['start'].value+','+waypoints[0].latLng.lat+','+waypoints[0].latLng.lng+';';
+      for (let ii = 0; ii < this.onWayStations.length; ii++) {        
+        allStops += this.onWayStations[ii].address+','+this.onWayStations[ii].lat+','+this.onWayStations[ii].lng+';';
+      }
+      allStops += this.form.controls['destination'].value+','+waypoints[waypoints.length-1].latLng.lat+','+waypoints[waypoints.length-1].latLng.lng;
+      var ride: Ride = {stops: allStops,
+                        splitFare: this.splitFare,
+                        vehicleType: this.vehicleType,
+                        price: this.form.controls['price'].value.split(' ')[0],
+                        duration: this.form.controls['time'].value.split(' ')[0],
+                        isReservation: false};
+      this.rideSerice.orderRide(ride)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe({
+          next: (res) => {
+            this.messageService.showMessage(res.toString(), MessageType.SUCCESS);
+          },
+          error: (err) => {
+            this.messageService.showMessage(err.error.message, MessageType.ERROR);
+          }
+        });
+    } else {
+      this.messageService.showMessage('Niste zadali početnu i krajnju lokaciju!', MessageType.ERROR);
+    }
+  }
+
+  scheduleRide(): void {
+
   }
 
 }

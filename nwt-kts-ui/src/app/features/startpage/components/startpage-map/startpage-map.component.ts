@@ -136,55 +136,63 @@ export class StartpageMapComponent implements AfterViewInit, OnDestroy {
   }
 
   onStartSearch(): void {
-    this.mapService
-      .getCoordinates(this.form.controls['start'].value + ', Novi Sad')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((result: any) => {                
-        if (result.features.length !== 0) {
-          if (!this.isStartSet) {
-            var latlng = {lat: result.features[0].geometry.coordinates[1],
-                          lng: result.features[0].geometry.coordinates[0]};
-            this.setStartingMarker(latlng , false);
+    if (this.form.controls['start'].value === '') {
+      this.messageService.showMessage('Unesite naziv ulice!', MessageType.WARNING);
+    }
+    else {
+      this.mapService
+        .getCoordinates(this.form.controls['start'].value + ', Novi Sad')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {                
+          if (result.features.length !== 0) {
+            if (!this.isStartSet) {
+              var latlng = {lat: result.features[0].geometry.coordinates[1],
+                            lng: result.features[0].geometry.coordinates[0]};
+              this.setStartingMarker(latlng , false);
+            } else {
+              var destination = [this.route.getWaypoints()[1].latLng.lat, this.route.getWaypoints()[1].latLng.lng]
+              this.route.setWaypoints([
+              L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]]),
+              L.latLng([destination[0], destination[1]])
+            ]);
+            }
           } else {
-            var destination = [this.route.getWaypoints()[1].latLng.lat, this.route.getWaypoints()[1].latLng.lng]
-            this.route.setWaypoints([
-            L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]]),
-            L.latLng([destination[0], destination[1]])
-          ]);
+            this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
           }
-        } else {
-          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
-        }
-      });
+        });
+    }
   }
 
   onDestinationSearch(): void {
-    this.mapService
-      .getCoordinates(this.form.controls['destination'].value + ', Novi Sad')
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((result: any) => {
-        if (result.features.length !== 0) {
-          if (!this.isDestinationSet) {
-            var latlng = {lat: result.features[0].geometry.coordinates[1],
-                          lng: result.features[0].geometry.coordinates[0]};
-            this.setDestinationMarker(latlng, false);
-  
-            this.map.removeLayer(this.startMarker);
-            this.map.removeLayer(this.destinationMarker);
-  
-            this.makeRoute();
+    if (this.form.controls['destination'].value === '') {
+      this.messageService.showMessage('Unesite naziv ulice!', MessageType.WARNING);
+    } else {
+      this.mapService
+        .getCoordinates(this.form.controls['destination'].value + ', Novi Sad')
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((result: any) => {
+          if (result.features.length !== 0) {
+            if (!this.isDestinationSet) {
+              var latlng = {lat: result.features[0].geometry.coordinates[1],
+                            lng: result.features[0].geometry.coordinates[0]};
+              this.setDestinationMarker(latlng, false);
+    
+              this.map.removeLayer(this.startMarker);
+              this.map.removeLayer(this.destinationMarker);
+    
+              this.makeRoute();
+            } else {
+              var start = [this.route.getWaypoints()[0].latLng.lat, this.route.getWaypoints()[0].latLng.lng]
+              this.route.setWaypoints([
+                L.latLng([start[0], start[1]]),
+                L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]])
+              ]);
+            }
           } else {
-            var start = [this.route.getWaypoints()[0].latLng.lat, this.route.getWaypoints()[0].latLng.lng]
-            this.route.setWaypoints([
-              L.latLng([start[0], start[1]]),
-              L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]])
-            ]);
+            this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
           }
-        } else {
-          this.messageService.showMessage('Pretraga neuspešna!', MessageType.ERROR);
-        }
-      }
-    );
+        });
+  }
   }
 
   makeRoute(): void {

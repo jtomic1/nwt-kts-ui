@@ -117,8 +117,8 @@
                         </mat-form-field>
                         
                         <div class="buttons">
-                            <button mat-raised-button>Zakaži</button>
-                            <button mat-raised-button color="primary">Poruči</button>
+                            <button mat-raised-button (click)="scheduleRide()">Zakaži</button>
+                            <button mat-raised-button color="primary" (click)="orderRide()">Poruči</button>
                         </div>        
                     
                       </form>                                         

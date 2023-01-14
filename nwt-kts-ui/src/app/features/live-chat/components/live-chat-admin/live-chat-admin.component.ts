@@ -80,7 +80,7 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
       });
       
   }
-  newMessageInContactsSent(messageDTO:MessageDTO){
+  newMessageInContactsSent(messageDTO:MessageDTO){  
     this.lastMessages[messageDTO.userId] = messageDTO.content;
   }
 

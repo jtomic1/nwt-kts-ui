@@ -7,18 +7,17 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root'
 })
-export class RideService {
+export class DriverRideService {
 
   constructor(private http: HttpClient) { }
 
-  orderRide(data: Ride) {
-    let url = `${environment.baseUrl}/${ApiPaths.Ride}/order`;
+  acceptRide(data: Ride) {
+    let url = `${environment.baseUrl}/${ApiPaths.Ride}/acceptRide`;
     return this.http.post<Ride>(url, data);
   }
 
-  getDriverForRide(data:Ride){
-    let url = `${environment.baseUrl}/${ApiPaths.Ride}/getDriverForRide`;
-    return this.http.post<Ride>(url, data);  
-  }
 
+  startRideDriveSimulation(coordinates:Array<number[]>){
+    console.log("starting ride simulation");
+  }
 }

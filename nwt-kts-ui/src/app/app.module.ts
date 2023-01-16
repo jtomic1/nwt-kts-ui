@@ -16,6 +16,8 @@ import { TokensModule } from './features/tokens/tokens.module';
 import { ClientpageModule } from './features/clientpage/clientpage.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
+import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
+import { DriverpageModule } from './features/driverpage/driverpage.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -32,7 +34,8 @@ import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
     FormsModule,
     HttpClientModule,
     TokensModule,
-    ClientpageModule
+    ClientpageModule,
+    DriverpageModule
   ],
   providers: [
     {
@@ -40,6 +43,7 @@ import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
       useClass: TokenInterceptor,
       multi: true,
     },
+    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
   ],
   bootstrap: [AppComponent],
 })

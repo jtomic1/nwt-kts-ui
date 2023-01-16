@@ -7,7 +7,8 @@ import {
   Output,
 } from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
-import { UserDTO } from 'src/app/shared/models/UserDTO';
+import { Role } from 'src/app/shared/models/enums/Role';
+import { User } from 'src/app/shared/models/User';
 import { UserService } from 'src/app/shared/services/user-service/user.service';
 
 @Component({
@@ -18,7 +19,7 @@ import { UserService } from 'src/app/shared/services/user-service/user.service';
 export class ChatHeadComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Output() clickedChatHead = new EventEmitter<UserDTO>();
+  @Output() clickedChatHead = new EventEmitter<User>();
 
   @Input() userId: number = -1;
 
@@ -26,11 +27,17 @@ export class ChatHeadComponent implements OnInit, OnDestroy {
 
   public activeChat: boolean = false;
 
-  user: UserDTO = {
+  user: User = {
     id: 0,
     email: '',
     name: '',
     lastName: '',
+    active: false,
+    blocked: false,
+    phone: '',
+    username: '',
+    role: Role.USER,
+    roleString: ''
   };
 
   @Input()

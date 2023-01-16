@@ -1,0 +1,17 @@
+{
+  "name": "socket-backend",
+  "version": "1.0.0",
+  "description": "socekt for live chat nwt-kts",
+  "main": "index.js",
+  "scripts": {
+    "serve": "nodemon server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.15.2",
+    "nodemon": "^2.0.20",
+    "socket.io": "^4.5.4"
+  }
+}

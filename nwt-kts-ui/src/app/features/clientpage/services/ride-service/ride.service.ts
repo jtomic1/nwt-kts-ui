@@ -15,4 +15,10 @@ export class RideService {
     let url = `${environment.baseUrl}/${ApiPaths.Ride}/order`;
     return this.http.post<Ride>(url, data);
   }
+
+  getDriverForRide(data:Ride){
+    let url = `${environment.baseUrl}/${ApiPaths.Ride}/getDriverForRide`;
+    return this.http.post<Ride>(url, data);  
+  }
+
 }

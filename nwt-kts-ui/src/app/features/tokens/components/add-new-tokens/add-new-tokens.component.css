@@ -1,0 +1,44 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+}
+
+mat-form-field {
+  display: block;
+}
+
+.left-spacing {
+  margin-left: 5px;
+}
+
+.top-spacing {
+  margin-top: 15px;
+}
+
+.icon-container{
+  display: flex;
+  justify-content: space-around;
+}
+
+.icon-button{
+  transition: 0.3s;
+}
+
+.icon-button:hover {
+  cursor: pointer;
+  color: white;
+  scale: 1.1;
+  transition: 0.3s;
+}
+
+input{
+  font-size: 25px;
+  color: greenyellow;
+  text-align: center;
+}

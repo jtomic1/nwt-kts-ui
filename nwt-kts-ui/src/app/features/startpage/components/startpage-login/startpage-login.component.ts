@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
+import { Role } from 'src/app/shared/models/enums/Role';
 import {
   MessageService,
   MessageType,
@@ -28,7 +29,8 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
   constructor(
     private loginService: LoginService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -77,6 +79,7 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
       .subscribe({
         next: (res: any) => {
           this.loginService.setUserData(res);
+          this.redirectLoggedUser();
         },
         error: (err) => {
           this.messageService.showMessage(err.error.message, MessageType.ERROR);
@@ -84,7 +87,12 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
       });
   }
 
-  redirectLoggedUser() {}
+  redirectLoggedUser() {
+    if(this.loginService.user?.role == Role.DRIVER){
+      this.router.navigate(["/driverHomePage"]);
+    }
+
+  }
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

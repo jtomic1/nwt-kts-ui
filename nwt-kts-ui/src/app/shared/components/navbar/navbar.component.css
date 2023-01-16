@@ -3,3 +3,12 @@ mat-toolbar{
   top:0;
   z-index: 999;
 }
+.logo{
+  cursor: pointer;
+}
+.user-data{
+  position: absolute;
+  right: 30px;
+  display: flex;
+  gap:15px;
+}

@@ -379,6 +379,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
                         vehicleType: this.vehicleType,
                         price: this.form.controls['price'].value.split(' ')[0],
                         duration: this.form.controls['time'].value.split(' ')[0],
+                        distance: this.routeLength,
                         isReservation: false};
       this.rideSerice.orderRide(ride)
         .pipe(takeUntil(this.destroy$))

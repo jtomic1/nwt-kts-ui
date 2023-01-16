@@ -6,5 +6,6 @@ export interface Ride {
     vehicleType: number;
     price: number;
     duration: number;
+    distance: number;
     isReservation: boolean;
 }

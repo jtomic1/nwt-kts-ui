@@ -106,8 +106,11 @@
                         <mat-form-field class="input-field" appearance="fill">
                             <mat-label>Cena vožnje</mat-label>
                             <input matInput formControlName="price" readonly>
-                            <mat-icon matSuffix>attach_money</mat-icon>
+                            <!-- <mat-icon matSuffix>attach_money</mat-icon> -->
                             <!-- <mat-icon matSuffix>money</mat-icon> -->
+                            <div class="tokens">
+                                <mat-icon>monetization_on</mat-icon>{{tokenPrice}}
+                            </div>
                         </mat-form-field>
 
                         <mat-form-field class="input-field-last" appearance="fill">

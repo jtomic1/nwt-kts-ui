@@ -47,26 +47,52 @@ app.get('/', (req, res) => res.send('hello!'));
 
 //==================================================
 //==============for drive simulation================
+
 app.use(bodyParser.json());
 
+let cars = {};
+let stopSimulation = {};
+
 app.post('/driveSimulation', (req, res) => {
-  console.log(req.body);
   let data = req.body;
   let values = data['values'];
   let sendObj = { 
     "plateNumber":data['driver'],
   }
-  for (let i = 0; i < values.length; i++) {
-      setTimeout(() => {
-          sendObj["newPosition"] = values[i];
-          io.emit('newPositionForDriver', sendObj);
-          console.log(sendObj);
-      }, 1000 * i);
+  
+  stopSimulation[data.driver] = false;
+  function sendValue() {
+    if( stopSimulation[data.driver] != true){
+      if (values.length === 0) {
+        clearTimeout(cars[data.driver]);
+        delete cars[data.driver];
+        stopSimulation[data.driver] = true;
+        return;
+      }
+      sendObj["newPosition"] = values.shift();
+      io.emit('newPositionForDriver', sendObj);
+      console.log(sendObj);
+      
+      setTimeout(sendValue, 1000);
+    }
   }
+  cars[data.driver] = setTimeout(sendValue, 1000);
   res.json({ message: "Values received." });
 });
 
+app.post('/stopSimulation', (req, res) => {
+  let data = req.body;
+  console.log(data);
+  io.to(data.clientId.toString()).emit('driverStopRide',{});
+  console.log("stop simulation "+data.driver);
+  stopSimulation[data.driver] = true;
+  clearTimeout(cars[data.driver]);
+  delete cars[data.driver];
+  res.json({ message: "Simulation stopped." });
+});
 
+//==============================================
+//================for order process ============
 app.post('/notify-driver', (req, res) => {
   console.log(req.body);
   let data = req.body;
@@ -80,18 +106,32 @@ app.post('/notify-driver', (req, res) => {
 });
 
 
-
 app.post('/driver-accepted', (req, res) => {
   console.log(req.body);
   let data = req.body;
   let driverId = data['driverId'];
   let ride = data['rideDTO'];
   
-  io.to(ride.rideId.toString()).emit( 'acceptedRide' , {
+  io.to(ride.clientId.toString()).emit( 'acceptedRide' , {
     ride:ride
-  } )
+  } );
   res.json({ message: "Driver accepted" });
 });
+
+app.post('/deniedRide', (req, res) => {
+  console.log(req.body);
+  let data = req.body;
+  let driverId = data['driverId'];
+  let ride = data['rideDTO'];
+  
+  io.to(ride.clientId.toString()).emit( 'deniedRide' , {
+    driverId:driverId
+  } );
+  res.json({ message: "Driver accepted" });
+});
+
+
+//==========================================
 
 http.listen(3000, () => {
   console.log('listening on *:3000');

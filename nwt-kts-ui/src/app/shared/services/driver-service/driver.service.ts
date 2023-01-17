@@ -15,23 +15,6 @@ export class DriverService {
 
   constructor(private http: HttpClient) {}
 
-  
-  startRideDriveSimulation(coordinates:Array<number[]>,ride: Ride){
-    console.log("starting ride simulation");
-    let url = `http://${environment.chatSocketEndpoint}/driveSimulation`;
-    let data = { driver: ride.vehiclePlateNumber, values: coordinates};
-    this.http.post(url , data).subscribe(
-      {
-        next: (res) =>{
-          console.log(res);
-        },
-        error: (err) =>{
-          console.log(err);
-        }
-      }
-    )
-
-  }
 
   getAllDrivers(): Observable<Driver[]>{
     let url = `${this.url}/all`;

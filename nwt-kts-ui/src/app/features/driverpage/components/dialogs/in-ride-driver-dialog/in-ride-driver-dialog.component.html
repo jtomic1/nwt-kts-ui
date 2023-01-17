@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>
+    Trenutno ste u vožnji
+</h2>
+
+<mat-dialog-content class="mat-typography">
+    <h4> {{data.ride.stops}}</h4>
+</mat-dialog-content>
+
+<mat-dialog-actions>
+    <button mat-button mat-dialog-close (click)="finishRide()" >Završi vožnju</button>
+    <button mat-button mat-dialog-close (click)="interruptRide()">Otkaži</button>
+</mat-dialog-actions>

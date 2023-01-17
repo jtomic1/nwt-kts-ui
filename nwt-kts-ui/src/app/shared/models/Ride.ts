@@ -4,11 +4,13 @@ export interface Ride {
     rideId:number | undefined,
     driverId:number | undefined,
     vehiclePlateNumber: string | undefined,
-    stops: String;
-    splitFare: String[];
-    vehicleType: number;
-    price: number;
-    duration: number;
-    distance: number;
-    isReservation: boolean;
+    clientId:number,
+    stops: String,
+    splitFare: String[],
+    vehicleType: number,
+    price: number,
+    duration: number,
+    distance: number,
+    isReservation: boolean,
+    deniedDrivers:number[],
 }

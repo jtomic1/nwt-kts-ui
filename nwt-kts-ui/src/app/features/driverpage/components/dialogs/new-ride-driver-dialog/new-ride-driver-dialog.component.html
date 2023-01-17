@@ -6,7 +6,7 @@
     <h4> {{data.ride.stops}}</h4>
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-    <button mat-button (click)="acceptRide()" >Prihvati</button>
-    <button mat-button mat-dialog-close>Otkaži</button>
+<mat-dialog-actions align="center">
+    <button mat-button mat-dialog-close (click)="acceptRide()" >Prihvati</button>
+    <button mat-button mat-dialog-close (click)="deniedRide()">Otkaži</button>
 </mat-dialog-actions>

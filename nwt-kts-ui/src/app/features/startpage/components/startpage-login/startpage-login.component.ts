@@ -91,6 +91,9 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
     if(this.loginService.user?.role == Role.DRIVER){
       this.router.navigate(["/driverHomePage"]);
     }
+    else if( this.loginService.user?.role == Role.USER){
+      this.router.navigate(['/clientmap']);
+    }
 
   }
 

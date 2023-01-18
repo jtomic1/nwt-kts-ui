@@ -12,24 +12,15 @@ import { TokensService } from '../../services/tokens-service/tokens.service';
 })
 export class NavbarComponent implements OnInit {
   logoutIcon = faRightFromBracket;
-  
-  username?:string;
+
+  username?: string;
 
   constructor(public loginService: LoginService, private router: Router) {}
 
-  ngOnInit(): void {}
-
-
-  constructor(
-    private loginService:LoginService
-  ) { }
-
   ngOnInit(): void {
-    this.loginService.userChanged.subscribe(
-      (user)=>{
-        this.username = user.email;
-      }
-    )
+    this.loginService.userChanged.subscribe((user) => {
+      this.username = user.email;
+    });
   }
 
   logout(): void {

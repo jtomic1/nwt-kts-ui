@@ -15,10 +15,3 @@ mat-toolbar{
 .logo{
   cursor: pointer;
 }
-
-.user-data{
-  position: absolute;
-  right: 30px;
-  display: flex;
-  gap:15px;
-}

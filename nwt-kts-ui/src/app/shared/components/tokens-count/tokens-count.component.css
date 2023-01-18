@@ -1,8 +1,15 @@
-div{
+* {
     color: gold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-weight: bold;
+}
+
+.container {
+    display: inline-block;
+    max-width: 60px;
+}
+
+.container:hover{
+    transform: scale(1.05);
     cursor: pointer;
+    transition-duration: .2s;
 }

@@ -13,8 +13,7 @@ import { ResetPasswordDTO } from '../../models/ResetPasswordDTO';
   providedIn: 'root',
 })
 export class LoginService {
-
-  private userChangedSubject =new BehaviorSubject<User>(this._user!);
+  private userChangedSubject = new BehaviorSubject<User>(this.user!);
   public userChanged = this.userChangedSubject.asObservable();
 
   constructor(private http: HttpClient) {}
@@ -67,7 +66,7 @@ export class LoginService {
     let roleStr = data.user.roleString.split('_')[1];
     data.user.role = Role[roleStr as keyof typeof Role];
     localStorage.setItem('user-data', JSON.stringify(data.user));
-    this.userChangedSubject.next(this._user);
+    this.userChangedSubject.next(this.user!);
   }
 
   logout() {

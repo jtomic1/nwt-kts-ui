@@ -1,0 +1,45 @@
+.user {
+  padding: 5px 0;
+  border-bottom: 1px solid #f1f2f2;
+  transition: 0.7s;
+}
+
+.user .lastMessage {
+  color: rgb(230, 195, 195);
+}
+
+.active {
+  transform: scale(0.9);
+  background: linear-gradient(41deg, transparent, #7b1fa2, transparent);
+}
+
+.blink {
+  background: linear-gradient(41deg, transparent, red, transparent);
+  animation: blinking 2s infinite;
+}
+@keyframes blinking {
+  0% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0.5;
+  }
+}
+
+.profile-img {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+img.profile-photo-lg {
+  width: 80%;
+  border-radius: 50%;
+}
+
+.chat-head .username {
+  color: white;
+}

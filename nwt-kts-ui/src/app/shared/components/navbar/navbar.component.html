@@ -4,7 +4,7 @@
       style="margin-right: 16px"
       *ngIf="loginService.isTokenPresent"
     ></app-burger-menu-icon>
-    <span>RideShare</span>
+    <span class="logo" [routerLink]="['/home']">RideShare</span>
   </span>
   <span *ngIf="loginService.isTokenPresent" (click)="logout()" class="logout"
     >Odjavi se
@@ -14,4 +14,9 @@
       style="margin-left: 6px"
     ></fa-icon
   ></span>
+
+  <div class="user-data" *ngIf="username">
+    <app-tokens-count [routerLink]="['/tokens']" [isCurrentUserTokens]="true"></app-tokens-count>
+    <span class="username">[ {{username}} ]</span>
+  </div>
 </mat-toolbar>

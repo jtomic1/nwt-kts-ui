@@ -11,3 +11,14 @@ mat-toolbar{
   cursor: pointer;
   transition-duration: .2s;
 }
+
+.logo{
+  cursor: pointer;
+}
+
+.user-data{
+  position: absolute;
+  right: 30px;
+  display: flex;
+  gap:15px;
+}

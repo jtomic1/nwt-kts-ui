@@ -5,18 +5,22 @@ import { MaterialModule } from './material/material/material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { MessageComponent } from './services/message-service/message.service';
 import { PersonalDataComponent } from './components/personal-data/personal-data.component';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChatButtonComponent } from './components/chat-button/chat-button.component';
 import { BurgerMenuIconComponent } from './components/burger-menu-icon/burger-menu-icon.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
+import { TokensCountComponent } from './components/tokens-count/tokens-count.component';
 
 @NgModule({
-  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, BurgerMenuIconComponent],
+  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent, BurgerMenuIconComponent],
   imports: [
     CommonModule,
     MaterialModule,
     FontAwesomeModule,
     ReactiveFormsModule,
     FormsModule,
+    RouterModule
   ],
-  exports: [MaterialModule, NavbarComponent, PersonalDataComponent],
+  exports: [MaterialModule, NavbarComponent, PersonalDataComponent,ChatButtonComponent,TokensCountComponent],
 })
 export class SharedModule {}

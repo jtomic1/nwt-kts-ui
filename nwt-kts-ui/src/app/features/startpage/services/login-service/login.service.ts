@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { Role } from 'src/app/shared/models/enums/Role';
 import { User } from 'src/app/shared/models/User';
 import { ApiPaths } from 'src/environments/ApiPaths';
@@ -13,6 +13,10 @@ import { ResetPasswordDTO } from '../../models/ResetPasswordDTO';
   providedIn: 'root',
 })
 export class LoginService {
+
+  private userChangedSubject =new BehaviorSubject<User>(this._user!);
+  public userChanged = this.userChangedSubject.asObservable();
+
   constructor(private http: HttpClient) {}
 
   get token(): string | null {
@@ -62,8 +66,8 @@ export class LoginService {
 
     let roleStr = data.user.roleString.split('_')[1];
     data.user.role = Role[roleStr as keyof typeof Role];
-
     localStorage.setItem('user-data', JSON.stringify(data.user));
+    this.userChangedSubject.next(this._user);
   }
 
   logout() {

@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   baseUrl: 'http://localhost:8080/api',
-  nominatimUrl: 'https://nominatim.openstreetmap.org'
+  nominatimUrl: 'https://nominatim.openstreetmap.org',
+  chatSocketEndpoint:'localhost:3000'
 };
 
 /*

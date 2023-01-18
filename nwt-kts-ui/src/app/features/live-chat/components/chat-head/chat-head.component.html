@@ -1,0 +1,12 @@
+<div class="user" (click)="chatHeadClicked()" 
+    [ngClass]="{'blink': unreadMessage === true , 'active': activeChat === true}" >
+    <div class="row">
+        <div class="col-sm-5 profile-img">
+            <img src="../../../assets/images/profilePhotoDefault.png" alt="user" class="profile-photo-lg">
+        </div>
+        <div class="col-sm-7">
+            <h3 style="color: white;">{{user.name}} {{user.lastName}}</h3>
+            <h4 class="lastMessage" id="user_1_lastMessage" >{{lastMessage}}</h4>
+        </div>
+    </div>
+</div>

@@ -13,7 +13,12 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ClientpageModule } from './features/clientpage/clientpage.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
-
+import { HomepageModule } from './features/homepage/homepage.module';
+import {
+  FacebookLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -23,16 +28,30 @@ import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
     NoopAnimationsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    SocialLoginModule,
     StartpageModule,
+    HomepageModule,
     FontAwesomeModule,
     HttpClientModule,
-    ClientpageModule
+    ClientpageModule,
   ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
       multi: true,
+    },
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('1838879509798596'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
     },
   ],
   bootstrap: [AppComponent],

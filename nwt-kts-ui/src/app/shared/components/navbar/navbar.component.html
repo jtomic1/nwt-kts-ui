@@ -1,3 +1,17 @@
 <mat-toolbar color="primary" class="flexExpand">
-  <span>RideShare</span>
+  <span style="display: flex; align-items: center">
+    <app-burger-menu-icon
+      style="margin-right: 16px"
+      *ngIf="loginService.isTokenPresent"
+    ></app-burger-menu-icon>
+    <span>RideShare</span>
+  </span>
+  <span *ngIf="loginService.isTokenPresent" (click)="logout()" class="logout"
+    >Odjavi se
+    <fa-icon
+      class="icon-button"
+      [icon]="logoutIcon"
+      style="margin-left: 6px"
+    ></fa-icon
+  ></span>
 </mat-toolbar>

@@ -32,15 +32,21 @@
       >
         Prijavi se
       </button>
-      <mat-divider
-        style="margin-top: 15px; margin-bottom: 15px"
-        inset
-      ></mat-divider>
+      <mat-divider inset></mat-divider>
       <h4>Prijava putem društvenih mreža:</h4>
       <div class="icon-container">
-        <fa-icon class="icon-button" [icon]="faFacebook" size="4x"></fa-icon>
-        <fa-icon class="icon-button" [icon]="faGoogle" size="4x"></fa-icon>
+        <fa-icon
+          class="icon-button"
+          [icon]="faFacebook"
+          size="4x"
+          (click)="loginWithFacebook()"
+        ></fa-icon>
       </div>
+      <mat-divider inset></mat-divider>
+      <h4>Zaboravili ste lozinku?</h4>
+      <a (click)="openForgotPasswordDialog()" href="javascript:void(0);">
+        Kliknite ovde!</a
+      >
     </form>
   </mat-card-content>
 </mat-card>

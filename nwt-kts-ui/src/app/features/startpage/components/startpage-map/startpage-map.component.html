@@ -1,49 +1,26 @@
 <mat-card class="main-card">
     <mat-card-content>
         <mat-grid-list cols="4" rowHeight="140px">
-            <mat-grid-tile colspan="3" rowspan="4">
-                <div class="map-container">
-                    <div class="map-frame">
-                      <div id="map"></div>
-                    </div>
-                </div>
+            <mat-grid-tile colspan="3" rowspan="4">                
+                <app-map #map
+                        [startCoord]="startCoord"
+                        [onWayStations]="onWayStations"
+                        [endCoord]="endCoord"
+                        (startChanged)="updateStartFormControl($event)"
+                        (endChanged)="updateEndFormControl($event)"
+                        (priceChanged)="setPriceFormControl($event)"
+                        (timeChanged)="setTimeFormControl($event)">
+                </app-map>
             </mat-grid-tile>
             <mat-grid-tile colspan="1" rowspan="4">
-                <mat-card class="data-card">
-                    <mat-card-title class="card-title">Podaci o vožnji</mat-card-title>
-                    <mat-card-content>
-                        <form class="form" [formGroup]="form">
-                            <div class="search-part">
-                                <mat-form-field class="input-field" appearance="fill">
-                                    <mat-label>Polazište</mat-label>
-                                    <input matInput formControlName="start">
-                                </mat-form-field>
-                                <button (click)="onStartSearch()"><mat-icon>search</mat-icon></button>
-                            </div>                
-
-                            <div class="search-part">
-                                <mat-form-field class="input-field" appearance="fill">
-                                    <mat-label>Odredište</mat-label>
-                                    <input matInput formControlName="destination">
-                                </mat-form-field>                                
-                                <button (click)="onDestinationSearch()"><mat-icon>search</mat-icon></button>
-                            </div>
-
-                            <mat-form-field class="input-field" appearance="fill">
-                                <mat-label>Cena vožnje</mat-label>
-                                <input matInput formControlName="price" readonly>
-                                <mat-icon matSuffix>attach_money</mat-icon>
-                                <!-- <mat-icon matSuffix>money</mat-icon> -->
-                            </mat-form-field>
-
-                            <mat-form-field class="input-field" appearance="fill">
-                                <mat-label>Trajanje vožnje</mat-label>
-                                <input matInput formControlName="time" readonly>
-                                <mat-icon matSuffix>access_time</mat-icon>        
-                            </mat-form-field>
-                        </form>
-                    </mat-card-content>
-                </mat-card>
+                <app-ride-data #data
+                        [start]="start"
+                        [end]="end"
+                        [price]="price"
+                        [time]="time"
+                        (startSearched)="OnStartSearched($event)"
+                        (endSearched)="OnEndSearched($event)">
+                </app-ride-data>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>

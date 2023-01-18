@@ -8,6 +8,7 @@
   </span>
   <span *ngIf="loginService.isTokenPresent">
     <app-tokens-count
+      class="logout"
       [routerLink]="['/tokens']"
       [isCurrentUserTokens]="true"
     ></app-tokens-count>

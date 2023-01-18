@@ -7,9 +7,3 @@
     display: inline-block;
     max-width: 60px;
 }
-
-.container:hover{
-    transform: scale(1.05);
-    cursor: pointer;
-    transition-duration: .2s;
-}

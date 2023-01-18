@@ -31,3 +31,8 @@ mat-form-field {
   scale: 1.1;
   transition: 0.3s;
 }
+
+mat-divider {
+  margin-top: 15px !important; 
+  margin-bottom: 15px !important
+}

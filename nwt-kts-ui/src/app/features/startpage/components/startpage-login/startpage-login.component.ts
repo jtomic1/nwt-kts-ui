@@ -1,6 +1,9 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
+import { FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ActivatedRoute, Router } from '@angular/router';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
@@ -9,8 +12,8 @@ import {
   MessageType,
 } from 'src/app/shared/services/message-service/message.service';
 import { LoginData } from '../../models/LoginData';
-import { LoginResponseData } from '../../models/LoginResponseData';
 import { LoginService } from '../../services/login-service/login.service';
+import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
 
 @Component({
   selector: 'app-startpage-login',
@@ -28,7 +31,10 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
   constructor(
     private loginService: LoginService,
     private messageService: MessageService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router,
+    private dialog: MatDialog,
+    private authService: SocialAuthService
   ) {}
 
   ngOnInit(): void {
@@ -36,7 +42,77 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
       this.redirectLoggedUser();
     }
     let activationStatus = this.route.snapshot.paramMap.get('status');
+    if (activationStatus !== null)
+      this.showActivationStatusMessage(activationStatus);
 
+    this.authService.authState.subscribe((user) => {
+      this.loginWithFacebookRequest(user.email);
+    });
+  }
+
+  createLoginForm(): FormGroup {
+    return new FormGroup({
+      username: new FormControl(''),
+      password: new FormControl(''),
+    });
+  }
+
+  loginRequest() {
+    let data: LoginData = this.form.getRawValue();
+    this.loginService
+      .sendLoginRequest(data)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.loginService.setUserData(res);
+          this.redirectLoggedUser();
+        },
+        error: (err) => {
+          this.messageService.showMessage(err.error.message, MessageType.ERROR);
+        },
+      });
+  }
+
+  redirectLoggedUser() {
+    this.router.navigateByUrl('home');
+  }
+
+  openForgotPasswordDialog() {
+    const dialogRef = this.dialog.open(ForgotPasswordDialogComponent);
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res) => {
+        if (res) {
+          this.messageService.showMessage(
+            'E-mail za promenu lozinke je uspešno poslat!',
+            MessageType.SUCCESS
+          );
+        }
+      });
+  }
+
+  loginWithFacebook() {
+    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+  }
+
+  loginWithFacebookRequest(email: string) {
+    this.loginService
+      .sendLoginWithFacebookRequest({ email: email })
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: any) => {
+          this.loginService.setUserData(res);
+          this.redirectLoggedUser();
+        },
+        error: (err) => {
+          this.messageService.showMessage(err.error.message, MessageType.ERROR);
+        },
+      });
+  }
+
+  showActivationStatusMessage(activationStatus: string) {
     switch (activationStatus) {
       case 'success': {
         this.messageService.showMessage(
@@ -61,30 +137,6 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
       }
     }
   }
-
-  createLoginForm(): FormGroup {
-    return new FormGroup({
-      username: new FormControl(''),
-      password: new FormControl(''),
-    });
-  }
-
-  loginRequest() {
-    let data: LoginData = this.form.getRawValue();
-    this.loginService
-      .sendLoginRequest(data)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res: any) => {
-          this.loginService.setUserData(res);
-        },
-        error: (err) => {
-          this.messageService.showMessage(err.error.message, MessageType.ERROR);
-        },
-      });
-  }
-
-  redirectLoggedUser() {}
 
   ngOnDestroy(): void {
     this.destroy$.next(true);

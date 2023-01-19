@@ -2,13 +2,16 @@ mat-toolbar{
   position: sticky;
   top:0;
   z-index: 999;
+  display: flex;
+  justify-content: space-between;
 }
+
+.logout:hover {
+  transform: scale(1.05);
+  cursor: pointer;
+  transition-duration: .2s;
+}
+
 .logo{
   cursor: pointer;
-}
-.user-data{
-  position: absolute;
-  right: 30px;
-  display: flex;
-  gap:15px;
 }

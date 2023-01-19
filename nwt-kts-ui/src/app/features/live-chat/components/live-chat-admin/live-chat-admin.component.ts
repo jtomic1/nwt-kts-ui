@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import {
+  Component,
+  OnDestroy,
+  OnInit,
+  QueryList,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { Subject, takeUntil } from 'rxjs';
 import { Role } from 'src/app/shared/models/enums/Role';
 import { User } from 'src/app/shared/models/User';
@@ -15,16 +22,15 @@ import { LiveChatComponent } from '../live-chat/live-chat.component';
   styleUrls: ['./live-chat-admin.component.css'],
 })
 export class LiveChatAdminComponent implements OnInit, OnDestroy {
-  
   destroy$: Subject<boolean> = new Subject<boolean>();
   socket: any;
   message: string = '';
   receiverId: number = -1;
   allUsers: User[] = [];
 
-  lastMessages:{[id:number]:string} = {}
+  lastMessages: { [id: number]: string } = {};
 
-  selectedUser:User = {
+  selectedUser: User = {
     id: -1,
     email: '',
     name: '',
@@ -34,8 +40,10 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
     phone: '',
     username: '',
     roleString: '',
-    role:Role.USER
-  }
+    role: Role.USER,
+    profilePhoto: '',
+    town: '',
+  };
 
   messageDTO: MessageDTO = {
     isAdminMessage: true,
@@ -48,52 +56,46 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
   private liveChatComponent!: LiveChatComponent;
 
   @ViewChildren(ChatHeadComponent)
-  private chatHeads! : QueryList<ChatHeadComponent>;
-
+  private chatHeads!: QueryList<ChatHeadComponent>;
 
   constructor(
-    private userService:UserService,
+    private userService: UserService,
     private chatMessageService: ChatMessagesService
   ) {}
 
   ngOnInit() {
-
     this.userService
       .getAllUsers()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
         this.allUsers = data;
-        this.fillLastMessages();    
+        this.fillLastMessages();
       });
-    
   }
 
-  fillLastMessages(){
+  fillLastMessages() {
     this.chatMessageService
       .getLastMessagesForUser()
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
-        
-        data.forEach( message =>{
+        data.forEach((message) => {
           this.lastMessages[message.userId] = message.content;
-        })
+        });
       });
-      
   }
-  newMessageInContactsSent(messageDTO:MessageDTO){
+  newMessageInContactsSent(messageDTO: MessageDTO) {
     this.lastMessages[messageDTO.userId] = messageDTO.content;
   }
 
-  newMessageInContacts(messageDTO:MessageDTO){
-      console.log(messageDTO);
-      this.chatHeads.forEach(chatHead => {
-        if(chatHead.userId == messageDTO.userId)
-        {  
-          chatHead.newMessage(messageDTO.content);
-          if( chatHead.userId != this.selectedUser.id)
-            chatHead.newMessageAnimation()
-        }
-      });
+  newMessageInContacts(messageDTO: MessageDTO) {
+    console.log(messageDTO);
+    this.chatHeads.forEach((chatHead) => {
+      if (chatHead.userId == messageDTO.userId) {
+        chatHead.newMessage(messageDTO.content);
+        if (chatHead.userId != this.selectedUser.id)
+          chatHead.newMessageAnimation();
+      }
+    });
   }
 
   changeReceiver(user: User) {
@@ -103,22 +105,17 @@ export class LiveChatAdminComponent implements OnInit, OnDestroy {
     this.liveChatComponent.getAndDisplayMessagesHistory();
     this.removeVisualizationFromContact(user.id);
 
-    this.chatHeads.forEach(chatHead => {
-      if(chatHead.userId == user.id)
-      {  
+    this.chatHeads.forEach((chatHead) => {
+      if (chatHead.userId == user.id) {
         chatHead.activeChat = true;
-      }
-      else{
+      } else {
         chatHead.activeChat = false;
       }
     });
   }
 
-  displayLastMessage(senderId:number, content:string){
+  displayLastMessage(senderId: number, content: string) {}
 
-
-  }
-  
   visualizeNewMessageInContacts(senderId: number) {
     const element = document.getElementById(`user_${senderId}`);
     if (element != null) {

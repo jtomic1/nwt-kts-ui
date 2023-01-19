@@ -10,9 +10,10 @@ import { BurgerMenuIconComponent } from './components/burger-menu-icon/burger-me
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TokensCountComponent } from './components/tokens-count/tokens-count.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
 
 @NgModule({
-  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent, BurgerMenuIconComponent],
+  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent, BurgerMenuIconComponent, AvatarComponent],
   imports: [
     CommonModule,
     MaterialModule,

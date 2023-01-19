@@ -13,13 +13,21 @@ const routes: Routes = [
   { path: 'login', component: StartpageTabContainerComponent },
   { path: 'login/:status', component: StartpageTabContainerComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
-  { path: 'home', component: ContainerSidenavComponent },
   { path: 'liveChat', component: LiveChatClientComponent },
   { path: 'liveChatAdmin', component: LiveChatAdminComponent },
-  { path: 'tokens',component:AddNewTokensComponent},
+  { path: 'tokens', component: AddNewTokensComponent },
 
   //*************//
   { path: 'clientmap', component: ClientpageMapComponent },
+
+  {
+    path: 'home',
+    component: ContainerSidenavComponent,
+    loadChildren: () =>
+      import('./features/homepage/homepage.module').then(
+        (m) => m.HomepageModule
+      ),
+  },
 
   { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

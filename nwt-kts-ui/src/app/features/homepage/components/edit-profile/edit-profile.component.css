@@ -1,0 +1,32 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+}
+
+img {
+  display: block;
+  margin: auto;
+  margin-top: 35px
+}
+
+.upload-photo-button {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: lightgreen
+}
+
+.update-button {
+  margin-top: 6px;
+  color: lightgreen;
+}
+
+.change-password-button {
+  margin-top: 6px;
+  color: lightseagreen;
+}
+
+.update-container{
+  display: flex;
+  flex-direction: column;
+}

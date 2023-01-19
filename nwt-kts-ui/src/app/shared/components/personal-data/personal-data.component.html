@@ -12,51 +12,51 @@
   <small class="text-danger" *ngIf="form.get('email')!.hasError('pattern')">
     Neispravan format!
   </small>
+  <span *ngIf="showPasswords">
+    <!-- Password -->
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="password"
+        type="password"
+        placeholder="Lozinka"
+        name="password"
+        required
+      />
+    </mat-form-field>
+    <small
+      class="text-danger"
+      *ngIf="form.get('password')!.hasError('minlength')"
+    >
+      Lozinka mora sadržati minimalno 8 karaktera!
+    </small>
+    <small
+      class="text-danger"
+      *ngIf="form.get('password')!.hasError('maxlength')"
+    >
+      Lozinka mora sadržati manje od 30 karaktera!
+    </small>
 
-  <!-- Password -->
-  <mat-form-field>
-    <input
-      matInput
-      formControlName="password"
-      type="password"
-      placeholder="Lozinka"
-      name="password"
-      required
-    />
-  </mat-form-field>
-  <small
-    class="text-danger"
-    *ngIf="form.get('password')!.hasError('minlength')"
-  >
-    Lozinka mora sadržati minimalno 8 karaktera!
-  </small>
-  <small
-    class="text-danger"
-    *ngIf="form.get('password')!.hasError('maxlength')"
-  >
-    Lozinka mora sadržati manje od 30 karaktera!
-  </small>
-
-  <!-- Confirm Password -->
-  <mat-form-field>
-    <input
-      matInput
-      formControlName="confirmPassword"
-      type="password"
-      placeholder="Ponovi lozinku"
-      name="confirmPassword"
-      required
-    />
-  </mat-form-field>
-  <small
-    class="text-danger"
-    *ngIf="
-      form.hasError('matchingPasswordsError') &&
-      form.controls['confirmPassword'].value !== ''
-    "
-    >Lozinke se ne podudaraju!</small
-  >
-
+    <!-- Confirm Password -->
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="confirmPassword"
+        type="password"
+        placeholder="Ponovi lozinku"
+        name="confirmPassword"
+        required
+      />
+    </mat-form-field>
+    <small
+      class="text-danger"
+      *ngIf="
+        form.hasError('matchingPasswordsError') &&
+        form.controls['confirmPassword'].value !== ''
+      "
+      >Lozinke se ne podudaraju!</small
+    >
+  </span>
   <!-- Name -->
   <mat-form-field>
     <input

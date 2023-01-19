@@ -1,0 +1,29 @@
+<mat-card>
+  <mat-card-content>
+    <h2>{{ user.name + " " + user.lastName }}</h2>
+    <mat-divider></mat-divider>
+
+    <img [class]="roleClass + ' ' + 'css-shadow'" [src]="user.profilePhoto" />
+    <button mat-button class="upload-photo-button" (click)="openFileInput()">
+      PROMENI PROFILNU FOTOGRAFIJU
+    </button>
+    <input
+      type="file"
+      #fileInput
+      style="display: none"
+      accept="image/*"
+      (change)="uploadFile()"
+    />
+
+    <app-personal-data
+      [form]="editForm"
+      [mode]="PersonalDataMode.EDIT"
+    ></app-personal-data>
+    <div class="update-container">
+      <button mat-button class="update-button" [disabled]="!enableUpdateButton">
+        AŽURIRAJ
+      </button>
+      <button mat-button class="change-password-button">PROMENI LOZINKU</button>
+    </div>
+  </mat-card-content>
+</mat-card>

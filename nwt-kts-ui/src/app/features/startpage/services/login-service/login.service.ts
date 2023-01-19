@@ -62,11 +62,23 @@ export class LoginService {
   setUserData(data: LoginResponseData): void {
     localStorage.clear();
     localStorage.setItem('access-token', data.accessToken);
-
+    console.log(data.user);
     let roleStr = data.user.roleString.split('_')[1];
     data.user.role = Role[roleStr as keyof typeof Role];
+
+    if (data.user.role === Role.USER) data.user.roleString = 'Korisnik';
+    else if (data.user.role === Role.ADMIN)
+      data.user.roleString = 'Administrator';
+    else if (data.user.role === Role.DRIVER) data.user.roleString = 'Vozač';
+
     localStorage.setItem('user-data', JSON.stringify(data.user));
     this.userChangedSubject.next(this.user!);
+  }
+
+  updateUserPhoto(photoUrl: string): void {
+    let user: User = this.user!;
+    user.profilePhoto = photoUrl;
+    localStorage.setItem('user-data', JSON.stringify(user));
   }
 
   logout() {

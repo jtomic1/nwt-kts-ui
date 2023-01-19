@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import { Subject, takeUntil } from 'rxjs';
+import { Role } from 'src/app/shared/models/enums/Role';
 import {
   MessageService,
   MessageType,
@@ -74,7 +75,11 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
   }
 
   redirectLoggedUser() {
-    this.router.navigateByUrl('home');
+    if(this.loginService.user?.role == Role.DRIVER){
+      this.router.navigate(["/driverHomePage"]);
+    } else {
+      this.router.navigateByUrl('home');
+    }
   }
 
   openForgotPasswordDialog() {

@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ClientpageMapComponent } from './features/clientpage/components/clientpage-map/clientpage-map.component';
+import { DriverHomepageComponent } from './features/driverpage/components/driver-homepage/driver-homepage.component';
 import { ContainerSidenavComponent } from './features/homepage/components/container-sidenav/container-sidenav.component';
 import { ResetPasswordComponent } from './features/startpage/components/reset-password/reset-password.component';
 import { LiveChatAdminComponent } from './features/live-chat/components/live-chat-admin/live-chat-admin.component';
@@ -17,6 +18,7 @@ const routes: Routes = [
   { path: 'liveChat', component: LiveChatClientComponent },
   { path: 'liveChatAdmin', component: LiveChatAdminComponent },
   { path: 'tokens',component:AddNewTokensComponent},
+  { path: 'driverHomePage',component:DriverHomepageComponent},
 
   //*************//
   { path: 'clientmap', component: ClientpageMapComponent },

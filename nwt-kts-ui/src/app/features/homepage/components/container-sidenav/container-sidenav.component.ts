@@ -37,7 +37,7 @@ export class ContainerSidenavComponent implements OnInit {
 
   getOptionArrayFromRole(role: string): DrawerOption[] {
     if (role === Role.USER) return this.getUserOptions();
-
+    else if (role === Role.DRIVER) return this.getDriverOptions();
     // Po uzoru na usera, uraditi za admina i drivera.
 
     return [];
@@ -68,6 +68,16 @@ export class ContainerSidenavComponent implements OnInit {
     };
 
     return [profile, option2, option3, option4];
+  }
+
+  getDriverOptions(): DrawerOption[] {
+    let profile: DrawerOption = {
+      name: 'Podaci o profilu',
+      route: 'editProfile',
+      icon: faUserPen,
+    };
+
+    return [profile];
   }
 
   closeSidenav(): void {

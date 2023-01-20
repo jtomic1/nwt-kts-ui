@@ -54,3 +54,8 @@ a {color: #69F0AE}
   border: 2px solid yellow;
   filter: drop-shadow(0 0 8px gold);
 }
+
+.shadow-red {
+  border: 2px solid lightsalmon;
+  filter: drop-shadow(0 0 8px salmon);
+}

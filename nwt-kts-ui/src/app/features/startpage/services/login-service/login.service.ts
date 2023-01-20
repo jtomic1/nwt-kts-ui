@@ -2,6 +2,7 @@ import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { ChangeUserDataDTO } from 'src/app/features/homepage/models/ChangeUserDataDTO';
 import { Role } from 'src/app/shared/models/enums/Role';
 import { User } from 'src/app/shared/models/User';
 import { ApiPaths } from 'src/environments/ApiPaths';
@@ -80,9 +81,13 @@ export class LoginService {
     this.userChangedSubject.next(this.user!);
   }
 
-  updateUserPhoto(photoUrl: string): void {
+  updateUser(dto: ChangeUserDataDTO): void {
     let user: User = this.user!;
-    user.profilePhoto = photoUrl;
+    user.profilePhoto = dto.photo;
+    user.phone = dto.phone;
+    user.name = dto.name;
+    user.lastName = dto.lastName;
+    user.town = dto.town;
     localStorage.setItem('user-data', JSON.stringify(user));
   }
 

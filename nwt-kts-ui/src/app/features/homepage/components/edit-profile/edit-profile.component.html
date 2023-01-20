@@ -3,9 +3,16 @@
     <h2>{{ user.name + " " + user.lastName }}</h2>
     <mat-divider></mat-divider>
 
-    <app-avatar></app-avatar>
-    <button mat-button class="upload-photo-button" (click)="openFileInput()">
-      PROMENI PROFILNU FOTOGRAFIJU
+    <app-avatar [placeholder]="placeholder"></app-avatar>
+    <button
+      mat-button
+      [ngClass]="{
+        'upload-button': placeholder === null,
+        'remove-upload-button': placeholder !== null
+      }"
+      (click)="openFileInput()"
+    >
+      {{ uploadText }}
     </button>
     <input
       type="file"
@@ -20,7 +27,12 @@
       [mode]="PersonalDataMode.EDIT"
     ></app-personal-data>
     <div class="update-container">
-      <button mat-button class="update-button" [disabled]="!enableUpdateButton">
+      <button
+        mat-button
+        class="upload-button"
+        [disabled]="!enableUpdateButton"
+        (click)="sendProfileDataChangeRequest()"
+      >
         AŽURIRAJ
       </button>
       <button

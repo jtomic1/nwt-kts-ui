@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { ResetPasswordComponent } from 'src/app/features/startpage/components/reset-password/reset-password.component';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { PersonalDataMode } from 'src/app/shared/components/personal-data/PersonalDataMode';
-import { getAvatarClass } from 'src/app/shared/models/enums/Role';
+import { getAvatarClass, Role } from 'src/app/shared/models/enums/Role';
 import { ImageUrlDTO } from 'src/app/shared/models/ImageUrlDTO';
 import { User } from 'src/app/shared/models/User';
 import { ImageService } from 'src/app/shared/services/image-service/image.service';
@@ -14,6 +14,8 @@ import {
   MessageService,
   MessageType,
 } from 'src/app/shared/services/message-service/message.service';
+import { UserService } from 'src/app/shared/services/user-service/user.service';
+import { ChangeUserDataDTO } from '../../models/ChangeUserDataDTO';
 
 @Component({
   selector: 'app-edit-profile',
@@ -24,12 +26,14 @@ export class EditProfileComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
   editForm: FormGroup;
   editFormCache: string = '';
+  placeholder: string | null = null;
 
   @ViewChild('fileInput', { static: true }) fileInput!: ElementRef;
 
   constructor(
     private loginService: LoginService,
     private imageService: ImageService,
+    private userService: UserService,
     private messageService: MessageService,
     private dialog: MatDialog
   ) {
@@ -47,7 +51,18 @@ export class EditProfileComponent implements OnInit {
     return this.loginService.user!;
   }
 
+  get uploadText(): string {
+    if (this.placeholder === null) return 'PROMENI PROFILNU FOTOGRAFIJU';
+    return 'UKLONI OTPREMLJENU FOTOGRAFIJU';
+  }
+
   get enableUpdateButton(): boolean {
+    return (
+      (this.isFormChanged || this.placeholder !== null) && this.editForm.valid
+    );
+  }
+
+  get isFormChanged(): boolean {
     return (
       JSON.stringify(this.editForm.getRawValue()).toLowerCase() !==
       this.editFormCache.toLowerCase()
@@ -68,13 +83,13 @@ export class EditProfileComponent implements OnInit {
   }
 
   openFileInput() {
-    this.fileInput.nativeElement.click();
+    if (this.placeholder === null) this.fileInput.nativeElement.click();
+    else this.placeholder = null;
   }
 
-  // Method to handle the uploaded file
   uploadFile() {
     const file = this.fileInput.nativeElement.files[0];
-    console.log(typeof file);
+    console.log(this.fileInput.nativeElement.files);
     if (file.size > 5 * 1024 * 1024) {
       this.messageService.showMessage(
         'Fotografija je prevelika!',
@@ -87,11 +102,7 @@ export class EditProfileComponent implements OnInit {
         .pipe(takeUntil(this.destroy$))
         .subscribe({
           next: (res: ImageUrlDTO) => {
-            this.loginService.updateUserPhoto(res.imageUrl);
-            this.messageService.showMessage(
-              'Fotografija uspešno promenjena!',
-              MessageType.SUCCESS
-            );
+            this.placeholder = res.imageUrl;
           },
           error: (err) => {
             this.messageService.showMessage(
@@ -101,6 +112,37 @@ export class EditProfileComponent implements OnInit {
           },
         });
     }
+  }
+
+  sendProfileDataChangeRequest(): void {
+    let message: string;
+    if (this.user.role === Role.DRIVER)
+      message = 'Zahtev za promenu podataka uspešno poslat!';
+    else message = 'Podaci su uspešno promenjeni';
+    let dto: ChangeUserDataDTO = {
+      name: this.editForm.value.name,
+      lastName: this.editForm.value.lastName,
+      phone: this.editForm.value.phoneNumber,
+      town: this.editForm.value.town,
+      photo: this.user.profilePhoto,
+    };
+
+    if (this.placeholder !== null) dto.photo = this.placeholder;
+
+    this.userService
+      .sendChangeUserDataRequest(dto)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: () => {
+          this.placeholder = null;
+          if (this.user.role !== Role.DRIVER) this.loginService.updateUser(dto);
+          else this.editForm.patchValue(JSON.parse(this.editFormCache));
+          this.messageService.showMessage(message, MessageType.SUCCESS);
+        },
+        error: (err) => {
+          this.messageService.showMessage(err.error.message, MessageType.ERROR);
+        },
+      });
   }
 
   openPasswordResetDialog() {

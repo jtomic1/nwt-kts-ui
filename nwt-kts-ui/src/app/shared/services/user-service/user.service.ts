@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ChangeUserDataDTO } from 'src/app/features/homepage/models/ChangeUserDataDTO';
 import { ResetPasswordDTO } from 'src/app/features/startpage/models/ResetPasswordDTO';
 import { ApiPaths } from 'src/environments/ApiPaths';
 import { environment } from 'src/environments/environment';
@@ -29,5 +30,12 @@ export class UserService {
   ): Observable<void> {
     let url = `${this.url}/resetPassword`;
     return this.http.post<void>(url, resetPasswordDTO);
+  }
+
+  sendChangeUserDataRequest(
+    userDataDTO: ChangeUserDataDTO
+  ): Observable<ChangeUserDataDTO> {
+    let url = `${this.url}/changeUserData`;
+    return this.http.post<ChangeUserDataDTO>(url, userDataDTO);
   }
 }

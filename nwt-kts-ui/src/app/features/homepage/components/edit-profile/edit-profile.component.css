@@ -16,9 +16,14 @@ app-avatar {
   color: lightgreen
 }
 
-.update-button {
+.upload-button {
   margin-top: 6px;
   color: lightgreen;
+}
+
+.remove-upload-button{
+  margin-top: 6px;
+  color: rgb(247, 57, 57)
 }
 
 .change-password-button {

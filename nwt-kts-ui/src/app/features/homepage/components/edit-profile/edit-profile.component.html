@@ -3,7 +3,7 @@
     <h2>{{ user.name + " " + user.lastName }}</h2>
     <mat-divider></mat-divider>
 
-    <img [class]="roleClass + ' ' + 'css-shadow'" [src]="user.profilePhoto" />
+    <app-avatar></app-avatar>
     <button mat-button class="upload-photo-button" (click)="openFileInput()">
       PROMENI PROFILNU FOTOGRAFIJU
     </button>
@@ -23,7 +23,13 @@
       <button mat-button class="update-button" [disabled]="!enableUpdateButton">
         AŽURIRAJ
       </button>
-      <button mat-button class="change-password-button">PROMENI LOZINKU</button>
+      <button
+        mat-button
+        class="change-password-button"
+        (click)="openPasswordResetDialog()"
+      >
+        PROMENI LOZINKU
+      </button>
     </div>
   </mat-card-content>
 </mat-card>

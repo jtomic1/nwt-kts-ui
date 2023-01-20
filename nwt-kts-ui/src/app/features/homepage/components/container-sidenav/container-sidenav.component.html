@@ -2,7 +2,7 @@
   <mat-sidenav #sidenav mode="side" [opened]="opened" class="sidenav">
     <h1 class="drawer-title">Dobrodošao, {{ user!.name }}</h1>
 
-    <img [class]="roleClass + ' ' + 'css-shadow'" [src]="user!.profilePhoto" />
+    <app-avatar></app-avatar>
 
     <h2>Tip naloga: {{ user!.roleString }}</h2>
 

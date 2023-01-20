@@ -1,7 +1,9 @@
 import { HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
+import { ResetPasswordComponent } from 'src/app/features/startpage/components/reset-password/reset-password.component';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { PersonalDataMode } from 'src/app/shared/components/personal-data/PersonalDataMode';
 import { getAvatarClass } from 'src/app/shared/models/enums/Role';
@@ -28,7 +30,8 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private loginService: LoginService,
     private imageService: ImageService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private dialog: MatDialog
   ) {
     this.editForm = this.createEditForm(this.user);
     this.editFormCache = JSON.stringify(this.editForm.getRawValue());
@@ -38,10 +41,6 @@ export class EditProfileComponent implements OnInit {
 
   get PersonalDataMode(): typeof PersonalDataMode {
     return PersonalDataMode;
-  }
-
-  get roleClass(): string {
-    return getAvatarClass(this.user.role);
   }
 
   get user(): User {
@@ -102,5 +101,14 @@ export class EditProfileComponent implements OnInit {
           },
         });
     }
+  }
+
+  openPasswordResetDialog() {
+    const dialogRef = this.dialog.open(ResetPasswordComponent);
+
+    dialogRef
+      .afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(() => {});
   }
 }

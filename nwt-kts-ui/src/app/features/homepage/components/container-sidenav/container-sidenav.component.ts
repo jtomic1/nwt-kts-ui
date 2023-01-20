@@ -35,10 +35,6 @@ export class ContainerSidenavComponent implements OnInit {
     return this.loginService.user;
   }
 
-  get roleClass(): string {
-    return getAvatarClass(this.user!.role);
-  }
-
   getOptionArrayFromRole(role: string): DrawerOption[] {
     if (role === Role.USER) return this.getUserOptions();
 

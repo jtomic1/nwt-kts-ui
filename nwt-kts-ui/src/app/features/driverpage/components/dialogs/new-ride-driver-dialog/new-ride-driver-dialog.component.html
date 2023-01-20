@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>
+    Nova vožnja
+</h2>
+
+<mat-dialog-content class="mat-typography">
+    <h4> {{data.ride.stops}}</h4>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="acceptRide()" >Prihvati</button>
+    <button mat-button mat-dialog-close>Otkaži</button>
+</mat-dialog-actions>

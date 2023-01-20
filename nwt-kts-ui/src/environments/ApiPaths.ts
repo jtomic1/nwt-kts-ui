@@ -7,7 +7,12 @@ export enum ApiPaths {
 
   // Images
   Images = 'images',
-
+  
+  // Drivers
+  Ride = 'ride',
+  Drivers = 'drivers',
+  Note = 'note',
+  
   // Login i Forgot Password
   Login = 'login',
   FBLogin = 'facebookLogin',

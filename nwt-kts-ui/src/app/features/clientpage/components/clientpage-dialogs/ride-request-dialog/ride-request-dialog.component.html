@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>
+    Poručivanje vožnje
+</h2>
+
+<mat-dialog-content class="mat-typography" style="height: 84%;">
+    <h4> {{data.message}}</h4>
+    <div style="display: flex; justify-content: center;">
+        <mat-spinner *ngIf="!processIsFinished"></mat-spinner>
+        <mat-icon  *ngIf="processIsFinished" class="processFinishedImg">verified</mat-icon>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close *ngIf="!processIsFinished">Otkaži vožnju </button>
+    <button mat-button mat-dialog-close *ngIf="processIsFinished">Prati vožnju na mapi</button>
+  </mat-dialog-actions>

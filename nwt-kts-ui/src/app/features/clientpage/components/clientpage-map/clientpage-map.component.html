@@ -8,7 +8,7 @@
                     </div>
                 </div>
             </mat-grid-tile>
-            <mat-grid-tile colspan="1" rowspan="4">
+            <mat-grid-tile colspan="1" rowspan="4" *ngIf="!rideIsGoing">
                 <mat-card class="data-card">                        
                     <mat-card-title class="card-title">Podaci o vožnji</mat-card-title>  
                     <mat-card-content [style.overflow]="'auto'" [style.height.px]="'550'">
@@ -128,6 +128,11 @@
                     </mat-card-content>                                                                                              
                   </mat-card>
             </mat-grid-tile>           
+            <mat-grid-tile colspan="1" rowspan="4" *ngIf="rideIsGoing">
+                <mat-card class="data-card">                        
+                    <mat-card-title class="card-title">Trenutno ste u vožnji</mat-card-title>  
+                </mat-card>
+            </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
 </mat-card>

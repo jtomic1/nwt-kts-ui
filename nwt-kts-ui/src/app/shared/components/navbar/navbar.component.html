@@ -1,7 +1,10 @@
 <mat-toolbar color="primary" class="flexExpand">
   <span class="logo" [routerLink]="['/']" >RideShare</span>
-  <div class="user-data" *ngIf="username">
+  <div *ngIf=" user && user.role == driverRole" class="driver-status">
+    <app-driver-status></app-driver-status>
+  </div>
+  <div class="user-data" *ngIf="user">
     <app-tokens-count [routerLink]="['/tokens']" [isCurrentUserTokens]="true"></app-tokens-count>
-    <span calss="username">[ {{username}} ]</span>
+    <span calss="username">[ {{user.email}} ]</span>
   </div>
 </mat-toolbar>

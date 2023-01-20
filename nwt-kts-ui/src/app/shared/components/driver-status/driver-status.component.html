@@ -1,0 +1,5 @@
+<mat-slide-toggle [checked]="driverAvailable" (change)="changeDriverStatus($event)">
+    
+    <span *ngIf="driverAvailable" style="color: aquamarine;"> Dostupan </span>
+    <span *ngIf="!driverAvailable" style="color: red;"> Nedostupan </span>
+</mat-slide-toggle>

@@ -6,3 +6,6 @@ div{
     font-weight: bold;
     cursor: pointer;
 }
+.muted{
+    color: rgb(195, 165, 0);
+}

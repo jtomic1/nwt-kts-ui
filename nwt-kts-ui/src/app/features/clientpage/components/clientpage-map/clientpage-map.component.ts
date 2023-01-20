@@ -54,7 +54,6 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   tokenPrice:number = 0;
   
   socket: any;
-  taxiPositions: Map<string,L.Marker> = new Map<string,L.Marker>();
   dialogRideOrderProcess: MatDialogRef<RideRequestDialogComponent> | undefined;
   coordinatesForSimulation: Array<number[]> = [];
   rideIsGoing:boolean = false;
@@ -74,6 +73,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     iconSize: [32, 32]
   });
 
+  addedOnMap : boolean = false;
   
   constructor(private mapService: MapService,
               private vehiclePriceService: VehiclePriceService,
@@ -83,54 +83,25 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
               private driverRideService: DriverRideService,
               public dialog: MatDialog,
               private logInService: LoginService,
-              private tokenService: TokensService) { }
+              private tokenService: TokensService) { 
+                
+              }
 
+  ngOnInit(): void {
+    
+  }
   ngAfterViewInit(): void {
     
     this.initMap();
     this.setTaxiDriversOnMap();
-    this.setUpSocket();
-    
-
-    
+    this.socket = io(environment.chatSocketEndpoint);
+    // this.setUpSocket();
   }
 
   private setTaxiDriversOnMap(){
-    this.driverService.getAllDrivers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (drivers) =>{
-          drivers.forEach( (driver) =>{
-              let markerForDriver = L.marker([driver.positionLatitude,driver.positionLongitude]);
-              if(driver.driverStatus == DriverStatus.AVAILABLE){
-                markerForDriver.setIcon(this.taxiFreeIcon);
-                markerForDriver.bindPopup("Vozilo je slobodno");
-              }
-              else if( driver.driverStatus == DriverStatus.UNAVAILABLE){
-                markerForDriver.bindPopup("Vozilo nije dostupno");
-                markerForDriver.setIcon(this.taxiUnavailableIcon);
-              }
-              else if (driver.driverStatus == DriverStatus.DRIVING){
-                markerForDriver.bindPopup("Vozilo u voznji!");
-                markerForDriver.setIcon(this.taxiInRideIcon);
-              }
-              // markerForDriver.addTo(this.map);
-              this.taxiPositions.set( driver.vehiclePlateNumber, markerForDriver);
-              this.taxiPositions.get(driver.vehiclePlateNumber)?.addTo(this.map);
-              
-          })
-        }
-      );
+    this.driverService.setMap(this.map);
   }
-  private setUpSocket(){
 
-    this.socket = io(environment.chatSocketEndpoint);
-    this.socket.on("newPositionForDriver", (data:NewPositionsForDriver)=>{
-      console.log(data);
-      this.taxiPositions.get(data.plateNumber)?.setLatLng([data.newPosition[0],data.newPosition[1]]);
-    })
-    console.log("socket is set up!")
-  }
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
@@ -171,13 +142,6 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         this.map.removeLayer(this.destinationMarker);
 
         this.makeRoute();
-      }
-      for (let i = 1; i <= 10; i++) {
-        setTimeout(() => {
-            let latLng = this.taxiPositions.get("TAXI_ID_1")?.getLatLng();
-
-            this.taxiPositions.get("TAXI_ID_1")?.setLatLng([latLng?.lat!+0.001, latLng?.lng!+0.0001])
-        }, 1000 * i);
       }
     });
   }
@@ -473,7 +437,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         clientId: this.logInService.user!.id,
         deniedDrivers: []
       };
-    
+      
       this.openDialogForOrderRideProcess();
       this.orderRideServer(ride);
 
@@ -495,8 +459,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   orderRideServer(ride:Ride){
     if(ride.deniedDrivers.length >= 2 ){
       this.messageService.showMessage(
-        "Trenutno su sva vozila zauzeta molimo pokusajte kasnije. (vozaci odbijaju voznje)",
-        MessageType.WARNING);
+        "Trenutno su sva vozila zauzeta molimo pokusajte kasnije. (vozaci odbijaju voznje)",MessageType.WARNING);
+      this.dialogRideOrderProcess!.componentInstance.setMessage("Trenutno ne možemo da vam pronađemo vožnju.");
+      this.dialogRideOrderProcess!.componentInstance.setCantFindRide();
       return;
     }
     this.dialogRideOrderProcess!.componentInstance.setMessage("Traženje odgovarajućeg vozača...")
@@ -522,6 +487,8 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       next: (res) => {
         this.messageService.showMessage("Pronašli smo vozača", MessageType.SUCCESS);
         this.dialogRideOrderProcess!.componentInstance.setMessage("Vozač je pronađen čeka se njegova potvrda...");
+        console.log(res);
+        ride.driverId = res.driverId;
         this.setUpSocketForDriverConformation(ride);
       },
       error: (err) => {
@@ -540,11 +507,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     this.socket.on("acceptedRide" ,(data :any) =>{
       ride.driverId = data.ride.driverId;
       ride.vehiclePlateNumber = data.ride.vehiclePlateNumber;
-      this.dialogRideOrderProcess!.componentInstance.setMessage("Uspešno ste naručili taxi, vozač je krenu po vas.");
-      this.dialogRideOrderProcess!.componentInstance.finishProcess();
-      this.driverRideService.startRideDriveSimulation(this.coordinatesForSimulation,ride);
-      this.tokenService.currentUserTokensChangedSubject.next('');
-      this.rideIsGoing = true;
+      this.dialogRideOrderProcess!.componentInstance.setMessage("Uspešno smo vam pronašli vožnju.");
+      this.dialogRideOrderProcess!.componentInstance.finishProcess(ride);
+      
     });
 
     this.socket.on("deniedRide", (data:any) => {
@@ -559,7 +524,33 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       this.rideIsGoing = false;
     });
 
+    this.dialogRideOrderProcess!.afterClosed().subscribe(
+      res=>{
+        if(res === "ACCEPTED"){
+          this.clientAccepted(ride);
+        }else{
+          this.clientCanceled(ride);
+        }
+      }
+    );
     
+  }
+
+  clientAccepted(ride:Ride){
+    this.rideSerice.clinetConfirmRide(ride)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next:(res)=>{
+        this.messageService.showMessage(res,MessageType.SUCCESS);    
+        this.driverRideService.startRideDriveSimulation(this.coordinatesForSimulation,ride);
+        this.tokenService.currentUserTokensChangedSubject.next('');
+        this.rideIsGoing = true;
+      }
+    });
+  }
+
+  clientCanceled(ride:Ride){
+    this.rideSerice.clientCancelRide(ride);
   }
 
   scheduleRide(): void {

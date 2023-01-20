@@ -72,7 +72,7 @@ app.post('/driveSimulation', (req, res) => {
       sendObj["newPosition"] = values.shift();
       io.emit('newPositionForDriver', sendObj);
       console.log(sendObj);
-      
+      console.log(values.length);
       setTimeout(sendValue, 1000);
     }
   }
@@ -91,6 +91,20 @@ app.post('/stopSimulation', (req, res) => {
   res.json({ message: "Simulation stopped." });
 });
 
+app.post('/driver-change-status', (req, res) => {
+  console.log('driver-change-status');
+  console.log(req.body);
+  let data = req.body;
+  // let driverId = data['driverId'];
+  // let ride = data['rideDTO'];
+  
+  io.emit( 'driver-change-status' , {
+    driverId: data.driverId ,
+    vehiclePlateNumber: data.plateNumber,
+    driverStatus : data.driverStatus 
+  } );
+  res.json({ message: "Driver accepted" });
+});
 //==============================================
 //================for order process ============
 app.post('/notify-driver', (req, res) => {
@@ -130,6 +144,32 @@ app.post('/deniedRide', (req, res) => {
   res.json({ message: "Driver accepted" });
 });
 
+
+app.post('/client-confirmed', (req, res) => {
+  console.log('client-confirmed');
+  console.log(req.body);
+  let data = req.body;
+  let driverId = data['driverId'];
+  let ride = data['rideDTO'];
+  
+  io.to(driverId.toString()).emit( 'clientAcceptedRide' , {
+    ride:ride
+  } );
+  res.json({ message: "Driver accepted" });
+});
+
+app.post('/client-denied', (req, res) => {
+  console.log('client-denied');
+  console.log(req.body);
+  let data = req.body;
+  let driverId = data['driverId'];
+  let ride = data['rideDTO'];
+  
+  io.to(driverId.toString()).emit( 'clientDeniedRide' , {
+    ride:ride
+  } );
+  res.json({ message: "Driver accepted" });
+});
 
 //==========================================
 

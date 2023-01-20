@@ -15,7 +15,7 @@ import { InRideDriverDialogComponent } from '../in-ride-driver-dialog/in-ride-dr
 export class NewRideDriverDialogComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
-  
+  acceptedRide : boolean = false;
   constructor(
     private dialogRef: MatDialogRef<NewRideDriverDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data:{ride: Ride},
@@ -35,14 +35,11 @@ export class NewRideDriverDialogComponent implements OnInit {
       .subscribe({
         next:(res:any)=>{
             this.messageService.showMessage(
-              "Uspešno ste prihvatili vožnju. Sad vozi.",
+              "Uspešno ste prihvatili vožnju",
               MessageType.SUCCESS
             );
-            console.log(res);
             this.data.ride.vehiclePlateNumber = res;
-            this.dialog.open(InRideDriverDialogComponent,{
-              data:{ride:this.data.ride}
-            });
+            this.acceptedRide = true;
         },
         error: (err)=>{
             this.messageService.showMessage(err,MessageType.ERROR);

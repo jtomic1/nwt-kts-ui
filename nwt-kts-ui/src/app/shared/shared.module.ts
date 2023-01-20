@@ -9,9 +9,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ChatButtonComponent } from './components/chat-button/chat-button.component';
 import { RouterModule } from '@angular/router';
 import { TokensCountComponent } from './components/tokens-count/tokens-count.component';
+import { DriverStatusComponent } from './components/driver-status/driver-status.component';
 
 @NgModule({
-  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent],
+  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent, DriverStatusComponent],
   imports: [
     CommonModule,
     MaterialModule,

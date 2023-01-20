@@ -12,3 +12,9 @@ mat-toolbar{
   display: flex;
   gap:15px;
 }
+
+.driver-status{
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}

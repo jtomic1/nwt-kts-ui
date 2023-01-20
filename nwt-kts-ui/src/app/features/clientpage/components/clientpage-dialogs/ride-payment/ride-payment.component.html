@@ -1,0 +1,55 @@
+<div class="table">
+    <div class="col">
+        <div >
+            <span class="info-text">ID vožnje:</span>
+            <span  class="info-data">{{ride.rideId}}</span></div>
+        <div>
+            <span class="info-text">
+                Taxi vozilo: 
+            </span>
+            <span   class="info-data">
+               <b>
+                {{ride.vehiclePlateNumber}}
+               </b>
+            </span>
+        </div>
+        <div>
+            <span class="info-text">
+                Vreme za koje stiže:
+
+            </span>
+            <span  class="info-data">
+                <b>
+                    {{ride.duration}} 
+                </b>
+                minuta
+            </span> 
+        </div>
+    </div>
+    <div class="col">
+        <div>
+            <span class="info-text">
+                Trenutno stanje tokena:
+            </span>
+            <span  class="info-data">
+                <app-tokens-count [isCurrentUserTokens]="true" [isMuted]="true"></app-tokens-count>
+            </span>
+            </div>
+        <div>
+            <span class="info-text">
+                Cena vožnje:
+            </span>
+            <span  class="info-data" style="border-bottom: 1px solid rgb(195, 192, 192);">
+                <app-tokens-count [isCurrentUserTokens]="false" [value]="ride.price" ></app-tokens-count>
+            </span>
+        </div>
+        <div>
+            <span class="info-text">
+                Preoustaje tokena:
+            </span>
+            <span  class="info-data">
+                <app-tokens-count [isCurrentUserTokens]="false" [value]="leftTokens" [isMuted]="true"> </app-tokens-count>
+            </span>
+        </div>
+    </div>
+</div>

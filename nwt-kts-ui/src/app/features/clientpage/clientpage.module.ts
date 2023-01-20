@@ -7,13 +7,15 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { ClientpageMapComponent } from './components/clientpage-map/clientpage-map.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { RideRequestDialogComponent } from './components/clientpage-dialogs/ride-request-dialog/ride-request-dialog.component';
+import { RidePaymentComponent } from './components/clientpage-dialogs/ride-payment/ride-payment.component';
 
 
 
 @NgModule({
   declarations: [
     ClientpageMapComponent,
-    RideRequestDialogComponent
+    RideRequestDialogComponent,
+    RidePaymentComponent
   ],
   imports: [
     CommonModule,

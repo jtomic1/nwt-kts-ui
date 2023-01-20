@@ -10,11 +10,12 @@ import { environment } from 'src/environments/environment';
 export class DriverRideService {
 
   socektUrl :String = `http://${environment.chatSocketEndpoint}`;
+  rideUrl : string = `${environment.baseUrl}/${ApiPaths.Ride}`;
 
   constructor(private http: HttpClient) { }
 
   acceptRide(data: Ride) {
-    let url = `${environment.baseUrl}/${ApiPaths.Ride}/acceptRide`;
+    let url = `${this.rideUrl}/acceptRide`;
     return this.http.post<Ride>(url, data);
   }
   
@@ -38,5 +39,11 @@ export class DriverRideService {
     let data = { driverId: driverId, rideDTO: ride};
     this.http.post(url , data).subscribe();
   }
+
+  finishRide(ride:Ride){
+    let url = `${this.rideUrl}/finishRide`;
+    return this.http.post<string>(url,ride);
+  }
+
 
 }

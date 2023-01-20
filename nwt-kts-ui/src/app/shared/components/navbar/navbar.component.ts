@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
+import { Role } from '../../models/enums/Role';
+import { User } from '../../models/User';
 import { TokensService } from '../../services/tokens-service/tokens.service';
 
 @Component({
@@ -10,8 +12,8 @@ import { TokensService } from '../../services/tokens-service/tokens.service';
 })
 export class NavbarComponent implements OnInit {
 
-  username?:string;
-
+  user: User | undefined;
+  driverRole = Role.DRIVER;
   constructor(
     private loginService:LoginService
   ) { }
@@ -19,7 +21,7 @@ export class NavbarComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.userChanged.subscribe(
       (user)=>{
-        this.username = user.email;
+        this.user = user;
       }
     )
   }

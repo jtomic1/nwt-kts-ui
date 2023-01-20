@@ -1,8 +1,25 @@
-<mat-sidenav-container class="example-container">
-  <mat-sidenav #sidenav mode="side" [opened]="opened" class="drawer">
-    Dobrodošao,
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #sidenav mode="side" [opened]="opened" class="sidenav">
+    <h1 class="drawer-title">Dobrodošao, {{ user!.name }}</h1>
+
+    <app-avatar></app-avatar>
+
+    <h2>Tip naloga: {{ user!.roleString }}</h2>
+
+    <mat-nav-list class="nav-list">
+      <a
+        mat-list-item
+        class="option"
+        *ngFor="let option of optionArray; let i = index"
+        [routerLink]="option.route"
+        (click)="closeSidenav()"
+        ><fa-icon [icon]="option.icon" style="margin-right: 10px"> </fa-icon>
+        {{ option.name }}</a
+      >
+    </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav-content style="margin-top: 64px"> AAAAA </mat-sidenav-content>
+  <mat-sidenav-content>
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
 </mat-sidenav-container>
-Aaaaaa

@@ -1,3 +1,4 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -16,7 +17,12 @@ export class LoginService {
   private userChangedSubject = new BehaviorSubject<User>(this.user!);
   public userChanged = this.userChangedSubject.asObservable();
 
-  constructor(private http: HttpClient) {}
+  facebookFlag: boolean = false;
+
+  constructor(
+    private http: HttpClient,
+    private authService: SocialAuthService
+  ) {}
 
   get token(): string | null {
     return localStorage.getItem('access-token');
@@ -62,7 +68,6 @@ export class LoginService {
   setUserData(data: LoginResponseData): void {
     localStorage.clear();
     localStorage.setItem('access-token', data.accessToken);
-    console.log(data.user);
     let roleStr = data.user.roleString.split('_')[1];
     data.user.role = Role[roleStr as keyof typeof Role];
 
@@ -82,6 +87,8 @@ export class LoginService {
   }
 
   logout() {
+    this.authService.signOut(true);
     localStorage.clear();
+    this.facebookFlag = false;
   }
 }

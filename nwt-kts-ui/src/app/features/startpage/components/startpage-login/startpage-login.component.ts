@@ -45,9 +45,13 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
     if (activationStatus !== null)
       this.showActivationStatusMessage(activationStatus);
 
-    this.authService.authState.subscribe((user) => {
-      this.loginWithFacebookRequest(user.email);
-    });
+    this.authService.authState
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((user) => {
+        if (this.loginService.facebookFlag) {
+          this.loginWithFacebookRequest(user.email);
+        }
+      });
   }
 
   createLoginForm(): FormGroup {
@@ -95,6 +99,7 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
 
   loginWithFacebook() {
     this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    this.loginService.facebookFlag = true;
   }
 
   loginWithFacebookRequest(email: string) {

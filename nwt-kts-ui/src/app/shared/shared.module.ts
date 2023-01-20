@@ -13,15 +13,30 @@ import { TokensCountComponent } from './components/tokens-count/tokens-count.com
 import { AvatarComponent } from './components/avatar/avatar.component';
 
 @NgModule({
-  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent, BurgerMenuIconComponent, AvatarComponent],
+  declarations: [
+    NavbarComponent,
+    MessageComponent,
+    PersonalDataComponent,
+    ChatButtonComponent,
+    TokensCountComponent,
+    BurgerMenuIconComponent,
+    AvatarComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,
     FontAwesomeModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ],
-  exports: [MaterialModule, NavbarComponent, PersonalDataComponent,ChatButtonComponent,TokensCountComponent],
+  exports: [
+    MaterialModule,
+    NavbarComponent,
+    PersonalDataComponent,
+    ChatButtonComponent,
+    TokensCountComponent,
+    AvatarComponent,
+  ],
 })
 export class SharedModule {}

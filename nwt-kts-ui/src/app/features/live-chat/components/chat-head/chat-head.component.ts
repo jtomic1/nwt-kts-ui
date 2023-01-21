@@ -37,7 +37,9 @@ export class ChatHeadComponent implements OnInit, OnDestroy {
     phone: '',
     username: '',
     role: Role.USER,
-    roleString: ''
+    roleString: '',
+    town: '',
+    profilePhoto: '',
   };
 
   @Input()

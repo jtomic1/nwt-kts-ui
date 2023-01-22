@@ -7,12 +7,14 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { HomepageRoutingModule } from './homepage.routing';
 import { RegisterDriverComponent } from './components/register-driver/register-driver.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DriverChangeListComponent } from './components/driver-change/driver-change-list/driver-change-list.component';
 
 @NgModule({
   declarations: [
     ContainerSidenavComponent,
     EditProfileComponent,
     RegisterDriverComponent,
+    DriverChangeListComponent,
   ],
   imports: [
     CommonModule,

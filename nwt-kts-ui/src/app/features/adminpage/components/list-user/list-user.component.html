@@ -1,0 +1,32 @@
+<mat-card class="item-card">        
+    <mat-card-content>
+        <div class="user-data">
+            <div>
+                Ime i prezime: <b>{{name}} {{surname}}</b>
+            </div>                
+            <div>
+                Email: <b>{{email}}</b>
+            </div>
+            <div>
+                Telefon: <b>{{phone}}</b>
+            </div>
+            <div>
+                Napomena: <b>{{noteContent}}</b>
+            </div>
+            <div>
+                <br />                    
+                <br />
+                <button class="block-button" mat-raised-button color="warn" (click)="openDialog()">Blokiraj </button>
+            </div>
+        </div>
+        <div>
+            <app-note
+                [title]="title"
+                [placeholder]="placeholder"
+                [offenderId]="id"
+                [noteType]="noteType"
+                (blockNoteFound)="updateBlockNote($event)">
+            </app-note>
+        </div>            
+    </mat-card-content>
+</mat-card>

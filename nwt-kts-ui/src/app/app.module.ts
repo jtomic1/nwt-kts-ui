@@ -24,6 +24,7 @@ import {
   SocialAuthServiceConfig,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
+import { AdminpageModule } from './features/adminpage/adminpage.module';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -43,7 +44,8 @@ import {
     ClientpageModule,
     TokensModule,
     ClientpageModule,
-    DriverpageModule
+    DriverpageModule,
+    AdminpageModule
   ],
   providers: [
     {

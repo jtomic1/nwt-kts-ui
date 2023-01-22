@@ -18,7 +18,12 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
 import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { DriverpageModule } from './features/driverpage/driverpage.module';
-
+import { HomepageModule } from './features/homepage/homepage.module';
+import {
+  FacebookLoginProvider,
+  SocialAuthServiceConfig,
+  SocialLoginModule,
+} from '@abacritt/angularx-social-login';
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,11 +33,14 @@ import { DriverpageModule } from './features/driverpage/driverpage.module';
     NoopAnimationsModule,
     BrowserAnimationsModule,
     MaterialModule,
+    SocialLoginModule,
     StartpageModule,
+    HomepageModule,
     LiveChatModule,
     FontAwesomeModule,
     FormsModule,
     HttpClientModule,
+    ClientpageModule,
     TokensModule,
     ClientpageModule,
     DriverpageModule
@@ -44,6 +52,18 @@ import { DriverpageModule } from './features/driverpage/driverpage.module';
       multi: true,
     },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('1838879509798596'),
+          },
+        ],
+      } as SocialAuthServiceConfig,
+    },
   ],
   bootstrap: [AppComponent],
 })

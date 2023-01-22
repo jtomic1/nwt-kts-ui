@@ -108,7 +108,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 13);
+    this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 14);
     
     var default_map = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -170,8 +170,8 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
             } else {
               var destination = [this.route.getWaypoints()[this.route.getWaypoints().length - 1].latLng.lat, this.route.getWaypoints()[this.route.getWaypoints().length - 1].latLng.lng]
               this.route.setWaypoints([
-              L.latLng([result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]]),
-              L.latLng([destination[0], destination[1]])
+              L.latLng(result.features[0].geometry.coordinates[1], result.features[0].geometry.coordinates[0]),
+              L.latLng(destination[0], destination[1])
             ]);
             }
           } else {
@@ -263,6 +263,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         missingRouteTolerance: 0
       }
     }).on('routesfound',  (e) => {    
+      console.log("****************")
       console.log(e);
       e.routes[0].coordinates.forEach((cord:any)=>{
         this.coordinatesForSimulation.push( [ cord.lat , cord.lng]);
@@ -299,7 +300,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       this.tokenPrice = Math.round((this.vehiclePrice/10 + (this.routeLength / 1000)));
       this.form.controls['price'].setValue(Math.round(this.vehiclePrice + (this.routeLength / 1000)*120) + ' dinara');
     })
-    .on('waypointschanged',  (e) => {      
+    .on('waypointschanged',  (e) => {
+      console.log("****************")
+      console.log(e);
       this.addStationWithMarkerDrag(e.waypoints);
     })
     .addTo(this.map);
@@ -328,8 +331,8 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         if (result.features.length !== 0 && this.isStartSet && this.isDestinationSet) {                             
           var station: OnWayStation = {address: value, lat: result.features[0].geometry.coordinates[1],
                                         lng: result.features[0].geometry.coordinates[0]};
-          this.onWayStations.push(station);  
-          this.route.spliceWaypoints(this.route.getWaypoints().length - 1, 0, L.latLng([station.lat, station.lng]));    
+          this.onWayStations.push(station);
+          this.route.spliceWaypoints(this.route.getWaypoints().length - 1, 0, L.latLng([station.lat, station.lng]));
         } 
         else if (!this.isStartSet || !this.isDestinationSet) {
           this.messageService.showMessage('Prvo unesite polazište i krajnju lokaciju!', MessageType.WARNING);
@@ -359,24 +362,28 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   }
 
   setStartFormControl(data: any): void {
+    console.log(data);
     if (data.housenumber !== undefined && data.street !== undefined) {
       this.form.controls['start'].setValue(data.street + ' ' + data.housenumber);
-    }            
-    else if (data.housenumber === undefined && data.street !== undefined) {
+    } else if (data.housenumber === undefined && data.street !== undefined) {
       this.form.controls['start'].setValue(data.street);
+    } else if (data.type === "street") {
+      this.form.controls['start'].setValue(data.name);
     } else {
-      this.form.controls['start'].setValue(data.label);
+      this.form.controls['start'].setValue(data.name);
     }
   }
 
   setDestinationFormControl(data: any): void {
+    console.log(data);
     if (data.housenumber !== undefined && data.street !== undefined) {
       this.form.controls['destination'].setValue(data.street + ' ' + data.housenumber);
-    }            
-    else if (data.housenumber === undefined && data.street !== undefined) {
+    } else if (data.housenumber === undefined && data.street !== undefined) {
       this.form.controls['destination'].setValue(data.street);
+    } else if (data.type === "street") {
+      this.form.controls['start'].setValue(data.name);
     } else {
-      this.form.controls['destination'].setValue(data.label);
+      this.form.controls['destination'].setValue(data.name);
     }
   }
 

@@ -1,0 +1,37 @@
+mat-card {
+  max-width: 400px;
+  margin: 2em auto;
+  text-align: center;
+}
+
+app-avatar {
+  display: block;
+  margin: auto;
+  margin-top: 35px
+}
+
+.upload-photo-button {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  color: lightgreen
+}
+
+.upload-button {
+  margin-top: 6px;
+  color: lightgreen;
+}
+
+.remove-upload-button{
+  margin-top: 6px;
+  color: rgb(247, 57, 57)
+}
+
+.change-password-button {
+  margin-top: 6px;
+  color: lightseagreen;
+}
+
+.update-container{
+  display: flex;
+  flex-direction: column;
+}

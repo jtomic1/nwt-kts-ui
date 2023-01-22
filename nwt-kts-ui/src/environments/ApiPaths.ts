@@ -4,7 +4,19 @@ export enum ApiPaths {
   Users = 'users',
   Tokens = 'tokens',
   VehiclePrice = 'vehicleprice',
-  Login = 'login',
+
+  // Images
+  Images = 'images',
+  
+  // Drivers
   Ride = 'ride',
-  Drivers= 'drivers',
+  Drivers = 'drivers',
+  Note = 'note',
+  
+  // Login i Forgot Password
+  Login = 'login',
+  FBLogin = 'facebookLogin',
+  ForgotPassword = 'forgotPassword',
+  GetTokenStatus = 'getTokenStatus',
+  ResetPassword = 'resetPassword',
 }

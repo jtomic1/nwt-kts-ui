@@ -1,10 +1,11 @@
-div{
+* {
     color: gold;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-weight: bold;
-    cursor: pointer;
+}
+
+.container {
+    display: inline-block;
+    max-width: 60px;
 }
 .muted{
     color: rgb(195, 165, 0);

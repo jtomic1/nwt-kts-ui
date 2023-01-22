@@ -1,10 +1,31 @@
 <mat-toolbar color="primary" class="flexExpand">
-  <span class="logo" [routerLink]="['/']" >RideShare</span>
+  <span style="display: flex; align-items: center">
+    <app-burger-menu-icon
+      style="margin-right: 16px"
+      *ngIf="loginService.isTokenPresent"
+    ></app-burger-menu-icon>
+    <span class="logo" [routerLink]="['/home']">RideShare</span>
+  </span>
   <div *ngIf=" user && user.role == driverRole" class="driver-status">
     <app-driver-status></app-driver-status>
   </div>
-  <div class="user-data" *ngIf="user">
-    <app-tokens-count [routerLink]="['/tokens']" [isCurrentUserTokens]="true"></app-tokens-count>
-    <span calss="username">[ {{user.email}} ]</span>
-  </div>
+  <span *ngIf="loginService.isTokenPresent">
+    <app-tokens-count
+      class="logout"
+      [routerLink]="['/tokens']"
+      [isCurrentUserTokens]="true"
+    ></app-tokens-count>
+    <div
+      (click)="logout()"
+      style="display: inline-block; margin-left: 1.6em"
+      class="logout"
+    >
+      Odjavi se
+      <fa-icon
+        class="icon-button"
+        [icon]="logoutIcon"
+        style="margin-left: 6px"
+      ></fa-icon>
+    </div>
+  </span>
 </mat-toolbar>

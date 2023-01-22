@@ -59,3 +59,15 @@ a {color: #69F0AE}
   border: 2px solid lightsalmon;
   filter: drop-shadow(0 0 8px salmon);
 }
+
+/*****************************/
+
+mat-expansion-panel-header .mat-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+mat-expansion-panel {
+  border: 1px solid gray
+}

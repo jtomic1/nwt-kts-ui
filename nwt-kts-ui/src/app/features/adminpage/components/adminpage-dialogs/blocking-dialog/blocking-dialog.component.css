@@ -1,0 +1,8 @@
+div {
+    display: flex;
+    justify-content: space-around;
+}
+
+button {
+    min-width: 150px;
+}

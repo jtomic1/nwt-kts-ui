@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output  } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { NoteType } from '../../models/enums/NoteType';
 import { Note } from '../../models/Note';
@@ -18,6 +18,8 @@ export class NoteComponent implements OnInit, OnDestroy {
   @Input() placeholder: string = '';
   @Input() offenderId!: number;
   @Input() noteType!: NoteType;
+
+  @Output() blockNoteFound = new EventEmitter<string>();
 
   form: FormGroup;
 
@@ -38,19 +40,26 @@ export class NoteComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    if (this.noteType === NoteType.BLOCK_NOTICE) {
+      this.getNote();
+    }
   }
 
   sendNote(): void {
     var note: Note = {
+      id: 0,
+      senderId: 0,
       offenderId: this.offenderId,
       noteType: this.noteType,
-      content: this.form.controls['textarea'].value
+      content: this.form.controls['textarea'].value,
+      dateCreated: new Date(),
     }
     this.noteService
       .sendNote(note)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: any) => {
+        next: (res: any) => {          
+          this.blockNoteFound.emit(this.form.controls['textarea'].value.toString());
           this.form.reset({
             textarea: ''
           });        
@@ -63,6 +72,10 @@ export class NoteComponent implements OnInit, OnDestroy {
           this.noteSent.emit(false);
         }
       });
+  }
+
+  getNote(): void {
+    
   }
 
 }

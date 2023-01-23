@@ -8,6 +8,7 @@ import { LiveChatAdminComponent } from './features/live-chat/components/live-cha
 import { LiveChatClientComponent } from './features/live-chat/components/live-chat-client/live-chat-client.component';
 import { StartpageTabContainerComponent } from './features/startpage/components/startpage-tab-container/startpage-tab-container.component';
 import { AddNewTokensComponent } from './features/tokens/components/add-new-tokens/add-new-tokens.component';
+import { BlockingUsersComponent } from './features/adminpage/components/blocking-users/blocking-users.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },

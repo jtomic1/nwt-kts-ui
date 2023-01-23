@@ -4,6 +4,7 @@ import {
   faUserGear,
   faUserPen,
   faUserPlus,
+  faUserSlash
 } from '@fortawesome/free-solid-svg-icons';
 import { DrawerOption } from 'src/app/features/startpage/models/DrawerOption';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -110,7 +111,13 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserGear,
     };
 
-    return [profile, addDriver, driverChangeRequests];
+    let blockUsers: DrawerOption = {
+      name: 'Blokiraj vozače i korisnike',
+      route: 'blocking',
+      icon: faUserSlash,
+    };
+
+    return [profile, addDriver, driverChangeRequests, blockUsers];
   }
 
   closeSidenav(): void {

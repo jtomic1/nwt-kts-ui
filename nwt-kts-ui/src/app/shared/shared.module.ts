@@ -28,7 +28,7 @@ import { DriverStatusComponent } from './components/driver-status/driver-status.
     MapComponent,
     RideDataComponent,
     NoteComponent,
-  , DriverStatusComponent],
+    DriverStatusComponent],
   imports: [
     CommonModule,
     MaterialModule,

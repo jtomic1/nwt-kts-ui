@@ -5,6 +5,7 @@ import { NewRideDriverDialogComponent } from './components/dialogs/new-ride-driv
 import { MatDialogModule } from '@angular/material/dialog';
 import { InRideDriverDialogComponent } from './components/dialogs/in-ride-driver-dialog/in-ride-driver-dialog.component';
 import { MaterialModule } from 'src/app/shared/material/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 
@@ -17,7 +18,8 @@ import { MaterialModule } from 'src/app/shared/material/material/material.module
   imports: [
     CommonModule,
     MatDialogModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ]
 })
 export class DriverpageModule { }

@@ -1,5 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
+import { NoteType } from 'src/app/shared/models/enums/NoteType';
 import { Ride } from 'src/app/shared/models/Ride';
 import { MessageService, MessageType } from 'src/app/shared/services/message-service/message.service';
 import { DriverRideService } from '../../../services/ride-service/driver-ride.service';
@@ -10,10 +12,17 @@ import { DriverRideService } from '../../../services/ride-service/driver-ride.se
   styleUrls: ['./in-ride-driver-dialog.component.css']
 })
 export class InRideDriverDialogComponent implements OnInit {
-
-  constructor(@Inject(MAT_DIALOG_DATA) public data:{ride: Ride},
+  driverId: number = -1;
+  noteType :NoteType =  NoteType.CANCEL_FARE;
+  openDeniedDialog : boolean = false;
+  titleReason: string = "Razlog prekidanja vožnje";
+  
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data:{ride: Ride},
+    private dialogRef: MatDialogRef<InRideDriverDialogComponent>,
     private driverRideService: DriverRideService ,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private loginService: LoginService
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +42,18 @@ export class InRideDriverDialogComponent implements OnInit {
 
   interruptRide(){
     this.driverRideService.stopRideDriveSimulation(this.data.ride.vehiclePlateNumber!,this.data.ride);
+    
+    this.driverId = this.loginService.user!.id;
+    this.openDeniedDialog = true;
+
     //TODO: prikazati dialog za unos poruke administratorima
+  }
+  
+  closeDialog(noteSent:boolean){
+    if(noteSent)
+      this.dialogRef.close();
+    else{
+      this.titleReason = "Nismo uspeli da sacuvamo razlog, probajte ponovo."
+    }
   }
 }

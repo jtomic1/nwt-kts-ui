@@ -4,8 +4,9 @@
 }
 
 .container {
-    display: inline-block;
-    max-width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 .muted{
     color: rgb(195, 165, 0);

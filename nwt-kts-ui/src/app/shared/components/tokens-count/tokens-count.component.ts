@@ -24,8 +24,10 @@ export class TokensCountComponent implements OnInit {
     if( this.isCurrentUserTokens ){
       this.loginService.userChanged.subscribe(
         (user) =>{
-          this.userId = user.id;
-          this.updateTokensForUser();
+          if(user != null ){
+            this.userId = user.id;
+            this.updateTokensForUser();
+          }
         }
       )
       this.tokensService.currentUserTokensChanged.subscribe(

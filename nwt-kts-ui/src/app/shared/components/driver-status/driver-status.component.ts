@@ -21,8 +21,10 @@ export class DriverStatusComponent implements OnInit {
   ngOnInit(): void {
     this.loginService.userChanged.subscribe(
       (user)=>{
-        this.driverId = user.id;
-        this.getDriverStatus();
+        if(user != null ){
+          this.driverId = user.id;
+          this.getDriverStatus();
+        }
       }
     );
   }

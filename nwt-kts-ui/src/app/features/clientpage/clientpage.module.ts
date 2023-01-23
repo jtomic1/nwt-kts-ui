@@ -8,6 +8,7 @@ import { ClientpageMapComponent } from './components/clientpage-map/clientpage-m
 import { MatDialogModule } from '@angular/material/dialog';
 import { RideRequestDialogComponent } from './components/clientpage-dialogs/ride-request-dialog/ride-request-dialog.component';
 import { RidePaymentComponent } from './components/clientpage-dialogs/ride-payment/ride-payment.component';
+import { ClientInRideComponent } from './components/client-in-ride/client-in-ride.component';
 
 
 
@@ -15,7 +16,8 @@ import { RidePaymentComponent } from './components/clientpage-dialogs/ride-payme
   declarations: [
     ClientpageMapComponent,
     RideRequestDialogComponent,
-    RidePaymentComponent
+    RidePaymentComponent,
+    ClientInRideComponent
   ],
   imports: [
     CommonModule,

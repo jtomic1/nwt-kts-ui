@@ -92,8 +92,10 @@ export class LoginService {
   }
 
   logout() {
-    this.authService.signOut(true);
+    if(this.facebookFlag)
+      this.authService.signOut(true);
     localStorage.clear();
     this.facebookFlag = false;
+    this.userChangedSubject.next(this.user!);
   }
 }

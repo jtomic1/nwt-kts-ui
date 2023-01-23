@@ -13,5 +13,15 @@
 
 <mat-dialog-actions align="center" *ngIf="!acceptedRide" >
     <button mat-raised-button color="primary"(click)="acceptRide()" >Prihvati</button>
-    <button mat-raised-button color="warn" mat-dialog-close (click)="deniedRide()">Otkaži</button>
+    <button mat-raised-button color="warn"  (click)="deniedRide()">Otkaži</button>
 </mat-dialog-actions>
+
+<app-note *ngIf="openDeniedDialog"
+    [title]="titleReason"
+    [placeholder]="'Morate uneti razlog odbijanja ...'"
+    [offenderId]="driverId"
+    [noteType]="noteType"
+    class=" cancelConfirmationDialog"
+    (noteSent)="closeDialog($event)"
+    >
+</app-note>

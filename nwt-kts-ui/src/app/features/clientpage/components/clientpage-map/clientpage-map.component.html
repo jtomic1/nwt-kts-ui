@@ -129,9 +129,7 @@
                   </mat-card>
             </mat-grid-tile>           
             <mat-grid-tile colspan="1" rowspan="4" *ngIf="rideIsGoing">
-                <mat-card class="data-card">                        
-                    <mat-card-title class="card-title">Trenutno ste u vožnji</mat-card-title>  
-                </mat-card>
+                <app-client-in-ride [ride]="rideForChild"></app-client-in-ride>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>

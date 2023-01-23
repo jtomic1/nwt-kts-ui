@@ -33,12 +33,13 @@ export class ChatButtonComponent implements OnInit {
     });
 
     this.loginService.userChanged.subscribe(
-      (data) =>{
-        
-        this.loggedUserId = data.id;
-        this.socket.emit('join', data.id,toString());
-        this.socket.emit('setUserId', data.id.toString());
-        console.log("povezan na soket "+data.id.toString());
+      (user) =>{
+        if(user != null ){
+          this.loggedUserId = user.id;
+          this.socket.emit('join', user.id,toString());
+          this.socket.emit('setUserId', user.id.toString());
+          console.log("povezan na soket "+user.id.toString());
+        }
       }
     )
 

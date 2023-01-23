@@ -57,24 +57,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   dialogRideOrderProcess: MatDialogRef<RideRequestDialogComponent> | undefined;
   coordinatesForSimulation: Array<number[]> = [];
   rideIsGoing:boolean = false;
-  
-  taxiFreeIcon = L.icon({
-    iconUrl: 'assets/taxi-free.png',
-    iconSize: [32, 32]
-  });
-  
-  taxiUnavailableIcon = L.icon({
-    iconUrl: 'assets/taxi-unavailable.png',
-    iconSize: [32, 32]
-  });
+  rideForChild!: Ride;
 
-  taxiInRideIcon = L.icon({
-    iconUrl: 'assets/taxi-ride.png',
-    iconSize: [32, 32]
-  });
 
-  addedOnMap : boolean = false;
-  
   constructor(private mapService: MapService,
               private vehiclePriceService: VehiclePriceService,
               private rideSerice: RideService,
@@ -95,7 +80,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     this.initMap();
     this.setTaxiDriversOnMap();
     this.socket = io(environment.chatSocketEndpoint);
-    // this.setUpSocket();
+
   }
 
   private setTaxiDriversOnMap(){
@@ -108,7 +93,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 14);
+    this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 13);
     
     var default_map = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -551,6 +536,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         this.messageService.showMessage(res,MessageType.SUCCESS);    
         this.driverRideService.startRideDriveSimulation(this.coordinatesForSimulation,ride);
         this.tokenService.currentUserTokensChangedSubject.next('');
+        this.rideForChild = ride;
         this.rideIsGoing = true;
       }
     });

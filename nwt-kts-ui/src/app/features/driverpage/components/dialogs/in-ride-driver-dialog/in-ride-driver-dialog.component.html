@@ -8,5 +8,16 @@
 
 <mat-dialog-actions>
     <button mat-raised-button color="primary" mat-dialog-close (click)="finishRide()" >Završi vožnju</button>
-    <button mat-raised-button color="warn"mat-dialog-close (click)="interruptRide()">Prekini vožnju</button>
+    <button mat-raised-button color="warn" (click)="interruptRide()">Prekini vožnju</button>
 </mat-dialog-actions>
+
+
+<app-note *ngIf="openDeniedDialog"
+    [title]="titleReason"
+    [placeholder]="'Morate uneti razlog prekidanja vožnje ...'"
+    [offenderId]="driverId"
+    [noteType]="noteType"
+    class=" cancelConfirmationDialog"
+    (noteSent)="closeDialog($event)"
+    >
+</app-note>

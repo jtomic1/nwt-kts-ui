@@ -111,7 +111,8 @@ export class MapComponent implements AfterViewInit {
         L.latLng(this.startMarker.getLatLng()),
         L.latLng(this.destinationMarker.getLatLng())
       ],
-      addWaypoints: false,
+      //draggableWaypoints: false,
+      addWaypoints: false,     
       showAlternatives: true,
       altLineOptions: {
         styles: [

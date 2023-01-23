@@ -1,0 +1,26 @@
+.item-card{
+    height: 260px;
+}
+
+mat-card-content {
+    display: flex;
+    justify-content: space-between;
+}
+
+textarea {
+    resize: none;
+}
+
+.user-data {
+    gap: 10px;
+    font-size: large;
+    padding: 25px;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+
+.block-button {
+    width: 150px;
+    margin-left: 50px;
+}

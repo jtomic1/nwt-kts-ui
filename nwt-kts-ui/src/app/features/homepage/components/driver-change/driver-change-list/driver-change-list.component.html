@@ -1,0 +1,91 @@
+<div class="master-container">
+  <mat-expansion-panel
+    [hideToggle]="true"
+    [disabled]="true"
+    style="border-bottom: 4px solid lightgray"
+  >
+    <mat-expansion-panel-header class="info-bar-container">
+      <div class="panel-cell">
+        <h2 class="header-text">Korisnik</h2>
+      </div>
+      <div class="panel-cell">
+        <h2 class="header-text">Status</h2>
+      </div>
+    </mat-expansion-panel-header>
+  </mat-expansion-panel>
+
+  <mat-expansion-panel *ngFor="let item of items; let i = index">
+    <mat-expansion-panel-header class="info-bar-container">
+      <div class="panel-cell">
+        <h3 style="display: inline; text-decoration: solid">
+          {{ item.driver.email }}
+        </h3>
+      </div>
+      <div class="panel-cell">
+        <span style="color: orange">Na čekanju</span>
+      </div>
+    </mat-expansion-panel-header>
+
+    <ng-template matExpansionPanelContent>
+      <table style="margin: auto" border="2">
+        <tr>
+          <th>Tip Podatka</th>
+          <th>Stara Vrednost</th>
+          <th>Nova Vrednost</th>
+        </tr>
+        <tr>
+          <th>Ime</th>
+          <td>{{ item.driver.name }}</td>
+          <td>{{ item.name }}</td>
+        </tr>
+        <tr>
+          <th>Prezime</th>
+          <td>{{ item.driver.lastName }}</td>
+          <td>{{ item.lastName }}</td>
+        </tr>
+        <tr>
+          <th>Mesto</th>
+          <td>{{ item.driver.town }}</td>
+          <td>{{ item.town }}</td>
+        </tr>
+        <tr>
+          <th>Broj Telefona</th>
+          <td>{{ item.driver.phone }}</td>
+          <td>{{ item.phone }}</td>
+        </tr>
+        <tr>
+          <th>Fotografija</th>
+          <td style="padding-top: 20px">
+            <app-avatar [placeholder]="item.driver.profilePhoto"></app-avatar>
+          </td>
+          <td style="padding-top: 20px">
+            <app-avatar [placeholder]="item.profilePhoto"></app-avatar>
+          </td>
+        </tr>
+      </table>
+    </ng-template>
+    <mat-action-row style="align-items: center">
+      <button mat-button color="accent" (click)="approveChangeRequest(i)">
+        ODOBRI
+      </button>
+      <button mat-button color="warn" (click)="denyChangeRequest(i)">
+        OBRIŠI
+      </button>
+    </mat-action-row>
+  </mat-expansion-panel>
+  <div
+    *ngIf="count == 0"
+    style="display: flex; align-items: center; justify-content: center"
+  >
+    <h1>Nema aktivnih zahteva!</h1>
+  </div>
+</div>
+<mat-paginator
+  [length]="count"
+  [pageSize]="3"
+  [pageSizeOptions]="[3]"
+  [hidePageSize]="true"
+  aria-label="Izaberi stranicu"
+  (page)="onPageChange($event)"
+>
+</mat-paginator>

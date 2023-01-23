@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { faUserPen, faUserPlus } from '@fortawesome/free-solid-svg-icons';
+import {
+  faUserGear,
+  faUserPen,
+  faUserPlus,
+} from '@fortawesome/free-solid-svg-icons';
 import { DrawerOption } from 'src/app/features/startpage/models/DrawerOption';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { getAvatarClass, Role } from 'src/app/shared/models/enums/Role';
@@ -100,7 +104,13 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPlus,
     };
 
-    return [profile, addDriver];
+    let driverChangeRequests: DrawerOption = {
+      name: 'Zahtevi za izmenu vozača',
+      route: 'driverChangeRequests',
+      icon: faUserGear,
+    };
+
+    return [profile, addDriver, driverChangeRequests];
   }
 
   closeSidenav(): void {

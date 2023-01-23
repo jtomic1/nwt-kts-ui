@@ -22,7 +22,6 @@ const routes: Routes = [
 
   //*************//
   { path: 'clientmap', component: ClientpageMapComponent },
-  { path: 'blocking', component: BlockingUsersComponent },
 
   {
     path: 'home',

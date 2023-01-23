@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, Output, EventEmitter } from '@angular/core';
+import { AfterViewInit, Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine'
 
@@ -9,6 +9,8 @@ import 'leaflet-routing-machine'
 })
 export class MapComponent implements AfterViewInit {
 
+  @Input() readOnly: boolean = false;
+  @Input() addWaypoints: boolean = false;
   @Input() startCoord!: L.LatLng;
   @Input() onWayStations!: L.LatLng[];
   @Input() endCoord!: L.LatLng;
@@ -17,6 +19,8 @@ export class MapComponent implements AfterViewInit {
   @Output() endChanged = new EventEmitter<L.LatLng>();
   @Output() priceChanged = new EventEmitter<number>();
   @Output() timeChanged = new EventEmitter<number>();
+
+  @ViewChild('mapDiv', { static: false }) mapDiv!: ElementRef; 
 
   private map: any;
   private startMarker: any;
@@ -32,6 +36,7 @@ export class MapComponent implements AfterViewInit {
   }
 
   private initMap(): void {
+    this.setReadOnly();
     this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 14);
 
     var default_map = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
@@ -66,6 +71,12 @@ export class MapComponent implements AfterViewInit {
         this.setDestinationMarker();        
       }
     });
+  }
+
+  setReadOnly(): void {
+    if (this.readOnly) {
+      this.mapDiv.nativeElement.style.pointerEvents = 'none';
+    }
   }
 
   setStartingMarker(): void {
@@ -112,7 +123,7 @@ export class MapComponent implements AfterViewInit {
         L.latLng(this.destinationMarker.getLatLng())
       ],
       //draggableWaypoints: false,
-      addWaypoints: false,     
+      addWaypoints: this.addWaypoints,     
       showAlternatives: true,
       altLineOptions: {
         styles: [

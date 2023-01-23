@@ -1,24 +1,26 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { ChangeUserDataDTO } from 'src/app/features/homepage/models/ChangeUserDataDTO';
+import { ResetPasswordDTO } from 'src/app/features/startpage/models/ResetPasswordDTO';
 import { ApiPaths } from 'src/environments/ApiPaths';
 import { environment } from 'src/environments/environment';
 import { User } from '../../models/User';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  url:string =`${environment.baseUrl}/${ApiPaths.Users}`;  
+  url: string = `${environment.baseUrl}/${ApiPaths.Users}`;
 
   constructor(private http: HttpClient) {}
 
-  getAllUsers(): Observable<User[]>{
+  getAllUsers(): Observable<User[]> {
     let url = `${this.url}/all`;
     return this.http.get<User[]>(url);
   }
 
-  getUser( userId:number ): Observable<User>{
+  getUser(userId: number): Observable<User> {
     let url = `${this.url}/getUser/${userId}`;
     return this.http.get<User>(url);
   }
@@ -46,5 +48,19 @@ export class UserService {
   blockUser(id: number): Observable<User>{
     let url = `${this.url}/block`;
     return this.http.get<User>(url, {params: {id: id}});
+  }
+  
+  sendResetPasswordRequest(
+    resetPasswordDTO: ResetPasswordDTO
+  ): Observable<void> {
+    let url = `${this.url}/resetPassword`;
+    return this.http.post<void>(url, resetPasswordDTO);
+  }
+
+  sendChangeUserDataRequest(
+    userDataDTO: ChangeUserDataDTO
+  ): Observable<ChangeUserDataDTO> {
+    let url = `${this.url}/changeUserData`;
+    return this.http.post<ChangeUserDataDTO>(url, userDataDTO);
   }
 }

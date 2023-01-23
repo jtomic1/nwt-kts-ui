@@ -10,20 +10,42 @@ import { BurgerMenuIconComponent } from './components/burger-menu-icon/burger-me
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { TokensCountComponent } from './components/tokens-count/tokens-count.component';
+import { AvatarComponent } from './components/avatar/avatar.component';
 import { MapComponent } from './components/map/map.component';
 import { RideDataComponent } from './components/ride-data/ride-data.component';
 import { NoteComponent } from './components/note/note.component';
 
 @NgModule({
-  declarations: [NavbarComponent, MessageComponent, PersonalDataComponent, ChatButtonComponent, TokensCountComponent, MapComponent, RideDataComponent, NoteComponent, BurgerMenuIconComponent],
+  declarations: [
+    NavbarComponent,
+    MessageComponent,
+    PersonalDataComponent,
+    ChatButtonComponent,
+    TokensCountComponent,
+    BurgerMenuIconComponent,
+    AvatarComponent,
+    MapComponent,
+    RideDataComponent,
+    NoteComponent,
+  ],
   imports: [
     CommonModule,
     MaterialModule,
     FontAwesomeModule,
     ReactiveFormsModule,
     FormsModule,
-    RouterModule
+    RouterModule,
   ],
-  exports: [MaterialModule, NavbarComponent, PersonalDataComponent,ChatButtonComponent,TokensCountComponent, MapComponent, RideDataComponent, NoteComponent],
+  exports: [
+    MaterialModule,
+    NavbarComponent,
+    PersonalDataComponent,
+    ChatButtonComponent,
+    TokensCountComponent,
+    AvatarComponent,
+    MapComponent,
+    RideDataComponent,
+    NoteComponent
+  ],
 })
 export class SharedModule {}

@@ -4,8 +4,10 @@ import { Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { NoteType } from 'src/app/shared/models/enums/NoteType';
 import { Ride } from 'src/app/shared/models/Ride';
+import { MapService } from 'src/app/shared/services/map-service/map.service';
 import { MessageService, MessageType } from 'src/app/shared/services/message-service/message.service';
 import { DriverRideService } from '../../../services/ride-service/driver-ride.service';
+import * as L from 'leaflet';
 import { InRideDriverDialogComponent } from '../in-ride-driver-dialog/in-ride-driver-dialog.component';
 
 @Component({
@@ -15,10 +17,15 @@ import { InRideDriverDialogComponent } from '../in-ride-driver-dialog/in-ride-dr
 })
 export class NewRideDriverDialogComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
+  
   driverId: number = -1;
   noteType :NoteType =  NoteType.CANCEL_FARE;
   openDeniedDialog : boolean = false;
   titleReason: string = "Razlog odbijanja";
+
+  startCord!: L.LatLng;
+  endCord! : L.LatLng;
+  onWayStations : L.LatLng[] = [];
  
   acceptedRide : boolean = false;
   constructor(
@@ -26,11 +33,16 @@ export class NewRideDriverDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data:{ride: Ride},
     private loginService: LoginService,
     private driverRideService: DriverRideService,
+    private mapService: MapService,
     private messageService: MessageService,
     public dialog: MatDialog
   ) { }
+  
 
   ngOnInit(): void {
+    let cords = this.mapService.getLatLngFromStopsString(this.data.ride.stops);
+    this.setLatLng(cords);
+
   }
 
   acceptRide():void {
@@ -53,8 +65,6 @@ export class NewRideDriverDialogComponent implements OnInit {
   }
 
   deniedRide( ){
-
-    //TODO: da mu iskoci prozor za unos razloga odbijanja
     this.openDeniedDialog = true;
 
     this.driverId = this.loginService.user!.id;
@@ -67,5 +77,25 @@ export class NewRideDriverDialogComponent implements OnInit {
     else{
       this.titleReason = "Nismo uspeli da sacuvamo razlog, probajte ponovo."
     }
+  }
+
+  setLatLng(cords:L.LatLng[]){
+    let tempCord = cords.pop();
+    this.endCord = tempCord!;
+    tempCord = cords.pop();
+    while( cords.length >= 1){
+      let temp = tempCord!;
+      this.onWayStations.push(temp);
+      tempCord = cords.pop();
+    }
+    this.startCord = tempCord!;
+  }
+
+  getStartName():string{
+    return this.data.ride.stops.split(";")[0].split(',')[0];
+  }
+  getEndName():string{
+    let stops = this.data.ride.stops.split(";");
+    return stops[stops.length-1].split(',')[0];
   }
 }

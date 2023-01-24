@@ -57,6 +57,10 @@ export class DriverService {
     return this.http.post<Driver[]>(url,isAvailable);
   }
 
+  logOutDriver(){
+    let url = `${this.urlDrivers}/logOutDriver`;
+    return this.http.post<Driver[]>(url,{});   
+  }
 
 
   setMap(map:any){

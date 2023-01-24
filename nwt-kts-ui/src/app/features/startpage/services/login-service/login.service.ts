@@ -5,6 +5,7 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { ChangeUserDataDTO } from 'src/app/features/homepage/models/ChangeUserDataDTO';
 import { Role } from 'src/app/shared/models/enums/Role';
 import { User } from 'src/app/shared/models/User';
+import { DriverService } from 'src/app/shared/services/driver-service/driver.service';
 import { ApiPaths } from 'src/environments/ApiPaths';
 import { environment } from 'src/environments/environment';
 import { LoginData } from '../../models/LoginData';
@@ -22,7 +23,8 @@ export class LoginService {
 
   constructor(
     private http: HttpClient,
-    private authService: SocialAuthService
+    private authService: SocialAuthService,
+    private driverService: DriverService
   ) {}
 
   get token(): string | null {
@@ -92,10 +94,15 @@ export class LoginService {
   }
 
   logout() {
+    if(this.user?.role == Role.DRIVER)
+      this.driverService.logOutDriver().subscribe();
+
     if(this.facebookFlag)
       this.authService.signOut(true);
+
     localStorage.clear();
     this.facebookFlag = false;
     this.userChangedSubject.next(this.user!);
+
   }
 }

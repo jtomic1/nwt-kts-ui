@@ -13,8 +13,6 @@ import { Ride } from 'src/app/shared/models/Ride';
 import { RideService } from '../../services/ride-service/ride.service';
 import { environment } from 'src/environments/environment';
 import { DriverService } from 'src/app/shared/services/driver-service/driver.service';
-import { DriverStatus } from 'src/app/shared/models/enums/DriverStatus';
-import { NewPositionsForDriver } from 'src/app/shared/models/NewPositionsForDriver';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RideRequestDialogComponent } from '../clientpage-dialogs/ride-request-dialog/ride-request-dialog.component';
 import { DriverRideService } from 'src/app/features/driverpage/services/ride-service/driver-ride.service';
@@ -248,13 +246,15 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         missingRouteTolerance: 0
       }
     }).on('routesfound',  (e) => {    
-      console.log("****************")
-      console.log(e);
+      ///////////////////////////////////////////////////////////////////////////
+      this.coordinatesForSimulation.splice(0);
       e.routes[0].coordinates.forEach((cord:any)=>{
         this.coordinatesForSimulation.push( [ cord.lat , cord.lng]);
         // console.log(`[ ${cord.lat}, ${cord.lng} ],`)
       })
       console.log(this.coordinatesForSimulation);
+      ///////////////////////////////////////////////////////////////////////////
+
       this.mapService.getAddress(e.waypoints[0].latLng)
         .pipe(takeUntil(this.destroy$))
         .subscribe((result: any) => {        
@@ -275,11 +275,16 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       this.form.controls['price'].setValue(Math.round(this.vehiclePrice + (this.routeLength / 1000)*120) + ' dinara');
     })
     .on('routeselected', (e) => {
+      
+      ///////////////////////////////////////////////////////////////////////////
+      this.coordinatesForSimulation.splice(0);
       e.route.coordinates.forEach((cord:any)=>{
         this.coordinatesForSimulation.push( [ cord.lat , cord.lng]);
         // console.log(`[ ${cord.lat}, ${cord.lng} ],`)
       })
       console.log(this.coordinatesForSimulation);
+      ///////////////////////////////////////////////////////////////////////////
+      
       this.form.controls['time'].setValue(Math.round(e.route.summary.totalTime / 60) + ' minuta');
       this.routeLength = e.route.summary.totalDistance;
       this.tokenPrice = Math.round((this.vehiclePrice/10 + (this.routeLength / 1000)));
@@ -466,6 +471,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       },
       error: (err) => {
         this.dialogRideOrderProcess!.componentInstance.setMessage("Nismo uspeli da kreiramo zahtev :(");
+        this.dialogRideOrderProcess!.componentInstance.cantFindRide= true;
         this.dialogRideOrderProcess!.close();
         this.messageService.showMessage(err.error.message, MessageType.ERROR);
       }
@@ -484,7 +490,8 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         this.setUpSocketForDriverConformation(ride);
       },
       error: (err) => {
-        this.dialogRideOrderProcess!.componentInstance.setMessage("Nismo uspeli da kreiramo zahtev :(")
+        this.dialogRideOrderProcess!.componentInstance.setMessage("Trenutno nema slobodnih vozača :(");
+        this.dialogRideOrderProcess!.componentInstance.cantFindRide= true;
         this.messageService.showMessage(err.error.message, MessageType.ERROR);
 
       }

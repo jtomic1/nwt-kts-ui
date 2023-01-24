@@ -1,6 +1,6 @@
 <mat-card class="data-card">                        
     <mat-card-title class="card-title">Trenutno ste u vožnji</mat-card-title>  
-    <button *ngIf="opendComplaintDialog" mat-raised-button color="warn" (click)="openComplaintDialog()">Podnesi zalbu administratorima</button>
+    <button *ngIf="!opendComplaintDialog" mat-raised-button color="warn" (click)="openComplaintDialog()">Podnesi zalbu administratorima</button>
     <app-note *ngIf="opendComplaintDialog"
         [title]="titleReason"
         [placeholder]="'Morate uneti razlog žalbe na vožnju ...'"

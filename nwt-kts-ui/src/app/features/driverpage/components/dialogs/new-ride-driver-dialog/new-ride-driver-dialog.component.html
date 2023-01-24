@@ -1,22 +1,63 @@
 <h2 mat-dialog-title>
-    Nova vožnja
+    Zahtev za novu vožnju
 </h2>
 
 <mat-dialog-content class="mat-typography">
-    <h4> {{data.ride.stops}}</h4>
+    <div>
+        <app-map
+            [readOnly]="true"
+            [addWaypoints]="true"
+            [startCoord]="startCord"
+            [endCoord]="endCord"
+            [onWayStations]="onWayStations"
+            [mapInDialog]="true"
+            [displayRoute]="true"
+        >
+        </app-map>
+        <div class="table">
+            <div class="col">
+                <div>
+                    <span class="info-text">Početna stanica:</span>
+                    <span class="info-data">{{getStartName()}}</span>
+                </div>
+                <div>
+                    <span class="info-text">Odredište:</span>
+                    <span  class="info-data">{{getEndName()}}</span>
+                </div>
+            </div>
+            <div class="col">
+                
+                <div>
+                    <span class="info-text">Vreme trajanja:</span>
+                    <span class="info-data">{{data.ride.duration}}</span>
+                </div>
+                <div>
+                    <span class="info-text">Zarada:</span>
+                    <span class="info-data">
+                        <app-tokens-count
+                        [isCurrentUserTokens]="false"
+                        [value]="data.ride.price"
+                        >
+                        </app-tokens-count>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div *ngIf="acceptedRide" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <h3>Čeka se potvrda klijenta</h3>
         <mat-spinner ></mat-spinner>
     </div>
+    
 </mat-dialog-content>
 
-<mat-dialog-actions align="center" *ngIf="!acceptedRide" >
+<mat-dialog-actions align="center" *ngIf="!acceptedRide && !openDeniedDialog">
     <button mat-raised-button color="primary"(click)="acceptRide()" >Prihvati</button>
     <button mat-raised-button color="warn"  (click)="deniedRide()">Otkaži</button>
 </mat-dialog-actions>
-
-<app-note *ngIf="openDeniedDialog"
+<mat-dialog-actions align="center" *ngIf="openDeniedDialog">
+    <app-note *ngIf="openDeniedDialog"
     [title]="titleReason"
     [placeholder]="'Morate uneti razlog odbijanja ...'"
     [offenderId]="driverId"
@@ -24,4 +65,5 @@
     class=" cancelConfirmationDialog"
     (noteSent)="closeDialog($event)"
     >
-</app-note>
+    </app-note>
+</mat-dialog-actions>

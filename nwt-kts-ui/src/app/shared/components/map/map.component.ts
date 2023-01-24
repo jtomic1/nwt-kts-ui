@@ -1,6 +1,8 @@
 import { AfterViewInit, Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
 import 'leaflet-routing-machine'
+import { DriverService } from '../../services/driver-service/driver.service';
+
 
 @Component({
   selector: 'app-map',
@@ -14,6 +16,10 @@ export class MapComponent implements AfterViewInit {
   @Input() startCoord!: L.LatLng;
   @Input() onWayStations!: L.LatLng[];
   @Input() endCoord!: L.LatLng;
+  @Input() mapInDialog: boolean = false;
+  @Input() displayDrivers : boolean = false;
+  @Input() displayRoute : boolean = false;
+
 
   @Output() startChanged = new EventEmitter<L.LatLng>();
   @Output() endChanged = new EventEmitter<L.LatLng>();
@@ -29,14 +35,28 @@ export class MapComponent implements AfterViewInit {
   isDestinationSet: boolean = false;
   private route: any;
 
-  constructor() { }
+  constructor(
+    private driverService: DriverService
+  ) { }
 
   ngAfterViewInit(): void {
     this.initMap();
+    if(this.displayDrivers){
+      this.driverService.setMap(this.map);
+    }
+    if(this.displayRoute){
+      
+      this.map.setView([(this.startCoord.lat+this.endCoord.lat)/2, (this.startCoord.lng+this.endCoord.lng)/2], 13);
+      this.setStartingMarker();
+      this.setDestinationMarker();
+      this.makeRoute();
+      this.addOnWayStations();
+    }
+    
+    this.setReadOnly();
   }
 
   private initMap(): void {
-    this.setReadOnly();
     this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 14);
 
     var default_map = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
@@ -75,13 +95,14 @@ export class MapComponent implements AfterViewInit {
 
   setReadOnly(): void {
     if (this.readOnly) {
+      console.log("dsoamdoan");
       this.mapDiv.nativeElement.style.pointerEvents = 'none';
     }
   }
 
   setStartingMarker(): void {
     if (!this.isStartSet) {
-      this.startMarker = L.marker([this.startCoord.lat, this.startCoord.lng], {draggable: true});
+      this.startMarker = L.marker([this.startCoord.lat, this.startCoord.lng], {draggable: false});
       this.startMarker.addTo(this.map);      
       this.isStartSet = true; 
     } else {
@@ -95,7 +116,7 @@ export class MapComponent implements AfterViewInit {
 
   setDestinationMarker(): void {
     if (!this.isDestinationSet) {
-      this.destinationMarker = L.marker([this.endCoord.lat, this.endCoord.lng], {draggable: true});
+      this.destinationMarker = L.marker([this.endCoord.lat, this.endCoord.lng], {draggable: false});
       this.destinationMarker.addTo(this.map);
       this.isDestinationSet = true;
       this.makeRoute();

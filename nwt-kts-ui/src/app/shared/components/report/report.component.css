@@ -1,0 +1,32 @@
+.main-conteiner {
+    display: flex;
+    flex-direction: column;
+}
+
+.date-range-picker {
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+}
+
+.button {
+    display: flex;
+    justify-content: center;
+}
+
+.button button  {
+    min-width: 260px;
+}
+
+.chart {
+    display: flex;
+    justify-content: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    width: 100%;
+}
+
+.data {
+    display: flex;
+    justify-content: space-around;
+}

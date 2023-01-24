@@ -4,7 +4,8 @@ import {
   faUserGear,
   faUserPen,
   faUserPlus,
-  faUserSlash
+  faUserSlash,
+  faChartColumn
 } from '@fortawesome/free-solid-svg-icons';
 import { DrawerOption } from 'src/app/features/startpage/models/DrawerOption';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -55,6 +56,12 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
+    let reports: DrawerOption = {
+      name: 'Izveštaji',
+      route: 'reports',
+      icon: faChartColumn,
+    };
+
     // MOCK
     let option2: DrawerOption = {
       name: 'Mock Option 2',
@@ -72,7 +79,7 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    return [profile, option2, option3, option4];
+    return [profile, reports, option2, option3, option4];
   }
 
   getDriverOptions(): DrawerOption[] {
@@ -82,7 +89,13 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    return [profile];
+    let reports: DrawerOption = {
+      name: 'Izveštaji',
+      route: 'reports',
+      icon: faChartColumn,
+    }
+
+    return [profile, reports];
   }
 
   getAdminOptions(): DrawerOption[] {

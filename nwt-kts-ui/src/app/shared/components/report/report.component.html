@@ -1,0 +1,51 @@
+<div class="main-container">
+    <div class="date-range-picker">
+        <mat-form-field appearance="fill">
+            <mat-label>Unesite opseg datuma</mat-label>
+            <mat-date-range-input [formGroup]="range" [max]="max" [rangePicker]="picker">
+              <input matStartDate formControlName="start" placeholder="Start date">
+              <input matEndDate formControlName="end" placeholder="End date">
+            </mat-date-range-input>
+            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+    </div>
+    <div class="button">
+        <button mat-raised-button color="primary" (click)="generateReport()">Generiši izveštaj</button>
+    </div>
+    <div class="chart">
+        <canvas id="ridesPerDay" width="700" height="250"></canvas>
+    </div>
+    <div *ngIf="showData" class="data">
+        <div>
+            Ukupno vožnji u ovom vremenskom opsegu: {{sumOfRides}}
+        </div>
+        <div>
+            Prosečno vožnji po danu: {{averageRidesPerDay}}
+        </div>
+    </div>
+    <div class="chart">
+        <canvas id="kilometersPerDay" width="700" height="250"></canvas>
+    </div>
+    <div *ngIf="showData" class="data">
+        <div>
+            Ukupno pređenih kilometara u ovom vremenskom opsegu: {{sumOfKilometers}}
+        </div>
+        <div>
+            Prosečno pređenih kilometara po danu: {{averageKilometersPerDay}}
+        </div>
+    </div>
+    <div class="chart">
+        <canvas id="moneyPerDay" width="700" height="250"></canvas>
+    </div>
+    <div *ngIf="showData" class="data">
+        <div>
+            Ukupno novca u ovom vremenskom opsegu: {{sumOfMoney}}
+        </div>
+        <div>
+            Prosečno novca po danu: {{averageMoneyPerDay}}
+        </div>
+    </div>
+
+</div>

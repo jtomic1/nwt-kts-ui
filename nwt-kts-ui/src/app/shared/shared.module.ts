@@ -14,6 +14,7 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { MapComponent } from './components/map/map.component';
 import { RideDataComponent } from './components/ride-data/ride-data.component';
 import { NoteComponent } from './components/note/note.component';
+import { ReportComponent } from './components/report/report.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NoteComponent } from './components/note/note.component';
     MapComponent,
     RideDataComponent,
     NoteComponent,
+    ReportComponent,
   ],
   imports: [
     CommonModule,

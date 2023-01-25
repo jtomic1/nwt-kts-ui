@@ -8,6 +8,8 @@ import { HomepageRoutingModule } from './homepage.routing';
 import { RegisterDriverComponent } from './components/register-driver/register-driver.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DriverChangeListComponent } from './components/driver-change/driver-change-list/driver-change-list.component';
+import { FareHistoryComponent } from './components/fare-history/fare-history.component';
+import { ClientFareDetailsComponent } from './components/client-fare-details/client-fare-details.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { DriverChangeListComponent } from './components/driver-change/driver-cha
     EditProfileComponent,
     RegisterDriverComponent,
     DriverChangeListComponent,
+    FareHistoryComponent,
+    ClientFareDetailsComponent,
   ],
   imports: [
     CommonModule,

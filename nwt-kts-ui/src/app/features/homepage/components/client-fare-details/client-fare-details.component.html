@@ -1,0 +1,32 @@
+<div class="main-container">
+  <h2 class="driver-title">Detalji o vozaču</h2>
+  <table>
+    <tr>
+      <td align="center" colspan="2">
+        <app-avatar [placeholder]="fareData.driverProfilePhoto"></app-avatar>
+      </td>
+    </tr>
+    <tr>
+      <td align="right">Ime i prezime:&nbsp;</td>
+      <td align="left" class="bold">{{ fareData.driverFullName }}</td>
+    </tr>
+    <tr>
+      <td align="right">Vozilo:&nbsp;</td>
+      <td align="left" class="bold">{{ fareData.vehicle }}</td>
+    </tr>
+  </table>
+
+  <h2 class="driver-title" style="margin-top: 10px">Ocene</h2>
+  <div class="ratings-container">
+    <app-rating-card
+      *ngFor="let rating of fareData.ratings"
+      [rating]="rating"
+    ></app-rating-card>
+    <h2 *ngIf="fareData.ratings.length === 0">Vožnja nije ocenjena!</h2>
+  </div>
+
+  <!-- <mat-action-row style="align-items: center">
+    <button mat-button color="accent">ODOBRI</button>
+    <button mat-button color="warn">OBRIŠI</button>
+  </mat-action-row> -->
+</div>

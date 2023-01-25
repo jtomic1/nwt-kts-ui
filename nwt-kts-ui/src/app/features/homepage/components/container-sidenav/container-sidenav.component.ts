@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  faClockRotateLeft,
   faUserGear,
   faUserPen,
   faUserPlus,
-  faUserSlash
+  faUserSlash,
 } from '@fortawesome/free-solid-svg-icons';
 import { DrawerOption } from 'src/app/features/startpage/models/DrawerOption';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -55,11 +56,10 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    // MOCK
-    let option2: DrawerOption = {
-      name: 'Mock Option 2',
-      route: 'mock',
-      icon: faUserPen,
+    let history: DrawerOption = {
+      name: 'Istorija vožnji',
+      route: 'fareHistory',
+      icon: faClockRotateLeft,
     };
     let option3: DrawerOption = {
       name: 'Mock Option 3',
@@ -72,7 +72,7 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    return [profile, option2, option3, option4];
+    return [profile, history, option3, option4];
   }
 
   getDriverOptions(): DrawerOption[] {

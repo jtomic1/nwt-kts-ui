@@ -10,6 +10,8 @@ import { User } from '../../models/User';
 })
 export class AvatarComponent implements OnInit {
   @Input() placeholder: string | null = null;
+  @Input() width: string = '150px';
+  @Input() height: string = '150px';
 
   constructor(private loginService: LoginService) {}
 
@@ -25,7 +27,7 @@ export class AvatarComponent implements OnInit {
   }
 
   get roleClass(): string {
-    if (this.placeholder !== null) return 'shadow-red';
+    if (this.placeholder !== null) return 'shadow-gray';
     return getAvatarClass(this.user.role);
   }
 }

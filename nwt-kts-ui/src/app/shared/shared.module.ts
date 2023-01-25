@@ -14,6 +14,7 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { MapComponent } from './components/map/map.component';
 import { RideDataComponent } from './components/ride-data/ride-data.component';
 import { NoteComponent } from './components/note/note.component';
+import { RatingCardComponent } from './components/rating-card/rating-card.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { NoteComponent } from './components/note/note.component';
     MapComponent,
     RideDataComponent,
     NoteComponent,
+    RatingCardComponent,
   ],
   imports: [
     CommonModule,
@@ -45,7 +47,8 @@ import { NoteComponent } from './components/note/note.component';
     AvatarComponent,
     MapComponent,
     RideDataComponent,
-    NoteComponent
+    NoteComponent,
+    RatingCardComponent,
   ],
 })
 export class SharedModule {}

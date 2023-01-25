@@ -1,0 +1,32 @@
+.main-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.driver-title {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.bold {
+  font-weight: 550;
+}
+
+td {
+  font-size: large;
+}
+
+.ratings-container{
+  display: flex;
+  justify-content: center;
+  overflow-x: auto;
+  gap: 6px;
+  width: 100%;
+}

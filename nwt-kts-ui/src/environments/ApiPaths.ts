@@ -22,4 +22,7 @@ export enum ApiPaths {
 
   // Admin
   Admin = 'admin',
+
+  // Fares
+  Fares = 'fares',
 }

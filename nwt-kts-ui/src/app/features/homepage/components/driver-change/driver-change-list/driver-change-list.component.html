@@ -4,7 +4,7 @@
     [disabled]="true"
     style="border-bottom: 4px solid lightgray"
   >
-    <mat-expansion-panel-header class="info-bar-container">
+    <mat-expansion-panel-header>
       <div class="panel-cell">
         <h2 class="header-text">Korisnik</h2>
       </div>
@@ -15,7 +15,7 @@
   </mat-expansion-panel>
 
   <mat-expansion-panel *ngFor="let item of items; let i = index">
-    <mat-expansion-panel-header class="info-bar-container">
+    <mat-expansion-panel-header>
       <div class="panel-cell">
         <h3 style="display: inline; text-decoration: solid">
           {{ item.driver.email }}

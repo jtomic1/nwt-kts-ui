@@ -127,8 +127,7 @@ export class ReportComponent implements OnInit, OnDestroy {
     return false;
   }
 
-  setUserAndType() {
-    console.log(this.selectedValue);
+  setUserAndType() {    
     if (this.selectedValue.name === 'Svi klijenti') {
       this.reportType = ReportType.ALL_CLIENTS;
     } else if (this.selectedValue.name === 'Svi vozači') {

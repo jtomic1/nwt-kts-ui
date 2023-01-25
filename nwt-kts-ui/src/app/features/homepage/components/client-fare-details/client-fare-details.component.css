@@ -12,7 +12,7 @@
   border-bottom: 1px solid lightgray;
   border-top: 1px solid lightgray;
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .bold {
@@ -29,4 +29,17 @@ td {
   overflow-x: auto;
   gap: 6px;
   width: 100%;
+}
+
+.action-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.action-container button {
+  min-width: 205px;
 }

@@ -20,9 +20,7 @@ export enum ApiPaths {
   GetTokenStatus = 'getTokenStatus',
   ResetPassword = 'resetPassword',
 
-  // Admin
   Admin = 'admin',
-
-  // Fares
   Fares = 'fares',
+  Rating = 'rating',
 }

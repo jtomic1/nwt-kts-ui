@@ -18,6 +18,8 @@ export class RatingCardComponent implements OnInit {
 
   getDefaultRating(): Rating {
     return {
+      fareId: 0,
+      clientId: 0,
       userFullName: 'null',
       userProfilePhoto: 'null',
       vehicleRating: 1,

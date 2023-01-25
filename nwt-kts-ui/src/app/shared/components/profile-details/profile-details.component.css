@@ -1,0 +1,24 @@
+mat-card {
+  width: 240px;
+  height: 190px;
+  border: 2px solid gray;
+}
+
+.data-container {
+  display: flex; 
+  align-items: center; 
+  flex-direction: column;
+}
+
+li {
+  min-width: 200px;
+}
+
+.heading-box{
+  min-width: 45px;
+  display: inline-block;
+}
+
+.bold {
+  font-weight: 580;
+}

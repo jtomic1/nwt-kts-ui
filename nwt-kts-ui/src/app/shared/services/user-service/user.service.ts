@@ -63,4 +63,9 @@ export class UserService {
     let url = `${this.url}/changeUserData`;
     return this.http.post<ChangeUserDataDTO>(url, userDataDTO);
   }
+
+  getClientsAndDrivers(): Observable<User[]> {
+    let url =  `${this.url}/getClientsAndDrivers`;
+    return this.http.get<User[]>(url);
+  }
 }

@@ -1,23 +1,35 @@
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Chart, registerables  } from 'chart.js';
 import 'chartjs-adapter-date-fns';
+import { Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { ReportType } from '../../models/enums/ReportType';
 import { Report } from '../../models/Report';
+import { User } from '../../models/User';
 import { MessageService, MessageType } from '../../services/message-service/message.service';
 import { ReportService } from '../../services/report-service/report.service';
+import { UserService } from '../../services/user-service/user.service';
 Chart.register(...registerables);
+
+interface SelectOptions {
+  id: number;
+  name: string;
+  surname: string;
+  email: string;
+  role: string;
+}
 
 @Component({
   selector: 'app-report',
   templateUrl: './report.component.html',
   styleUrls: ['./report.component.css']
 })
-export class ReportComponent implements OnInit, AfterViewInit {
+export class ReportComponent implements OnInit, OnDestroy {
+  destroy$: Subject<boolean> = new Subject<boolean>();
 
-  @Input() reportType: ReportType = ReportType.ONE_CLIENT;
-  @Input() userId: number = 0;
+  reportType: ReportType = ReportType.ONE_CLIENT;
+  userId: number = 0;
 
   range = new FormGroup({
     start: new FormControl(),
@@ -43,14 +55,20 @@ export class ReportComponent implements OnInit, AfterViewInit {
 
   showData: boolean = false;
 
+  selectedValue!: SelectOptions;
+  options: SelectOptions[] = [];
+  isAdminLogged: boolean = false;
+
   constructor(private messageService: MessageService,
               private reportService: ReportService,
-              private loginService: LoginService) { }
-
-  ngAfterViewInit(): void {
-    
+              private loginService: LoginService,
+              private userService: UserService) { }
+  
+  
+  ngOnDestroy(): void {
+    this.destroy$.next(true);
+    this.destroy$.unsubscribe();
   }
-    
 
   ngOnInit(): void {
     if (this.loginService.user?.role === 'ROLE_USER') {
@@ -59,21 +77,25 @@ export class ReportComponent implements OnInit, AfterViewInit {
     } else if (this.loginService.user?.role === 'ROLE_DRIVER') {
       this.reportType = ReportType.ONE_DRIVER;
       this.userId = this.loginService.user.id;
+    } else if (this.loginService.user?.role === 'ROLE_ADMIN') {
+      this.isAdminLogged = true;
+      this.loadUsers();
     }
   }
 
   generateReport() {
     if (this.isRangeValid()) { 
-      this.ridesPerDayData = [];
-      this.kilometersPerDayData = [];
-      this.moneyPerDayData = [];
-      var report: Report = {
-        reportType: this.reportType,
-        userId: this.userId,
-        start: this.range.controls['start'].value.toString(),
-        end: this.range.controls['end'].value.toString()
-      };      
-      this.reportService.getReports(report)
+      if (this.isAdminLogged) {
+        if (this.selectedValue !== undefined) {
+          this.setUserAndType();
+        } else {
+          this.messageService.showMessage('Korisnik nije izabran!', MessageType.ERROR);
+          return;
+        }
+      }      
+      this.restartAllData();  
+      this.reportService.getReports(this.getReport())
+        .pipe(takeUntil(this.destroy$))
         .subscribe((res: any) => {          
           for (const date in res.ridesPerDay) {
             this.ridesPerDayData.push({x: date, y: res.ridesPerDay[date]});
@@ -90,9 +112,7 @@ export class ReportComponent implements OnInit, AfterViewInit {
           this.averageRidesPerDay = this.sumOfRides/this.ridesPerDayData.length;
           this.averageKilometersPerDay = this.sumOfKilometers/this.kilometersPerDayData.length;
           this.averageMoneyPerDay = this.sumOfMoney/this.moneyPerDayData.length;
-          this.renderRidesPerDayChart();
-          this.renderKilometersPerDayChart();
-          this.renderMoneyPerDayChart();
+          this.renderCharts();
           this.showData = true;
         });
     } else {
@@ -105,6 +125,68 @@ export class ReportComponent implements OnInit, AfterViewInit {
       return true;
     }
     return false;
+  }
+
+  setUserAndType() {
+    console.log(this.selectedValue);
+    if (this.selectedValue.name === 'Svi klijenti') {
+      this.reportType = ReportType.ALL_CLIENTS;
+    } else if (this.selectedValue.name === 'Svi vozači') {
+      this.reportType = ReportType.ALL_DRIVERS;
+    } else if (this.selectedValue.role === 'ROLE_USER') {
+      this.reportType = ReportType.ONE_CLIENT;
+      this.userId = this.selectedValue.id;
+    } else if (this.selectedValue.role === 'ROLE_DRIVER') {
+      this.reportType = ReportType.ONE_DRIVER;
+      this.userId = this.selectedValue.id;
+    }
+  }
+
+  restartAllData() {
+    this.showData = false;
+    this.ridesPerDayData = [];
+    this.kilometersPerDayData = [];
+    this.moneyPerDayData = [];
+    this.sumOfRides = 0;
+    this.sumOfKilometers = 0;
+    this.sumOfMoney = 0;
+    this.averageRidesPerDay = 0;
+    this.averageKilometersPerDay = 0;
+    this.averageMoneyPerDay = 0;
+  }
+
+  getReport(): Report {
+    var report: Report = {
+      reportType: this.reportType,
+      userId: this.userId,
+      start: this.range.controls['start'].value.toString(),
+      end: this.range.controls['end'].value.toString()
+    }; 
+    return report;
+  }
+
+  loadUsers() {
+    this.userService.getClientsAndDrivers()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (res: User[]) => {
+          this.options.push({id: 0, name: 'Svi klijenti', surname: '', email:'', role:''});
+          this.options.push({id: 0, name: 'Svi vozači', surname: '', email:'', role:''});
+          for (let user of res) {
+            this.options.push({id: user.id, name: user.name, surname: user.lastName, email: user.email, role: user.roleString});
+          }
+
+        },
+        error: (err) => {
+          console.log(err.error.message);
+        }
+      });
+  }
+
+  renderCharts() {
+    this.renderRidesPerDayChart();
+    this.renderKilometersPerDayChart();
+    this.renderMoneyPerDayChart();
   }
 
   renderRidesPerDayChart() {

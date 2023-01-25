@@ -123,7 +123,13 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserSlash,
     };
 
-    return [profile, addDriver, driverChangeRequests, blockUsers];
+    let reports: DrawerOption = {
+      name: 'Izveštaji',
+      route: 'reports',
+      icon: faChartColumn,
+    }
+
+    return [profile, addDriver, driverChangeRequests, blockUsers, reports];
   }
 
   closeSidenav(): void {

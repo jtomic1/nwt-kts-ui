@@ -1,15 +1,27 @@
 <div class="main-container">
-    <div class="date-range-picker">
-        <mat-form-field appearance="fill">
-            <mat-label>Unesite opseg datuma</mat-label>
-            <mat-date-range-input [formGroup]="range" [max]="max" [rangePicker]="picker">
-              <input matStartDate formControlName="start" placeholder="Start date">
-              <input matEndDate formControlName="end" placeholder="End date">
-            </mat-date-range-input>
-            <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
-            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-            <mat-date-range-picker #picker></mat-date-range-picker>
-        </mat-form-field>
+    <div class="inputs">
+        <div *ngIf="isAdminLogged" class="select-user">
+            <mat-form-field appearance="fill">
+                <mat-label>Korisnici</mat-label>
+                <mat-select [(ngModel)]="selectedValue" name="food">
+                  <mat-option *ngFor="let option of options" [value]="option">
+                    {{option.name}} {{option.surname}}
+                  </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="date-range-picker">
+            <mat-form-field appearance="fill">
+                <mat-label>Unesite opseg datuma</mat-label>
+                <mat-date-range-input [formGroup]="range" [max]="max" [rangePicker]="picker">
+                  <input matStartDate formControlName="start" placeholder="Start date">
+                  <input matEndDate formControlName="end" placeholder="End date">
+                </mat-date-range-input>
+                <mat-hint>MM/DD/YYYY – MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+        </div>
     </div>
     <div class="button">
         <button mat-raised-button color="primary" (click)="generateReport()">Generiši izveštaj</button>

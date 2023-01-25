@@ -81,8 +81,13 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'editProfile',
       icon: faUserPen,
     };
+    let history: DrawerOption = {
+      name: 'Istorija vožnji',
+      route: 'fareHistory',
+      icon: faClockRotateLeft,
+    };
 
-    return [profile];
+    return [profile, history];
   }
 
   getAdminOptions(): DrawerOption[] {
@@ -90,6 +95,12 @@ export class ContainerSidenavComponent implements OnInit {
       name: 'Podaci o profilu',
       route: 'editProfile',
       icon: faUserPen,
+    };
+
+    let history: DrawerOption = {
+      name: 'Istorija vožnji',
+      route: 'fareHistory',
+      icon: faClockRotateLeft,
     };
 
     let addDriver: DrawerOption = {
@@ -110,7 +121,7 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserSlash,
     };
 
-    return [profile, addDriver, driverChangeRequests, blockUsers];
+    return [profile, history, addDriver, driverChangeRequests, blockUsers];
   }
 
   closeSidenav(): void {

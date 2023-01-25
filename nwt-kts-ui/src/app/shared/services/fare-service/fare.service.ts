@@ -21,4 +21,18 @@ export class FareService {
     let url = `${this.FARES_URL}/client?id=${id}&page=${page}&sort=${sort}`;
     return this.http.get<FareHistoryDTO>(url);
   }
+
+  getFaresByDriver(
+    id: number,
+    page: number,
+    sort: string
+  ): Observable<FareHistoryDTO> {
+    let url = `${this.FARES_URL}/driver?id=${id}&page=${page}&sort=${sort}`;
+    return this.http.get<FareHistoryDTO>(url);
+  }
+
+  getFaresAdmin(page: number, sort: string): Observable<FareHistoryDTO> {
+    let url = `${this.FARES_URL}/admin?page=${page}&sort=${sort}`;
+    return this.http.get<FareHistoryDTO>(url);
+  }
 }

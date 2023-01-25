@@ -1,4 +1,4 @@
-<mat-card mat-elevation-z16>
+<mat-card mat-elevation-z16 *ngIf="mode === 'driver'">
   <div class="data-container">
     <app-avatar
       width="60px"
@@ -13,6 +13,21 @@
       <li>
         <span class="heading-box">Vozilo</span>:
         <span class="bold">{{ fareData.vehicle }}</span>
+      </li>
+    </ul>
+  </div>
+</mat-card>
+<mat-card mat-elevation-z16 *ngIf="mode === 'client'">
+  <div class="data-container">
+    <app-avatar
+      width="60px"
+      height="60px"
+      [placeholder]="client.profilePhoto"
+    ></app-avatar>
+    <ul>
+      <li>
+        <span class="heading-box">Putnik</span>:
+        <span class="bold">{{ client.name + " " + client.lastName }}</span>
       </li>
     </ul>
   </div>

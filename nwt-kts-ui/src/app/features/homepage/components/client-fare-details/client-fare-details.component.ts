@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { mergeMap, of, Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { RatingDialogComponent } from 'src/app/shared/components/rating-dialog/rating-dialog.component';
+import { Role } from 'src/app/shared/models/enums/Role';
 import {
   MessageService,
   MessageType,
@@ -20,6 +21,7 @@ export class ClientFareDetailsComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() fareData!: FareDTO;
+  @Input() role: Role = Role.USER;
 
   constructor(
     private dialog: MatDialog,
@@ -29,6 +31,21 @@ export class ClientFareDetailsComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {}
+
+  get userRole(): Role {
+    return this.loginService.user!.role;
+  }
+
+  get Role(): typeof Role {
+    return Role;
+  }
+
+  get justifyCondition(): boolean {
+    if (this.userRole === Role.ADMIN) return this.fareData.users.length > 1;
+    else if (this.userRole === Role.DRIVER)
+      return this.fareData.users.length > 2;
+    else return false;
+  }
 
   get enableRateButton(): boolean {
     for (let rating of this.fareData.ratings) {

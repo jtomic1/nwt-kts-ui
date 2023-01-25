@@ -4,8 +4,8 @@ import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
+import { Role } from 'src/app/shared/models/enums/Role';
 import { FareService } from 'src/app/shared/services/fare-service/fare.service';
-import { MessageService } from 'src/app/shared/services/message-service/message.service';
 import { FareDTO } from '../../models/FareDTO';
 import { FareHistoryDTO } from '../../models/FareHistoryDTO';
 
@@ -36,12 +36,15 @@ export class FareHistoryComponent implements OnInit, OnDestroy {
 
   constructor(
     private fareService: FareService,
-    private loginService: LoginService,
-    private messageService: MessageService
+    private loginService: LoginService
   ) {}
 
-  get clientId(): number {
+  get userId(): number {
     return this.loginService.user!.id;
+  }
+
+  get userRole(): Role {
+    return this.loginService.user!.role;
   }
 
   ngOnInit(): void {
@@ -63,15 +66,43 @@ export class FareHistoryComponent implements OnInit, OnDestroy {
   }
 
   fetchData(pageNumber: number) {
-    this.fareService
-      .getFaresByClient(this.clientId, pageNumber, this.currentSort)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (res: FareHistoryDTO) => {
-          this.dataSource.data = res.fares;
-          this.count = res.count;
-        },
-      });
+    switch (this.loginService.user!.role) {
+      case Role.USER:
+        this.fareService
+          .getFaresByClient(this.userId, pageNumber, this.currentSort)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (res: FareHistoryDTO) => {
+              this.dataSource.data = res.fares;
+              this.count = res.count;
+            },
+          });
+        break;
+
+      case Role.DRIVER:
+        this.fareService
+          .getFaresByDriver(this.userId, pageNumber, this.currentSort)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (res: FareHistoryDTO) => {
+              this.dataSource.data = res.fares;
+              this.count = res.count;
+            },
+          });
+        break;
+
+      case Role.ADMIN:
+        this.fareService
+          .getFaresAdmin(pageNumber, this.currentSort)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe({
+            next: (res: FareHistoryDTO) => {
+              this.dataSource.data = res.fares;
+              this.count = res.count;
+            },
+          });
+        break;
+    }
   }
 
   ngOnDestroy(): void {

@@ -1,3 +1,4 @@
+import { UserDTO } from 'src/app/shared/models/UserDTO';
 import { Rating } from './Rating';
 
 export interface FareDTO {
@@ -11,4 +12,5 @@ export interface FareDTO {
   driverProfilePhoto: string;
   vehicle: string;
   ratings: Rating[];
+  users: UserDTO[];
 }

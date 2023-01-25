@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FareDTO } from 'src/app/features/homepage/models/FareDTO';
+import { UserDTO } from '../../models/UserDTO';
 
 @Component({
   selector: 'app-profile-details',
@@ -8,8 +9,14 @@ import { FareDTO } from 'src/app/features/homepage/models/FareDTO';
 })
 export class ProfileDetailsComponent implements OnInit {
   @Input() fareData!: FareDTO;
+  @Input() mode: 'driver' | 'client' = 'driver';
+  @Input() clientIndex: number = 0;
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  get client(): UserDTO {
+    return this.fareData.users[this.clientIndex];
+  }
 }

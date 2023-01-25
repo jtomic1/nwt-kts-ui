@@ -1,0 +1,19 @@
+<mat-card mat-elevation-z16>
+  <div class="data-container">
+    <app-avatar
+      width="60px"
+      height="60px"
+      [placeholder]="fareData.driverProfilePhoto"
+    ></app-avatar>
+    <ul>
+      <li>
+        <span class="heading-box">Vozač</span>:
+        <span class="bold">{{ fareData.driverFullName }}</span>
+      </li>
+      <li>
+        <span class="heading-box">Vozilo</span>:
+        <span class="bold">{{ fareData.vehicle }}</span>
+      </li>
+    </ul>
+  </div>
+</mat-card>

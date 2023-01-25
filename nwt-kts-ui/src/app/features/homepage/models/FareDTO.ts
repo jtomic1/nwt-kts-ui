@@ -1,6 +1,7 @@
 import { Rating } from './Rating';
 
 export interface FareDTO {
+  fareId: number;
   startTime: string;
   endTime: string;
   startAddress: string;

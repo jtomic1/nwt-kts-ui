@@ -15,6 +15,8 @@ import { MapComponent } from './components/map/map.component';
 import { RideDataComponent } from './components/ride-data/ride-data.component';
 import { NoteComponent } from './components/note/note.component';
 import { RatingCardComponent } from './components/rating-card/rating-card.component';
+import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
+import { RatingDialogComponent } from './components/rating-dialog/rating-dialog.component';
 
 @NgModule({
   declarations: [
@@ -29,6 +31,8 @@ import { RatingCardComponent } from './components/rating-card/rating-card.compon
     RideDataComponent,
     NoteComponent,
     RatingCardComponent,
+    ProfileDetailsComponent,
+    RatingDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -49,6 +53,8 @@ import { RatingCardComponent } from './components/rating-card/rating-card.compon
     RideDataComponent,
     NoteComponent,
     RatingCardComponent,
+    ProfileDetailsComponent,
+    RatingDialogComponent,
   ],
 })
 export class SharedModule {}

@@ -111,3 +111,12 @@ mat-grid-tile {
     width: 100%;
     z-index: 999;
   }
+
+.tokens{
+    color: gold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    cursor: pointer;
+}

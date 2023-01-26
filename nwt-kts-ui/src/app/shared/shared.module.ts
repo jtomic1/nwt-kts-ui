@@ -18,6 +18,7 @@ import { ReportComponent } from './components/report/report.component';
 import { RatingCardComponent } from './components/rating-card/rating-card.component';
 import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
 import { RatingDialogComponent } from './components/rating-dialog/rating-dialog.component';
+import { DriverStatusComponent } from './components/driver-status/driver-status.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { RatingDialogComponent } from './components/rating-dialog/rating-dialog.
     RatingCardComponent,
     ProfileDetailsComponent,
     RatingDialogComponent,
-  ],
+    DriverStatusComponent],
   imports: [
     CommonModule,
     MaterialModule,

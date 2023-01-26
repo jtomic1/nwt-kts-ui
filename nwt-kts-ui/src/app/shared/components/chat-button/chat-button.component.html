@@ -1,8 +1,9 @@
 <button *ngIf="loggedUserId != -1" 
 mat-fab extended  
-class="float live-chat-btn" 
+class="float live-chat-btn " 
 [routerLink]="['/liveChat']" 
 (click)="disableAnimation()"
-[ngClass]="{'animated':isAnimated}">
+[ngClass]="{'heart-rate':isAnimated}"
+>
 <mat-icon class="my-float" >wechat</mat-icon>
 </button>

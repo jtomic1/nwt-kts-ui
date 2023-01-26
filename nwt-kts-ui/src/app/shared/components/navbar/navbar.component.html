@@ -6,7 +6,11 @@
     ></app-burger-menu-icon>
     <span class="logo" [routerLink]="['/home']">RideShare</span>
   </span>
-  <span *ngIf="loginService.isTokenPresent">
+  <div *ngIf="loginService.isTokenPresent" class="user-data">
+    
+    <div *ngIf=" user && user.role == driverRole" class="driver-status">
+      <app-driver-status></app-driver-status>
+    </div>
     <app-tokens-count
       class="logout"
       [routerLink]="['/tokens']"
@@ -24,5 +28,5 @@
         style="margin-left: 6px"
       ></fa-icon>
     </div>
-  </span>
+  </div>
 </mat-toolbar>

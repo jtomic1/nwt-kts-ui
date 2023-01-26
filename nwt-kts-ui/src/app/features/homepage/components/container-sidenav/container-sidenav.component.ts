@@ -30,6 +30,13 @@ export class ContainerSidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.drawerService.opened = false;
+    // this.loginService.userChanged.subscribe(
+    //   (user)=>{
+    //     if(user != null ){
+    //       this.optionArray = this.getOptionArrayFromRole(user.role);
+    //     }
+    //   }
+    // )
     if (this.user == null) this.router.navigateByUrl('login');
     else this.optionArray = this.getOptionArrayFromRole(this.user.role);
   }

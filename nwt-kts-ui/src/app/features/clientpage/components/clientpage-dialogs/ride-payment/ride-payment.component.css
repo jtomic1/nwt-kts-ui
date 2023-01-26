@@ -1,0 +1,28 @@
+.table{
+    padding: 100px 0;
+    color: white;
+    display:flex;
+    flex:1 1 0px;
+    width: 100%;
+}
+
+.table .col{
+    width: 100%;
+}
+
+.table .col div{
+    display: flex;
+    flex: 1 1 0px;
+    text-align: left;
+}
+
+.info-text{
+    width: 50%;
+    text-align: end;
+    color: rgb(180, 179, 180);
+}
+
+.info-data{
+    width: 100%;
+    text-align: center;
+}

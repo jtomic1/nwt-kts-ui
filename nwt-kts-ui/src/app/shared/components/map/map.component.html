@@ -1,5 +1,5 @@
-<div class="map-container">
+<div #mapDiv [ngClass]="{'map-container' : !mapInDialog, 'in-dialog': mapInDialog}" id="mapDiv">
     <div class="map-frame">
-      <div #mapDiv id="map"></div>
+      <div  id="map"></div>
     </div>
 </div>

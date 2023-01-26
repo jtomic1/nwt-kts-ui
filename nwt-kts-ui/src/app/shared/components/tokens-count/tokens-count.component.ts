@@ -10,7 +10,9 @@ import { TokensService } from '../../services/tokens-service/tokens.service';
 export class TokensCountComponent implements OnInit {
 
   userId:number = -1;
-  value : number= 0;
+  @Input() isMuted :boolean = false;
+  
+  @Input() value : number= 0;
   @Input()  isCurrentUserTokens:boolean = false;
   constructor(
     private tokensService:TokensService,
@@ -22,8 +24,10 @@ export class TokensCountComponent implements OnInit {
     if( this.isCurrentUserTokens ){
       this.loginService.userChanged.subscribe(
         (user) =>{
-          this.userId = user.id;
-          this.updateTokensForUser();
+          if(user != null ){
+            this.userId = user.id;
+            this.updateTokensForUser();
+          }
         }
       )
       this.tokensService.currentUserTokensChanged.subscribe(

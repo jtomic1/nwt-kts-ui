@@ -1,6 +1,6 @@
 <mat-card class="main-card">
     <mat-card-content>
-        <mat-grid-list cols="4" rowHeight="160px">
+        <mat-grid-list cols="5" rowHeight="160px">
             <mat-grid-tile colspan="3" rowspan="4">
                 <div class="map-container">
                     <div class="map-frame">
@@ -8,7 +8,7 @@
                     </div>
                 </div>
             </mat-grid-tile>
-            <mat-grid-tile colspan="1" rowspan="4">
+            <mat-grid-tile colspan="2" rowspan="4" *ngIf="!rideIsGoing">
                 <mat-card class="data-card">                        
                     <mat-card-title class="card-title">Podaci o vožnji</mat-card-title>  
                     <mat-card-content [style.overflow]="'auto'" [style.height.px]="'550'">
@@ -106,8 +106,11 @@
                         <mat-form-field class="input-field" appearance="fill">
                             <mat-label>Cena vožnje</mat-label>
                             <input matInput formControlName="price" readonly>
-                            <mat-icon matSuffix>attach_money</mat-icon>
+                            <!-- <mat-icon matSuffix>attach_money</mat-icon> -->
                             <!-- <mat-icon matSuffix>money</mat-icon> -->
+                            <div class="tokens">
+                                <mat-icon>monetization_on</mat-icon>{{tokenPrice}}
+                            </div>
                         </mat-form-field>
 
                         <mat-form-field class="input-field-last" appearance="fill">
@@ -115,16 +118,29 @@
                             <input matInput formControlName="time" readonly>
                             <mat-icon matSuffix>access_time</mat-icon>        
                         </mat-form-field>
-                        
+                        <mat-form-field class="input-field-last" appearance="fill" *ngIf="schedulingRide">
+                            <mat-label>Željeno vreme polaska</mat-label>
+                            <input 
+                            matInput type="text"
+                            formControlName="selectedStartTime"
+                            value="{{selectedStartTime}}"
+                            > 
+                            <!-- angularMaterialTimepicker -->
+                            <mat-icon matSuffix>access_time</mat-icon>        
+                        </mat-form-field>
                         <div class="buttons">
-                            <button mat-raised-button (click)="scheduleRide()">Zakaži</button>
-                            <button mat-raised-button color="primary" (click)="orderRide()">Poruči</button>
+                            <button mat-raised-button (click)="cancelScheduleRide()" *ngIf="schedulingRide">Otkaži zakazivanje</button>
+                            <button mat-raised-button (click)="scheduleRide()" *ngIf="!schedulingRide">Zakaži</button>
+                            <button mat-raised-button color="primary" (click)="orderRide()">{{orderText}}</button>
                         </div>        
                     
                       </form>                                         
                     </mat-card-content>                                                                                              
                   </mat-card>
             </mat-grid-tile>           
+            <mat-grid-tile colspan="2" rowspan="4" *ngIf="rideIsGoing">
+                <app-client-in-ride *ngIf="rideIsGoing" [ride]="rideForChild"></app-client-in-ride>
+            </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>
 </mat-card>

@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import * as L from 'leaflet';
-import 'leaflet-routing-machine';
+// import * as L from 'leaflet';
+// import 'leaflet-routing-machine';
 import { Subject, takeUntil } from 'rxjs';
 import { MapComponent } from 'src/app/shared/components/map/map.component';
 import { RideDataComponent } from 'src/app/shared/components/ride-data/ride-data.component';

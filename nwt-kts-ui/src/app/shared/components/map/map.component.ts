@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
 import * as L from 'leaflet';
-import 'leaflet-routing-machine'
+import 'leaflet-routing-machine';
 
 @Component({
   selector: 'app-map',
@@ -114,16 +114,16 @@ export class MapComponent implements AfterViewInit {
     }
   }
 
-  makeRoute(): void {
+  makeRoute(): void {    
     this.map.removeLayer(this.startMarker);
     this.map.removeLayer(this.destinationMarker);
     this.route = L.Routing.control({
       waypoints: [
         L.latLng(this.startMarker.getLatLng()),
         L.latLng(this.destinationMarker.getLatLng())
-      ],
+      ],      
       //draggableWaypoints: false,
-      addWaypoints: this.addWaypoints,     
+      addWaypoints: this.addWaypoints,       
       showAlternatives: true,
       altLineOptions: {
         styles: [

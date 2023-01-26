@@ -102,7 +102,6 @@ export class MapComponent implements AfterViewInit {
 
   setReadOnly(): void {
     if (this.readOnly) {
-      console.log("dsoamdoan");
       this.mapDiv.nativeElement.style.pointerEvents = 'none';
     }
   }

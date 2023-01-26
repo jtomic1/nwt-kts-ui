@@ -21,7 +21,6 @@ export class InRideDriverDialogComponent implements OnInit {
   startCord!: L.LatLng;
   endCord! : L.LatLng;
   onWayStations : L.LatLng[] = [];
-  initMap :boolean =false;
 
 
   constructor(
@@ -37,7 +36,6 @@ export class InRideDriverDialogComponent implements OnInit {
   ngOnInit(): void {
     let cords: L.LatLng[] = this.mapService.getLatLngFromStopsString(this.data.ride.stops);
     this.setLatLng(cords);
-    this.initMap = true;
   }
 
   finishRide(){

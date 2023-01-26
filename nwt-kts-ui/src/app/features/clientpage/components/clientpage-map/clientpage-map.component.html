@@ -1,6 +1,6 @@
 <mat-card class="main-card">
     <mat-card-content>
-        <mat-grid-list cols="4" rowHeight="160px">
+        <mat-grid-list cols="5" rowHeight="160px">
             <mat-grid-tile colspan="3" rowspan="4">
                 <div class="map-container">
                     <div class="map-frame">
@@ -8,7 +8,7 @@
                     </div>
                 </div>
             </mat-grid-tile>
-            <mat-grid-tile colspan="1" rowspan="4" *ngIf="!rideIsGoing">
+            <mat-grid-tile colspan="2" rowspan="4" *ngIf="!rideIsGoing">
                 <mat-card class="data-card">                        
                     <mat-card-title class="card-title">Podaci o vožnji</mat-card-title>  
                     <mat-card-content [style.overflow]="'auto'" [style.height.px]="'550'">
@@ -138,7 +138,7 @@
                     </mat-card-content>                                                                                              
                   </mat-card>
             </mat-grid-tile>           
-            <mat-grid-tile colspan="1" rowspan="4" *ngIf="rideIsGoing">
+            <mat-grid-tile colspan="2" rowspan="4" *ngIf="rideIsGoing">
                 <app-client-in-ride *ngIf="rideIsGoing" [ride]="rideForChild"></app-client-in-ride>
             </mat-grid-tile>
         </mat-grid-list>

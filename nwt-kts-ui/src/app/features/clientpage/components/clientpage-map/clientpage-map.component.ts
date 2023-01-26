@@ -82,10 +82,23 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     
   }
   ngAfterViewInit(): void {
-    
     this.initMap();
     this.setTaxiDriversOnMap();
     this.setUpSocket();
+    this.checkIsClientInRide();
+  }
+
+  checkIsClientInRide(){
+    this.rideSerice.isClientInRide(this.logInService.user!.id)
+    .subscribe(
+      {
+        next: (res:boolean)=>{
+          if(res){
+            this.rideIsGoing = true;
+          }
+        }
+      }
+    )
   }
 
   setUpSocket(){

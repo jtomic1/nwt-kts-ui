@@ -92,7 +92,9 @@ export class DriverHomepageComponent implements OnInit {
 
     this.socket.on('driver-start-driving', () =>{
       // this.startCurrentRideDialog();
-      this.checkDriverStatus(this.loginService.user!.id);
+      // this.checkDriverStatus(this.loginService.user!.id);
+    
+      window.location.reload();
     });
 
     this.socket.on("notification-reservation",(message:ReservationNotification)=>{

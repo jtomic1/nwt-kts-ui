@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   faClockRotateLeft,
+  faHeart,
   faUserGear,
   faUserPen,
   faUserPlus,
@@ -61,10 +62,10 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'fareHistory',
       icon: faClockRotateLeft,
     };
-    let option3: DrawerOption = {
-      name: 'Mock Option 3',
-      route: 'mock',
-      icon: faUserPen,
+    let favourites: DrawerOption = {
+      name: 'Omiljene vožnje',
+      route: 'favourites',
+      icon: faHeart,
     };
     let option4: DrawerOption = {
       name: 'Mock Option 4',
@@ -72,7 +73,7 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    return [profile, history, option3, option4];
+    return [profile, history, favourites, option4];
   }
 
   getDriverOptions(): DrawerOption[] {

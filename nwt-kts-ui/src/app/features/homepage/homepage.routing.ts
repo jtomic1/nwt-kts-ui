@@ -4,6 +4,7 @@ import { BlockingUsersComponent } from '../adminpage/components/blocking-users/b
 import { DriverChangeListComponent } from './components/driver-change/driver-change-list/driver-change-list.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { FareHistoryComponent } from './components/fare-history/fare-history.component';
+import { FavouriteRidesComponent } from './components/favourite-rides/favourite-rides.component';
 import { RegisterDriverComponent } from './components/register-driver/register-driver.component';
 
 const routes: Routes = [
@@ -13,6 +14,7 @@ const routes: Routes = [
   { path: 'driverChangeRequests', component: DriverChangeListComponent },
   { path: 'blocking', component: BlockingUsersComponent },
   { path: 'fareHistory', component: FareHistoryComponent },
+  { path: 'favourites', component: FavouriteRidesComponent },
 ];
 
 @NgModule({

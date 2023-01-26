@@ -7,7 +7,7 @@ import {
   faUserPen,
   faUserPlus,
   faUserSlash,
-  faChartColumn
+  faChartColumn,
 } from '@fortawesome/free-solid-svg-icons';
 import { DrawerOption } from 'src/app/features/startpage/models/DrawerOption';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -70,18 +70,18 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'fareHistory',
       icon: faClockRotateLeft,
     };
-    
+
     let favourites: DrawerOption = {
       name: 'Omiljene vožnje',
       route: 'favourites',
       icon: faHeart,
-    
+    };
     let reports: DrawerOption = {
       name: 'Izveštaji',
       route: 'reports',
       icon: faChartColumn,
     };
-    
+
     let option3: DrawerOption = {
       name: 'Mock Option 3',
       route: 'mock',
@@ -102,7 +102,7 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'editProfile',
       icon: faUserPen,
     };
-    
+
     let history: DrawerOption = {
       name: 'Istorija vožnji',
       route: 'fareHistory',
@@ -113,8 +113,8 @@ export class ContainerSidenavComponent implements OnInit {
       name: 'Izveštaji',
       route: 'reports',
       icon: faChartColumn,
-    }
-    
+    };
+
     return [profile, history, reports];
   }
 
@@ -154,8 +154,15 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'reports',
       icon: faChartColumn,
     };
-    
-    return [profile, history, addDriver, driverChangeRequests, blockUsers, reports];
+
+    return [
+      profile,
+      history,
+      addDriver,
+      driverChangeRequests,
+      blockUsers,
+      reports,
+    ];
   }
 
   closeSidenav(): void {

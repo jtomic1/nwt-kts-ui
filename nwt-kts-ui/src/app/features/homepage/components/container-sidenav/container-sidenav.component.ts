@@ -7,6 +7,7 @@ import {
   faUserPen,
   faUserPlus,
   faUserSlash,
+  faChartColumn
 } from '@fortawesome/free-solid-svg-icons';
 import { DrawerOption } from 'src/app/features/startpage/models/DrawerOption';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -30,6 +31,13 @@ export class ContainerSidenavComponent implements OnInit {
 
   ngOnInit(): void {
     this.drawerService.opened = false;
+    // this.loginService.userChanged.subscribe(
+    //   (user)=>{
+    //     if(user != null ){
+    //       this.optionArray = this.getOptionArrayFromRole(user.role);
+    //     }
+    //   }
+    // )
     if (this.user == null) this.router.navigateByUrl('login');
     else this.optionArray = this.getOptionArrayFromRole(this.user.role);
   }
@@ -62,10 +70,22 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'fareHistory',
       icon: faClockRotateLeft,
     };
+    
     let favourites: DrawerOption = {
       name: 'Omiljene vožnje',
       route: 'favourites',
       icon: faHeart,
+    
+    let reports: DrawerOption = {
+      name: 'Izveštaji',
+      route: 'reports',
+      icon: faChartColumn,
+    };
+    
+    let option3: DrawerOption = {
+      name: 'Mock Option 3',
+      route: 'mock',
+      icon: faUserPen,
     };
     let option4: DrawerOption = {
       name: 'Mock Option 4',
@@ -73,7 +93,7 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    return [profile, history, favourites, option4];
+    return [profile, history, favourites, reports, option4];
   }
 
   getDriverOptions(): DrawerOption[] {
@@ -82,13 +102,20 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'editProfile',
       icon: faUserPen,
     };
+    
     let history: DrawerOption = {
       name: 'Istorija vožnji',
       route: 'fareHistory',
       icon: faClockRotateLeft,
     };
 
-    return [profile, history];
+    let reports: DrawerOption = {
+      name: 'Izveštaji',
+      route: 'reports',
+      icon: faChartColumn,
+    }
+    
+    return [profile, history, reports];
   }
 
   getAdminOptions(): DrawerOption[] {
@@ -122,7 +149,13 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserSlash,
     };
 
-    return [profile, history, addDriver, driverChangeRequests, blockUsers];
+    let reports: DrawerOption = {
+      name: 'Izveštaji',
+      route: 'reports',
+      icon: faChartColumn,
+    };
+    
+    return [profile, history, addDriver, driverChangeRequests, blockUsers, reports];
   }
 
   closeSidenav(): void {

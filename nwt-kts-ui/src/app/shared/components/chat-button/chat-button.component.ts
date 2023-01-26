@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { environment } from 'src/environments/environment';
+import { Role } from '../../models/enums/Role';
 
 const io = require('socket.io-client');
 
@@ -26,19 +27,23 @@ export class ChatButtonComponent implements OnInit {
     
     this.socket = io(environment.chatSocketEndpoint);
 
-    this.socket.on('private message', (data: any) => {
-      // console.log(data);
-      this.isAnimated = true;
-      console.log("stigla!")
-    });
 
     this.loginService.userChanged.subscribe(
-      (data) =>{
-        
-        this.loggedUserId = data.id;
-        this.socket.emit('join', data.id,toString());
-        this.socket.emit('setUserId', data.id.toString());
-        console.log("povezan na soket "+data.id.toString());
+      (user) =>{
+        if(user != null ){
+          this.loggedUserId = user.id;
+          if(user.role ==Role.ADMIN){
+          this.socket.emit('join', 'admin');
+          this.socket.emit('setUserId', 'admin');
+          }else{
+          this.socket.emit('join', user.id,toString());
+          this.socket.emit('setUserId', user.id.toString());
+          }
+          this.socket.on('private message', (data: any) => {
+            this.isAnimated = true;
+          });
+          console.log('socket for '+user.id);
+        }
       }
     )
 

@@ -1,7 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import * as L from 'leaflet';
-import 'leaflet-routing-machine';
+// import * as L from 'leaflet';
+// import 'leaflet-routing-machine';
 import { Subject, takeUntil } from 'rxjs';
 import { MapComponent } from 'src/app/shared/components/map/map.component';
 import { RideDataComponent } from 'src/app/shared/components/ride-data/ride-data.component';
@@ -16,7 +16,7 @@ import { MessageService, MessageType } from 'src/app/shared/services/message-ser
 export class StartpageMapComponent implements AfterViewInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   
-  @ViewChild(MapComponent) map: MapComponent = new MapComponent();
+  @ViewChild(MapComponent) map!: MapComponent;
   @ViewChild(RideDataComponent) data: RideDataComponent = new RideDataComponent(this.mapService, this.messageService);
 
   startCoord!: L.LatLng;
@@ -38,7 +38,7 @@ export class StartpageMapComponent implements AfterViewInit, OnDestroy {
   ngAfterViewInit(): void {
   
   }
-
+  
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();

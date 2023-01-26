@@ -1,0 +1,31 @@
+<h2 mat-dialog-title>
+    Trenutno ste u vožnji
+</h2>
+
+<mat-dialog-content class="mat-typography">
+    <app-map
+    [readOnly]="true"
+    [addWaypoints]="true"
+    [startCoord]="startCord"
+    [endCoord]="endCord"
+    [onWayStations]="onWayStations"
+    [mapInDialog]="true"
+    [displayRoute]="true"
+    [displayDrivers]="true"
+    >
+    </app-map>
+</mat-dialog-content>
+
+<mat-dialog-actions align="center">
+    <button mat-raised-button color="primary" mat-dialog-close (click)="finishRide()" *ngIf="!openDeniedDialog">Završi vožnju</button>
+    <button mat-raised-button color="warn" (click)="interruptRide()" *ngIf="!openDeniedDialog">Prekini vožnju</button>
+
+    <app-note *ngIf="openDeniedDialog"
+        [title]="titleReason"
+        [placeholder]="'Morate uneti razlog prekidanja vožnje ...'"
+        [offenderId]="driverId"
+        [noteType]="noteType"
+        (noteSent)="closeDialog($event)"
+        >
+    </app-note>
+</mat-dialog-actions>

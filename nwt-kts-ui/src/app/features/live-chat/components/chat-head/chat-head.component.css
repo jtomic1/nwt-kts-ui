@@ -2,6 +2,8 @@
   padding: 5px 0;
   border-bottom: 1px solid #f1f2f2;
   transition: 0.7s;
+  background:  linear-gradient(180deg, #4d445294 , transparent 70%);
+  border-radius: 15px;
 }
 
 .user .lastMessage {
@@ -10,7 +12,8 @@
 
 .active {
   transform: scale(0.9);
-  background: linear-gradient(41deg, transparent, #7b1fa2, transparent);
+  background: linear-gradient(41deg, transparent, #7b1fa280, transparent);
+  border-radius: 10px;
 }
 
 .blink {

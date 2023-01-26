@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output  } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { NoteType } from '../../models/enums/NoteType';
@@ -24,6 +24,8 @@ export class NoteComponent implements OnInit, OnDestroy {
   form: FormGroup;
 
   isDisabled: boolean = true;
+
+  @Output() noteSent: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   constructor(private noteService: NoteService,
               private messageService: MessageService) { 
@@ -63,9 +65,11 @@ export class NoteComponent implements OnInit, OnDestroy {
           });        
           this.form.controls['textarea'].setErrors(null);
           this.messageService.showMessage('Poruka je poslata.', MessageType.SUCCESS);
+          this.noteSent.emit(true);
         },
         error: (err) => {
           this.messageService.showMessage(err.error.message, MessageType.ERROR);
+          this.noteSent.emit(false);
         }
       });
   }

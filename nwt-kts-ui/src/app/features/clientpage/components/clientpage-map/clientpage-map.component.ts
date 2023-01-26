@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import { Subject, takeUntil } from 'rxjs';
+import { ConnectableObservable, Subject, takeUntil } from 'rxjs';
 import { OnWayStation } from '../../model/OnWayStation';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
@@ -13,10 +13,13 @@ import { Ride } from 'src/app/shared/models/Ride';
 import { RideService } from '../../services/ride-service/ride.service';
 import { environment } from 'src/environments/environment';
 import { DriverService } from 'src/app/shared/services/driver-service/driver.service';
-import { DriverStatus } from 'src/app/shared/models/enums/DriverStatus';
-import { NewPositionsForDriver } from 'src/app/shared/models/NewPositionsForDriver';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { RideRequestDialogComponent } from '../clientpage-dialogs/ride-request-dialog/ride-request-dialog.component';
+import { DriverRideService } from 'src/app/features/driverpage/services/ride-service/driver-ride.service';
+import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
+import { TokensService } from 'src/app/shared/services/tokens-service/tokens.service';
+import { OrderRideHelpService } from '../../services/order-ride-help/order-ride-help.service';
+import { ReservationNotification } from 'src/app/shared/models/ReservationNotification';
 
 const io = require('socket.io-client');
 
@@ -48,89 +51,86 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   private vehicleType: number = 0;
   private vehiclePrice: number = 250;
   private routeLength: number = 0;
+  tokenPrice:number = 0;
   
   socket: any;
-  taxiPositions: Map<string,L.Marker> = new Map<string,L.Marker>();
   dialogRideOrderProcess: MatDialogRef<RideRequestDialogComponent> | undefined;
   coordinatesForSimulation: Array<number[]> = [];
-  
-  taxiFreeIcon = L.icon({
-    iconUrl: 'assets/taxi-free.png',
-    iconSize: [32, 32]
-  });
-  
-  taxiUnavailableIcon = L.icon({
-    iconUrl: 'assets/taxi-unavailable.png',
-    iconSize: [32, 32]
-  });
+  rideIsGoing:boolean = false;
+  rideForChild!: Ride;
 
-  taxiInRideIcon = L.icon({
-    iconUrl: 'assets/taxi-ride.png',
-    iconSize: [32, 32]
-  });
+  orderText:string = "Poruči vožnju";
+  schedulingRide: boolean = false;
+  selectedStartTime: string = "123";
+  startTimeISO:string = "";
+  endTimeISO:string = "";
 
-  
   constructor(private mapService: MapService,
               private vehiclePriceService: VehiclePriceService,
               private rideSerice: RideService,
               private messageService: MessageService,
-              private driverService: DriverService,
-              public dialog: MatDialog) { }
+              private driverService:DriverService,
+              private driverRideService: DriverRideService,
+              public dialog: MatDialog,
+              private logInService: LoginService,
+              private tokenService: TokensService,
+              private orderRideHelpService: OrderRideHelpService) { 
+                
+              }
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     
+  }
+  ngAfterViewInit(): void {
     this.initMap();
     this.setTaxiDriversOnMap();
     this.setUpSocket();
-    
+    this.checkIsClientInRide();
+  }
 
-    
+  checkIsClientInRide(){
+    this.rideSerice.isClientInRide(this.logInService.user!.id)
+    .subscribe(
+      {
+        next: (res:boolean)=>{
+          if(res){
+            this.rideIsGoing = true;
+          }
+        }
+      }
+    )
+  }
+
+  setUpSocket(){
+    this.socket = io(environment.chatSocketEndpoint);
+    this.socket.emit("join",this.logInService.user!.id);
+    this.socket.on('clinetInRide',(ride:Ride)=>{
+      console.log(ride);
+      this.rideIsGoing = true;
+      this.rideForChild = ride;
+    });
+    this.socket.on("driverStopRide", (data:any) =>{
+      this.messageService.showMessage("Vozač je prekinuo vožnju.",MessageType.INFO);
+      this.rideIsGoing = false;
+    });
+
+    this.socket.on("notification-reservation",(res:ReservationNotification)=>{
+      this.messageService.showMessage(res.message,MessageType.INFO);
+    });
+
   }
 
   private setTaxiDriversOnMap(){
-    this.driverService.getAllDrivers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (drivers) =>{
-          drivers.forEach( (driver) =>{
-              let markerForDriver = L.marker([driver.positionLatitude,driver.positionLongitude]);
-              if(driver.driverStatus == DriverStatus.AVAILABLE){
-                markerForDriver.setIcon(this.taxiFreeIcon);
-                markerForDriver.bindPopup("Vozilo je slobodno");
-              }
-              else if( driver.driverStatus == DriverStatus.UNAVAILABLE){
-                markerForDriver.bindPopup("Vozilo nije dostupno");
-                markerForDriver.setIcon(this.taxiUnavailableIcon);
-              }
-              else if (driver.driverStatus == DriverStatus.DRIVING){
-                markerForDriver.bindPopup("Vozilo u voznji!");
-                markerForDriver.setIcon(this.taxiInRideIcon);
-              }
-              // markerForDriver.addTo(this.map);
-              this.taxiPositions.set( driver.vehiclePlateNumber, markerForDriver);
-              this.taxiPositions.get(driver.vehiclePlateNumber)?.addTo(this.map);
-              console.log("dodat taxi!");
-              console.log(driver.vehiclePlateNumber);
-          })
-        }
-      );
+    this.driverService.setMap(this.map);
   }
-  private setUpSocket(){
 
-    this.socket = io(environment.chatSocketEndpoint);
-    this.socket.on("newPositionForDriver", (data:NewPositionsForDriver)=>{
-      console.log(data);
-      this.taxiPositions.get(data.plateNumber)?.setLatLng([data.newPosition[0],data.newPosition[1]]);
-    })
-    console.log("socket is set up!")
-  }
   ngOnDestroy(): void {
     this.destroy$.next(true);
     this.destroy$.unsubscribe();
   }
 
   private initMap(): void {
-    this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 14);
+    this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 13);
     
     var default_map = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { 
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
@@ -165,13 +165,6 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
 
         this.makeRoute();
       }
-      for (let i = 1; i <= 10; i++) {
-        setTimeout(() => {
-            let latLng = this.taxiPositions.get("TAXI_ID_1")?.getLatLng();
-
-            this.taxiPositions.get("TAXI_ID_1")?.setLatLng([latLng?.lat!+0.001, latLng?.lng!+0.0001])
-        }, 1000 * i);
-      }
     });
   }
 
@@ -180,7 +173,8 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       start: new FormControl(''),
       destination: new FormControl(''),
       price: new FormControl(''),
-      time: new FormControl('')
+      time: new FormControl(''),
+      selectedStartTime: new FormControl('')
     });
   }
 
@@ -292,13 +286,15 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         missingRouteTolerance: 0
       }
     }).on('routesfound',  (e) => {    
-      console.log("****************")
-      console.log(e);
+      ///////////////////////////////////////////////////////////////////////////
+      this.coordinatesForSimulation.splice(0);
       e.routes[0].coordinates.forEach((cord:any)=>{
         this.coordinatesForSimulation.push( [ cord.lat , cord.lng]);
         // console.log(`[ ${cord.lat}, ${cord.lng} ],`)
       })
       console.log(this.coordinatesForSimulation);
+      ///////////////////////////////////////////////////////////////////////////
+
       this.mapService.getAddress(e.waypoints[0].latLng)
         .pipe(takeUntil(this.destroy$))
         .subscribe((result: any) => {        
@@ -315,16 +311,23 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       );
       this.form.controls['time'].setValue(Math.round(e.routes[0].summary.totalTime / 60) + ' minuta');
       this.routeLength = e.routes[0].summary.totalDistance;
+      this.tokenPrice = Math.round((this.vehiclePrice/10 + (this.routeLength / 1000)));
       this.form.controls['price'].setValue(Math.round(this.vehiclePrice + (this.routeLength / 1000)*120) + ' dinara');
     })
     .on('routeselected', (e) => {
+      
+      ///////////////////////////////////////////////////////////////////////////
+      this.coordinatesForSimulation.splice(0);
       e.route.coordinates.forEach((cord:any)=>{
         this.coordinatesForSimulation.push( [ cord.lat , cord.lng]);
         // console.log(`[ ${cord.lat}, ${cord.lng} ],`)
       })
       console.log(this.coordinatesForSimulation);
+      ///////////////////////////////////////////////////////////////////////////
+      
       this.form.controls['time'].setValue(Math.round(e.route.summary.totalTime / 60) + ' minuta');
       this.routeLength = e.route.summary.totalDistance;
+      this.tokenPrice = Math.round((this.vehiclePrice/10 + (this.routeLength / 1000)));
       this.form.controls['price'].setValue(Math.round(this.vehiclePrice + (this.routeLength / 1000)*120) + ' dinara');
     })
     .on('waypointschanged',  (e) => {
@@ -446,30 +449,51 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
       }
     );
   }
-
+//-=============================================================
+//==============================================================
+//==============================================================
   orderRide(): void {
+    if( this.schedulingRide ){
+      console.log(this.form.controls['selectedStartTime'].value);
+      console.log(this.selectedStartTime);
+      if( this.form.controls['selectedStartTime'].value == ''){
+       this.messageService.showMessage('Morate uneti vreme kada želite da rezervišete!', MessageType.ERROR);
+       return;
+      }
+      this.startTimeISO = this.orderRideHelpService.getStartTimeForReservationRide(this.form.controls['selectedStartTime'].value );
+      this.endTimeISO = this.orderRideHelpService.getEndTime(this.startTimeISO,this.form.controls['time'].value.split(' ')[0]);
+    }else{
+      this.startTimeISO = (new Date()).toISOString();
+      this.endTimeISO = this.orderRideHelpService.getEndTime(this.startTimeISO,this.form.controls['time'].value.split(' ')[0]);  
+    }
     if (this.isStartSet && this.isDestinationSet) {
 
-      var allStops: String = '';
-      var waypoints: L.Routing.Waypoint[] = this.route.getWaypoints();
+      let allStops: string = '';
+      let waypoints: L.Routing.Waypoint[] = this.route.getWaypoints();
       allStops += this.form.controls['start'].value+','+waypoints[0].latLng.lat+','+waypoints[0].latLng.lng+';';
       for (let ii = 0; ii < this.onWayStations.length; ii++) {        
         allStops += this.onWayStations[ii].address+','+this.onWayStations[ii].lat+','+this.onWayStations[ii].lng+';';
       }
       allStops += this.form.controls['destination'].value+','+waypoints[waypoints.length-1].latLng.lat+','+waypoints[waypoints.length-1].latLng.lng;
-      var ride: Ride = {
+
+      let ride: Ride = {
+        rideId: undefined,
+        driverId: undefined,
+        vehiclePlateNumber: undefined,
+        deniedDrivers: [],
         stops: allStops,
         splitFare: this.splitFare,
         vehicleType: this.vehicleType,
-        price: this.form.controls['price'].value.split(' ')[0],
+        price: this.tokenPrice,
         duration: this.form.controls['time'].value.split(' ')[0],
-                        distance: this.routeLength,
-        isReservation: false,
-        rideId: undefined,
-        driverId: undefined,
-        vehiclePlateNumber: undefined
+        distance: this.routeLength,
+        reservation: this.schedulingRide,
+        clientId: this.logInService.user!.id,
+        startTime: this.startTimeISO,
+        endTime: this.endTimeISO,
+        pathForRide: JSON.stringify(this.coordinatesForSimulation)
       };
-    
+      
       this.openDialogForOrderRideProcess();
       this.orderRideServer(ride);
 
@@ -481,25 +505,38 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   openDialogForOrderRideProcess(){
     this.dialogRideOrderProcess = this.dialog.open(RideRequestDialogComponent,
       {
-        data :{message:" Slanje zahteva za voznju... "},
         height: '80%',
         width: '70%',
       }
     );
+    this.dialogRideOrderProcess.componentInstance!.setMessage("Slanje zahteva za vožnju");
+    if(this.schedulingRide)
+      this.dialogRideOrderProcess.componentInstance!.setTitle("Zahtev za rezervaciju vožnje");
+    else
+      this.dialogRideOrderProcess.componentInstance!.setTitle("Zahtev za vožnju");
+      
   }
 
   orderRideServer(ride:Ride){
+    if(ride.deniedDrivers.length >= 2 ){
+      this.messageService.showMessage(
+        "Trenutno su sva vozila zauzeta molimo pokusajte kasnije. (vozaci odbijaju voznje)",MessageType.WARNING);
+      this.dialogRideOrderProcess!.componentInstance.setMessage("Trenutno ne možemo da vam pronađemo vožnju.");
+      this.dialogRideOrderProcess!.componentInstance.setCantFindRide();
+      return;
+    }
+    this.dialogRideOrderProcess!.componentInstance.setMessage("Traženje odgovarajućeg vozača...")
     this.rideSerice.orderRide(ride)
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (res) => {
         this.messageService.showMessage(res.toString(), MessageType.SUCCESS);
-        this.dialogRideOrderProcess!.componentInstance.setMessage("Traženje odgovarajućeg vozača...")
-
         this.getDriverForRide(ride);
       },
       error: (err) => {
-        this.dialogRideOrderProcess!.componentInstance.setMessage("Nismo uspeli da kreiramo zahtev :(")
+        this.dialogRideOrderProcess!.componentInstance.setMessage("Nismo uspeli da kreiramo zahtev :(");
+        this.dialogRideOrderProcess!.componentInstance.cantFindRide= true;
+        this.dialogRideOrderProcess!.close();
         this.messageService.showMessage(err.error.message, MessageType.ERROR);
       }
     });
@@ -513,11 +550,12 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         this.messageService.showMessage("Pronašli smo vozača", MessageType.SUCCESS);
         this.dialogRideOrderProcess!.componentInstance.setMessage("Vozač je pronađen čeka se njegova potvrda...");
         console.log(res);
-        ride.rideId = res.rideId;
+        ride.driverId = res.driverId;
         this.setUpSocketForDriverConformation(ride);
       },
       error: (err) => {
-        this.dialogRideOrderProcess!.componentInstance.setMessage("Nismo uspeli da kreiramo zahtev :(")
+        this.dialogRideOrderProcess!.componentInstance.setMessage("Trenutno nema slobodnih vozača :(");
+        this.dialogRideOrderProcess!.componentInstance.cantFindRide= true;
         this.messageService.showMessage(err.error.message, MessageType.ERROR);
 
       }
@@ -528,18 +566,63 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   setUpSocketForDriverConformation(ride:Ride){
     console.log("setting socket up for ride");
     console.log(ride);
-    this.socket.emit("join",ride.rideId);
     this.socket.on("acceptedRide" ,(data :any) =>{
       ride.driverId = data.ride.driverId;
       ride.vehiclePlateNumber = data.ride.vehiclePlateNumber;
-      this.dialogRideOrderProcess!.componentInstance.setMessage("Uspešno ste naručili taxi, vozač je krenu po vas.");
-      this.dialogRideOrderProcess!.componentInstance.finishProcess();
-      this.driverService.startRideDriveSimulation(this.coordinatesForSimulation,ride);
+      this.dialogRideOrderProcess!.componentInstance.setMessage("Uspešno smo vam pronašli vozača za vožnju.");
+      this.dialogRideOrderProcess!.componentInstance.finishProcess(ride);
+      
+    });
+
+    this.socket.on("deniedRide", (data:any) => {
+        this.messageService.showMessage("Nažalost ovaj vozač je odbio. :(",MessageType.WARNING);
+        let driverId = data.driverId;
+        ride.deniedDrivers.push(driverId);
+        this.orderRideServer(ride);
+    })
+
+
+    this.dialogRideOrderProcess!.afterClosed().subscribe(
+      res=>{
+        if(res === "ACCEPTED"){
+          this.clientAccepted(ride);
+          
+        }else{
+          this.clientCanceled(ride);
+        }
+      }
+    );
+    
+  }
+
+  clientAccepted(ride:Ride){
+    this.rideSerice.clinetConfirmRide(ride)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next:(res)=>{
+        this.tokenService.currentUserTokensChangedSubject.next('');
+        this.messageService.showMessage(res,MessageType.SUCCESS);
+        if(!this.schedulingRide){
+          // this.driverRideService.startRideDriveSimulation(this.coordinatesForSimulation,ride);
+          this.rideForChild = ride;
+          // this.rideIsGoing = true;
+        }    
+      }
     });
   }
 
-  scheduleRide(): void {
-
+  clientCanceled(ride:Ride){
+    this.rideSerice.clientCancelRide(ride);
   }
 
+  scheduleRide(): void {
+    this.orderText = "Zakaži vožnju ";
+    this.schedulingRide = true;
+  }
+
+
+  cancelScheduleRide(): void {
+    this.orderText = "Poruči vožnju";
+    this.schedulingRide = false;
+  }
 }

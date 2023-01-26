@@ -155,32 +155,33 @@ export class LiveChatComponent implements OnInit, OnDestroy {
       .addNewMessage(this.messageDTO)
       .pipe(takeUntil(this.destroy$))
       .subscribe((data) => {
-        this.messageService.showMessage(
-          'Vaša poruka je uspešno evidentirana',
-          MessageType.SUCCESS
-        );
+        // this.messageService.showMessage(
+        //   'Vaša poruka je uspešno evidentirana',
+        //   MessageType.SUCCESS
+        // );
       });
   }
 
   receiveMessageInChat(message: string) {
     const element = document.createElement('li');
     element.innerHTML = message;
-    element.style.background = 'white';
+    element.style.background = 'linear-gradient(-8deg, #7b1fa220 0%, white 59%)';
     element.style.padding = '15px 30px';
     element.style.margin = '10px';
+    element.style.borderRadius = '11px';
     let x = document.getElementById('message-list');
     if (x != null) {
       x.appendChild(element);
     }
   }
-
   sendMessageInChat(message: string) {
     const element = document.createElement('li');
     element.innerHTML = message;
-    element.style.background = 'white';
+    element.style.background = 'linear-gradient(8deg, #7b1fa220 0%, white 59%)';
     element.style.padding = '15px 30px';
     element.style.margin = '10px';
     element.style.textAlign = 'right';
+    element.style.borderRadius = '11px';
     let x = document.getElementById('message-list');
     if (x != null) {
       x.appendChild(element);

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-
+import * as L from 'leaflet';
 @Injectable({
   providedIn: 'root'
 })
@@ -31,5 +31,18 @@ export class MapService {
     } : {};
     let url = `${environment.nominatimUrl}/search`;
     return this.httpClient.get(url, options);
+  }
+
+  public getLatLngFromStopsString(stopsString: String):L.LatLng[]{
+    let res:L.LatLng[] = [];
+    stopsString.split(";").forEach(
+      stop =>{
+        let data = stop.split(",");
+        if(data.length ==3)
+          res.push(L.latLng(+data[1] , +data[2]));
+      }
+    )
+
+    return res;
   }
 }

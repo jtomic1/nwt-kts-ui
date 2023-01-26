@@ -14,9 +14,11 @@ import { AvatarComponent } from './components/avatar/avatar.component';
 import { MapComponent } from './components/map/map.component';
 import { RideDataComponent } from './components/ride-data/ride-data.component';
 import { NoteComponent } from './components/note/note.component';
+import { ReportComponent } from './components/report/report.component';
 import { RatingCardComponent } from './components/rating-card/rating-card.component';
 import { ProfileDetailsComponent } from './components/profile-details/profile-details.component';
 import { RatingDialogComponent } from './components/rating-dialog/rating-dialog.component';
+import { DriverStatusComponent } from './components/driver-status/driver-status.component';
 
 @NgModule({
   declarations: [
@@ -30,10 +32,11 @@ import { RatingDialogComponent } from './components/rating-dialog/rating-dialog.
     MapComponent,
     RideDataComponent,
     NoteComponent,
+    ReportComponent,
     RatingCardComponent,
     ProfileDetailsComponent,
     RatingDialogComponent,
-  ],
+    DriverStatusComponent],
   imports: [
     CommonModule,
     MaterialModule,

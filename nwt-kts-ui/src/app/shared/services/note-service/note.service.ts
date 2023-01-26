@@ -9,7 +9,7 @@ import { Note } from '../../models/Note';
   providedIn: 'root'
 })
 export class NoteService {
-  url: string = `${environment.baseUrl}/${ApiPaths.Note}`
+  url: string = `${environment.baseUrl}/${ApiPaths.Note}`;
 
   constructor(private httpClient: HttpClient) { }
 

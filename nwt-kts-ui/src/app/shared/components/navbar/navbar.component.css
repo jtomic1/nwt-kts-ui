@@ -15,3 +15,13 @@ mat-toolbar{
 .logo{
   cursor: pointer;
 }
+.user-data{
+  display: flex;
+  gap:15px;
+}
+
+.driver-status{
+  width: 80%;
+  display: flex;
+  justify-content: center;
+}

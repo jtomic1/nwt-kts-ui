@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   faClockRotateLeft,
+  faHeart,
   faUserGear,
   faUserPen,
   faUserPlus,
@@ -70,6 +71,11 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faClockRotateLeft,
     };
     
+    let favourites: DrawerOption = {
+      name: 'Omiljene vožnje',
+      route: 'favourites',
+      icon: faHeart,
+    
     let reports: DrawerOption = {
       name: 'Izveštaji',
       route: 'reports',
@@ -87,7 +93,7 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    return [profile, history, reports, option3, option4];
+    return [profile, history, favourites, reports, option4];
   }
 
   getDriverOptions(): DrawerOption[] {

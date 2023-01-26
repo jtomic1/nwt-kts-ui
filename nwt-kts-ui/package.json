@@ -30,6 +30,7 @@
     "angularx-social-login": "^4.1.0",
     "@types/chart.js": "^2.9.37",
     "bootstrap-icons": "^1.10.2",
+    "dayjs": "^1.11.7",
     "chart.js": "^4.2.0",
     "chartjs-adapter-date-fns": "^3.0.0",
     "date-fns": "^2.29.3",

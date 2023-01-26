@@ -27,20 +27,35 @@
     </div>
 
     <div class="action-container" *ngIf="userRole === Role.USER">
+      <span
+        [matTooltip]="'Rok za ocenjivanje je 3 dana!'"
+        [matTooltipDisabled]="
+          rateButtonDetails.enable ||
+          rateButtonDetails.displayText === 'OCENILI STE VOŽNJU'
+        "
+        matTooltipPosition="above"
+        ><button
+          mat-raised-button
+          color="basic"
+          style="border: 2px solid gray"
+          (click)="openRatingDialog()"
+          [disabled]="!rateButtonDetails.enable"
+        >
+          {{ rateButtonDetails.displayText }}
+        </button></span
+      >
+      <button mat-raised-button color="basic" style="border: 2px solid gray">
+        ZAKAŽI PONOVO
+      </button>
       <button
         mat-raised-button
         color="basic"
         style="border: 2px solid gray"
-        (click)="openRatingDialog()"
-        [disabled]="!enableRateButton"
+        (click)="onFavouriteButtonClick()"
       >
-        {{ enableRateButton ? "OCENI VOŽNJU" : "OCENILI STE VOŽNJU" }}
-      </button>
-      <button mat-raised-button color="basic" style="border: 2px solid gray">
-        ZAKAŽI PONOVO
-      </button>
-      <button mat-raised-button color="basic" style="border: 2px solid gray">
-        DODAJ RUTU U OMILJENE
+        {{
+          isFavourite.isFavourite ? "IZBACI IZ OMILJENIH" : "DODAJ U OMILJENE"
+        }}
       </button>
     </div>
   </div>

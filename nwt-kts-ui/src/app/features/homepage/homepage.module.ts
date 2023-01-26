@@ -10,6 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { DriverChangeListComponent } from './components/driver-change/driver-change-list/driver-change-list.component';
 import { FareHistoryComponent } from './components/fare-history/fare-history.component';
 import { ClientFareDetailsComponent } from './components/client-fare-details/client-fare-details.component';
+import { FavouriteRidesComponent } from './components/favourite-rides/favourite-rides.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { ClientFareDetailsComponent } from './components/client-fare-details/cli
     DriverChangeListComponent,
     FareHistoryComponent,
     ClientFareDetailsComponent,
+    FavouriteRidesComponent,
   ],
   imports: [
     CommonModule,

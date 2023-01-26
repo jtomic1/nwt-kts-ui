@@ -17,14 +17,14 @@ io.on('connection', (socket) => {
     // join user's own room
     //===============for chat==========================
     socket.on('message', (msg) => {
-        console.log(msg);
+        // console.log(msg);
         socket.broadcast.emit('message-broadcast', msg);
     });
 
     socket.on("join", (roomName) => {
         if(roomName != null){
           roomName = roomName.toString();
-          console.log("join: " + roomName);
+          // console.log("join: " + roomName);
           socket.join(roomName);
         }
     });
@@ -34,7 +34,7 @@ io.on('connection', (socket) => {
     });
 
     socket.on("private message", ({ content, to }) => {
-        console.log("private msg '" + content +"' to: "+to);
+        // console.log("private msg '" + content +"' to: "+to);
         socket.to(to).emit("private message", {
           content,
           userId: socket.userId,
@@ -54,6 +54,8 @@ let cars = {};
 let stopSimulation = {};
 
 app.post('/driveSimulation', (req, res) => {
+  console.log("start-simulation")
+  console.log("======================")
   let data = req.body;
   let values = data['values'];
   let sendObj = { 
@@ -71,20 +73,22 @@ app.post('/driveSimulation', (req, res) => {
       }
       sendObj["newPosition"] = values.shift();
       io.emit('newPositionForDriver', sendObj);
-      console.log(sendObj);
-      console.log(values.length);
+      console.log(sendObj , values.length);
       setTimeout(sendValue, 1000);
     }
   }
   cars[data.driver] = setTimeout(sendValue, 1000);
+
   res.json({ message: "Values received." });
 });
 
 app.post('/stopSimulation', (req, res) => {
+  console.log("stop-simulation")
+  console.log("======================")
   let data = req.body;
-  console.log(data);
+  // console.log(data);
   io.to(data.clientId.toString()).emit('driverStopRide',{});
-  console.log("stop simulation "+data.driver);
+  // console.log("stop simulation "+data.driver);
   stopSimulation[data.driver] = true;
   clearTimeout(cars[data.driver]);
   delete cars[data.driver];
@@ -94,6 +98,7 @@ app.post('/stopSimulation', (req, res) => {
 app.post('/driver-change-status', (req, res) => {
   console.log('driver-change-status');
   console.log(req.body);
+  console.log("======================");
   let data = req.body;
   // let driverId = data['driverId'];
   // let ride = data['rideDTO'];
@@ -103,12 +108,17 @@ app.post('/driver-change-status', (req, res) => {
     vehiclePlateNumber: data.plateNumber,
     driverStatus : data.driverStatus 
   } );
+  if(data.driverStatus == "DRIVING"){
+    io.to(data.driverId.toString()).emit('driver-start-driving',{});
+  }
   res.json({ message: "Driver accepted" });
 });
 //==============================================
 //================for order process ============
 app.post('/notify-driver', (req, res) => {
+  console.log("notify-driver");
   console.log(req.body);
+  console.log("======================")
   let data = req.body;
   let driverId = data['driverId'];
   let ride = data['rideDTO'];
@@ -121,7 +131,9 @@ app.post('/notify-driver', (req, res) => {
 
 
 app.post('/driver-accepted', (req, res) => {
+  console.log("driver-accepted");
   console.log(req.body);
+  console.log("======================");
   let data = req.body;
   let driverId = data['driverId'];
   let ride = data['rideDTO'];
@@ -133,7 +145,9 @@ app.post('/driver-accepted', (req, res) => {
 });
 
 app.post('/deniedRide', (req, res) => {
+  console.log("deniedRide")
   console.log(req.body);
+  console.log("======================")
   let data = req.body;
   let driverId = data['driverId'];
   let ride = data['rideDTO'];
@@ -148,19 +162,26 @@ app.post('/deniedRide', (req, res) => {
 app.post('/client-confirmed', (req, res) => {
   console.log('client-confirmed');
   console.log(req.body);
+  console.log("======================")
   let data = req.body;
   let driverId = data['driverId'];
   let ride = data['rideDTO'];
   
   io.to(driverId.toString()).emit( 'clientAcceptedRide' , {
-    ride:ride
+    ride: ride
   } );
+  if(!ride.reservation)
+    io.to(ride.clientId.toString()).emit('clinetInRide', {
+      ride: ride
+    });
   res.json({ message: "Driver accepted" });
+
 });
 
 app.post('/client-denied', (req, res) => {
   console.log('client-denied');
   console.log(req.body);
+  console.log("======================")
   let data = req.body;
   let driverId = data['driverId'];
   let ride = data['rideDTO'];
@@ -172,6 +193,22 @@ app.post('/client-denied', (req, res) => {
 });
 
 //==========================================
+//========NOTIFICATIONS FOR RESERVATION====
+app.post('/notify-for-reservation',(req,res) => {
+  console.log('notify-for-reservation');
+  console.log("==============");
+  // console.log(req.body);
+  let data = req.body;
+  let ride = data["rideDTO"];
+  let message = data["message"];
+  let clientId = ride["clientId"].toString();
+  let driverId = ride["driverId"].toString();
+
+  io.to(driverId).emit("notification-reservation",{message:message});
+  io.to(clientId).emit("notification-reservation",{message:message});
+  console.log("notification emited");
+  res.json({ message: "notification emited" });
+});
 
 http.listen(3000, () => {
   console.log('listening on *:3000');

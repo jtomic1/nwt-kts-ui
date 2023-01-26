@@ -16,6 +16,9 @@ export class RideService {
   constructor(private http: HttpClient) { }
 
   orderRide(data: Ride) {
+    console.log("***********");
+    console.log(data);
+    console.log("***********");
     let url = `${this.url}/order`;
     return this.http.post<Ride>(url, data);
   }
@@ -26,6 +29,9 @@ export class RideService {
   }
 
   clinetConfirmRide(data:Ride):Observable<string>{
+    console.log("=========");
+    console.log(data);
+    
     let url = `${this.url}/clientConfirmRide`;
     return this.http.post<string>(url, data);  
     

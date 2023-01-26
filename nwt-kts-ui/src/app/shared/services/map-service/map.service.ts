@@ -38,7 +38,8 @@ export class MapService {
     stopsString.split(";").forEach(
       stop =>{
         let data = stop.split(",");
-        res.push(L.latLng(+data[1] , +data[2]));
+        if(data.length ==3)
+          res.push(L.latLng(+data[1] , +data[2]));
       }
     )
 

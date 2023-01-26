@@ -3,44 +3,42 @@
 </h2>
 
 <mat-dialog-content class="mat-typography">
-    <div>
-        <app-map
-            [readOnly]="true"
-            [addWaypoints]="true"
-            [startCoord]="startCord"
-            [endCoord]="endCord"
-            [onWayStations]="onWayStations"
-            [mapInDialog]="true"
-            [displayRoute]="true"
-        >
-        </app-map>
-        <div class="table">
-            <div class="col">
-                <div>
-                    <span class="info-text">Početna stanica:</span>
-                    <span class="info-data">{{getStartName()}}</span>
-                </div>
-                <div>
-                    <span class="info-text">Odredište:</span>
-                    <span  class="info-data">{{getEndName()}}</span>
-                </div>
+    <app-map
+        [readOnly]="true"
+        [addWaypoints]="true"
+        [startCoord]="startCord"
+        [endCoord]="endCord"
+        [onWayStations]="onWayStations"
+        [mapInDialog]="true"
+        [displayRoute]="true"
+    >
+    </app-map>
+    <div class="table">
+        <div class="col">
+            <div>
+                <span class="info-text">Početna stanica:</span>
+                <span class="info-data">{{getStartName()}}</span>
             </div>
-            <div class="col">
-                
-                <div>
-                    <span class="info-text">Vreme trajanja:</span>
-                    <span class="info-data">{{data.ride.duration}}</span>
-                </div>
-                <div>
-                    <span class="info-text">Zarada:</span>
-                    <span class="info-data">
-                        <app-tokens-count
-                        [isCurrentUserTokens]="false"
-                        [value]="data.ride.price"
-                        >
-                        </app-tokens-count>
-                    </span>
-                </div>
+            <div>
+                <span class="info-text">Odredište:</span>
+                <span  class="info-data">{{getEndName()}}</span>
+            </div>
+        </div>
+        <div class="col">
+            
+            <div>
+                <span class="info-text">Vreme trajanja:</span>
+                <span class="info-data">{{data.ride.duration}}</span>
+            </div>
+            <div>
+                <span class="info-text">Zarada:</span>
+                <span class="info-data">
+                    <app-tokens-count
+                    [isCurrentUserTokens]="false"
+                    [value]="data.ride.price"
+                    >
+                    </app-tokens-count>
+                </span>
             </div>
         </div>
     </div>

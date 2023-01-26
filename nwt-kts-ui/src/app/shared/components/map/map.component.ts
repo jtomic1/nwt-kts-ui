@@ -34,7 +34,7 @@ export class MapComponent implements AfterViewInit {
   private destinationMarker: any;
   isDestinationSet: boolean = false;
   private route: any;
-
+  
   constructor(
     private driverService: DriverService
   ) { }
@@ -57,6 +57,13 @@ export class MapComponent implements AfterViewInit {
   }
 
   private initMap(): void {
+    this.map =  L.DomUtil.get('map');
+    if(this.map != undefined){
+      // this.map.off();
+      // this.map.remove();
+      this.map._leaflet_id = null;
+      // delete this.map;
+    }
     this.map = L.map('map').setView([45.255351359492444, 19.84542310237885], 14);
 
     var default_map = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { 

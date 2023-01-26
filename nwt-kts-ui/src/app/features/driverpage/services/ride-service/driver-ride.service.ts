@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { Ride } from 'src/app/shared/models/Ride';
 import { ApiPaths } from 'src/environments/ApiPaths';
 import { environment } from 'src/environments/environment';
@@ -45,5 +46,8 @@ export class DriverRideService {
     return this.http.post<string>(url,ride);
   }
 
-
+  getDriverActiveRide(driverId:number):Observable<Ride>{
+    let url = `${this.rideUrl}/activeRideForDriver/${driverId}`;
+    return this.http.get<Ride>(url);
+  }
 }

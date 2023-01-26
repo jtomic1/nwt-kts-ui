@@ -12,16 +12,21 @@ export class RideRequestDialogComponent implements OnInit {
   processIsFinished: boolean = false;
   cantFindRide: boolean = false;
   ride!: Ride;
-
+  message:string="";
+  title:string="";
   constructor(private matDialogRef: MatDialogRef<RideRequestDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data:{message: string}) { }
+    ) { }
 
   ngOnInit(): void {
     this.matDialogRef.disableClose = true;
   }
 
   setMessage( newMessage : string){
-    this.data.message = newMessage;
+    this.message = newMessage;
+  }
+
+  setTitle( newTitle: string){
+    this.title = newTitle;
   }
 
   finishProcess(ride:Ride){

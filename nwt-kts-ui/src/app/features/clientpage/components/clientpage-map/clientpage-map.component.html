@@ -118,10 +118,20 @@
                             <input matInput formControlName="time" readonly>
                             <mat-icon matSuffix>access_time</mat-icon>        
                         </mat-form-field>
-                        
+                        <mat-form-field class="input-field-last" appearance="fill" *ngIf="schedulingRide">
+                            <mat-label>Željeno vreme polaska</mat-label>
+                            <input 
+                            matInput type="text"
+                            formControlName="selectedStartTime"
+                            value="{{selectedStartTime}}"
+                            > 
+                            <!-- angularMaterialTimepicker -->
+                            <mat-icon matSuffix>access_time</mat-icon>        
+                        </mat-form-field>
                         <div class="buttons">
-                            <button mat-raised-button (click)="scheduleRide()">Zakaži</button>
-                            <button mat-raised-button color="primary" (click)="orderRide()">Poruči</button>
+                            <button mat-raised-button (click)="cancelScheduleRide()" *ngIf="schedulingRide">Otkaži zakazivanje</button>
+                            <button mat-raised-button (click)="scheduleRide()" *ngIf="!schedulingRide">Zakaži</button>
+                            <button mat-raised-button color="primary" (click)="orderRide()">{{orderText}}</button>
                         </div>        
                     
                       </form>                                         
@@ -129,7 +139,7 @@
                   </mat-card>
             </mat-grid-tile>           
             <mat-grid-tile colspan="1" rowspan="4" *ngIf="rideIsGoing">
-                <app-client-in-ride [ride]="rideForChild"></app-client-in-ride>
+                <app-client-in-ride *ngIf="rideIsGoing" [ride]="rideForChild"></app-client-in-ride>
             </mat-grid-tile>
         </mat-grid-list>
     </mat-card-content>

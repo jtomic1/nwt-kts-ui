@@ -1,9 +1,9 @@
 <h2 mat-dialog-title>
-    Poručivanje vožnje
+    {{title}}
 </h2>
 
 <mat-dialog-content class="mat-typography" style="height: 84%;">
-    <h4> {{data.message}}</h4>
+    <h4> {{message}}</h4>
     <div style="display: flex; justify-content: center;">
         <mat-spinner *ngIf="!processIsFinished && !cantFindRide"></mat-spinner>
         <mat-icon *ngIf="cantFindRide" class="processFailedImg">report</mat-icon>

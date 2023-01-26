@@ -5,12 +5,15 @@ export interface Ride {
     driverId:number | undefined,
     vehiclePlateNumber: string | undefined,
     clientId:number,
-    stops: String,
+    stops: string,
     splitFare: String[],
     vehicleType: number,
     price: number,
     duration: number,
     distance: number,
-    isReservation: boolean,
+    reservation: boolean,
     deniedDrivers:number[],
+    startTime:string,
+    endTime:string,
+    pathForRide:string
 }

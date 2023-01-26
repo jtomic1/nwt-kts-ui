@@ -34,8 +34,6 @@ a {color: #69F0AE}
 }
 
 .css-shadow {
-  width: 150px;
-  height: 150px;
   border-radius: 50%;
   margin-bottom: 20px;
 }
@@ -55,9 +53,9 @@ a {color: #69F0AE}
   filter: drop-shadow(0 0 8px gold);
 }
 
-.shadow-red {
-  border: 2px solid lightsalmon;
-  filter: drop-shadow(0 0 8px salmon);
+.shadow-gray {
+  border: 2px solid lightgray;
+  filter: drop-shadow(0 0 8px lightgray);
 }
 
 /*****************************/
@@ -70,4 +68,18 @@ mat-expansion-panel-header .mat-content {
 
 mat-expansion-panel {
   border: 1px solid gray
+}
+
+.mat-grid-tile-content {
+  align-items: start !important;
+}
+
+.mat-grid-list {
+  height: 99% !important;
+}
+
+.mat-row:hover {
+  transform: scale(1.01);
+  transition-duration: 200ms;
+  cursor: pointer;
 }

@@ -16,7 +16,6 @@ import { TokensModule } from './features/tokens/tokens.module';
 import { ClientpageModule } from './features/clientpage/clientpage.module';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './shared/interceptor/TokenInterceptor';
-import { MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { DriverpageModule } from './features/driverpage/driverpage.module';
 import { HomepageModule } from './features/homepage/homepage.module';
 import {
@@ -45,7 +44,7 @@ import { AdminpageModule } from './features/adminpage/adminpage.module';
     TokensModule,
     ClientpageModule,
     DriverpageModule,
-    AdminpageModule
+    AdminpageModule,
   ],
   providers: [
     {
@@ -53,7 +52,6 @@ import { AdminpageModule } from './features/adminpage/adminpage.module';
       useClass: TokenInterceptor,
       multi: true,
     },
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     {
       provide: 'SocialAuthServiceConfig',
       useValue: {

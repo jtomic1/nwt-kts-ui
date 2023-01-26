@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
+  faClockRotateLeft,
   faUserGear,
   faUserPen,
   faUserPlus,
@@ -56,18 +57,18 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
+    let history: DrawerOption = {
+      name: 'Istorija vožnji',
+      route: 'fareHistory',
+      icon: faClockRotateLeft,
+    };
+    
     let reports: DrawerOption = {
       name: 'Izveštaji',
       route: 'reports',
       icon: faChartColumn,
     };
-
-    // MOCK
-    let option2: DrawerOption = {
-      name: 'Mock Option 2',
-      route: 'mock',
-      icon: faUserPen,
-    };
+    
     let option3: DrawerOption = {
       name: 'Mock Option 3',
       route: 'mock',
@@ -79,7 +80,7 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faUserPen,
     };
 
-    return [profile, reports, option2, option3, option4];
+    return [profile, history, reports, option3, option4];
   }
 
   getDriverOptions(): DrawerOption[] {
@@ -88,14 +89,20 @@ export class ContainerSidenavComponent implements OnInit {
       route: 'editProfile',
       icon: faUserPen,
     };
+    
+    let history: DrawerOption = {
+      name: 'Istorija vožnji',
+      route: 'fareHistory',
+      icon: faClockRotateLeft,
+    };
 
     let reports: DrawerOption = {
       name: 'Izveštaji',
       route: 'reports',
       icon: faChartColumn,
     }
-
-    return [profile, reports];
+    
+    return [profile, history, reports];
   }
 
   getAdminOptions(): DrawerOption[] {
@@ -103,6 +110,12 @@ export class ContainerSidenavComponent implements OnInit {
       name: 'Podaci o profilu',
       route: 'editProfile',
       icon: faUserPen,
+    };
+
+    let history: DrawerOption = {
+      name: 'Istorija vožnji',
+      route: 'fareHistory',
+      icon: faClockRotateLeft,
     };
 
     let addDriver: DrawerOption = {
@@ -127,9 +140,9 @@ export class ContainerSidenavComponent implements OnInit {
       name: 'Izveštaji',
       route: 'reports',
       icon: faChartColumn,
-    }
-
-    return [profile, addDriver, driverChangeRequests, blockUsers, reports];
+    };
+    
+    return [profile, history, addDriver, driverChangeRequests, blockUsers, reports];
   }
 
   closeSidenav(): void {

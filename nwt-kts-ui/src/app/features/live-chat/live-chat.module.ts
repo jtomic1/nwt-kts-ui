@@ -6,6 +6,7 @@ import { LiveChatAdminComponent } from './components/live-chat-admin/live-chat-a
 import { FormsModule } from '@angular/forms';
 import { LiveChatClientComponent } from './components/live-chat-client/live-chat-client.component';
 import { MaterialModule } from 'src/app/shared/material/material/material.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { MaterialModule } from 'src/app/shared/material/material/material.module
   imports: [
     CommonModule,
     FormsModule,
-    MaterialModule
+    MaterialModule,
+    SharedModule
   ]
 })
 export class LiveChatModule { }

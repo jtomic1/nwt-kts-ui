@@ -8,6 +8,7 @@
 
 .user .lastMessage {
   color: rgb(230, 195, 195);
+  overflow: hidden;
 }
 
 .active {

@@ -9,3 +9,9 @@
    background: linear-gradient(41deg, transparent, #7b1fa2, transparent);
  }
  
+.chat-head{
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

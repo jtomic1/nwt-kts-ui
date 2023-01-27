@@ -62,8 +62,9 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   orderText:string = "Poruči vožnju";
   schedulingRide: boolean = false;
   selectedStartTime: string = "123";
-  startTimeISO:string = "";
-  endTimeISO:string = "";
+  startTime:Date = new Date();
+  endTime:Date = new Date();
+  
 
   constructor(private mapService: MapService,
               private vehiclePriceService: VehiclePriceService,
@@ -453,19 +454,25 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
 //==============================================================
 //==============================================================
   orderRide(): void {
+    let duration = this.form.controls['time'].value.split(' ')[0];
     if( this.schedulingRide ){
-      console.log(this.form.controls['selectedStartTime'].value);
-      console.log(this.selectedStartTime);
       if( this.form.controls['selectedStartTime'].value == ''){
        this.messageService.showMessage('Morate uneti vreme kada želite da rezervišete!', MessageType.ERROR);
        return;
       }
-      this.startTimeISO = this.orderRideHelpService.getStartTimeForReservationRide(this.form.controls['selectedStartTime'].value );
-      this.endTimeISO = this.orderRideHelpService.getEndTime(this.startTimeISO,this.form.controls['time'].value.split(' ')[0]);
+      let userInputTime = this.form.controls['selectedStartTime'].value;
+      this.startTime = this.orderRideHelpService.getStartTimeForReservationRide(userInputTime);
+      let hours = Math. abs( this.startTime.getTime() - Date.now() ) / 36e5;
+      console.log(this.startTime.toISOString());
+      console.log(hours);
+      if(hours > 5){
+        this.messageService.showMessage('Ne možete da rezervišete vožnju preko 5 sati unapred!', MessageType.ERROR);
+        return;
+      }
     }else{
-      this.startTimeISO = (new Date()).toISOString();
-      this.endTimeISO = this.orderRideHelpService.getEndTime(this.startTimeISO,this.form.controls['time'].value.split(' ')[0]);  
+      this.startTime = new Date();
     }
+    this.endTime = this.orderRideHelpService.getEndTime(this.startTime,duration);  
     if (this.isStartSet && this.isDestinationSet) {
 
       let allStops: string = '';
@@ -485,12 +492,12 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
         splitFare: this.splitFare,
         vehicleType: this.vehicleType,
         price: this.tokenPrice,
-        duration: this.form.controls['time'].value.split(' ')[0],
+        duration: duration,
         distance: this.routeLength,
         reservation: this.schedulingRide,
         clientId: this.logInService.user!.id,
-        startTime: this.startTimeISO,
-        endTime: this.endTimeISO,
+        startTime: this.startTime.toISOString(),
+        endTime: this.endTime.toISOString(),
         pathForRide: JSON.stringify(this.coordinatesForSimulation)
       };
       

@@ -81,8 +81,15 @@
     </mat-card>
   </mat-grid-tile>
   <mat-grid-tile rowspan="2">
-    <mat-card class="details-card" style="padding-bottom: 10px"
-      ><app-map></app-map
+    <mat-card class="details-card" style="padding-bottom: 10px">
+      <span *ngIf="focusedFare !== null">
+        <app-map
+          [startCoord]="focusedFare!.startCoord"
+          [endCoord]="focusedFare!.endCoord"
+          [onWayStations]="focusedFare!.onWayStations"
+          [readOnly]="true"
+          [displayRoute]="true"
+        ></app-map></span
     ></mat-card>
   </mat-grid-tile>
 </mat-grid-list>

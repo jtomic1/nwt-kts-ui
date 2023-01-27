@@ -13,4 +13,8 @@ export interface FareDTO {
   vehicle: string;
   ratings: Rating[];
   users: UserDTO[];
+  stops: string;
+  startCoord: L.LatLng;
+  endCoord: L.LatLng;
+  onWayStations: L.LatLng[];
 }

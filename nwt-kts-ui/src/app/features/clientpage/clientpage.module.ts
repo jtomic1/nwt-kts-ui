@@ -9,16 +9,13 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { RideRequestDialogComponent } from './components/clientpage-dialogs/ride-request-dialog/ride-request-dialog.component';
 import { RidePaymentComponent } from './components/clientpage-dialogs/ride-payment/ride-payment.component';
 import { ClientInRideComponent } from './components/client-in-ride/client-in-ride.component';
-import { AngularMaterialTimepickerModule } from '@jfilgaira/angular-material-timepicker';
-
-
 
 @NgModule({
   declarations: [
     ClientpageMapComponent,
     RideRequestDialogComponent,
     RidePaymentComponent,
-    ClientInRideComponent
+    ClientInRideComponent,
   ],
   imports: [
     CommonModule,
@@ -27,8 +24,7 @@ import { AngularMaterialTimepickerModule } from '@jfilgaira/angular-material-tim
     ReactiveFormsModule,
     FontAwesomeModule,
     MatDialogModule,
-    AngularMaterialTimepickerModule,
-    FormsModule
-  ]
+    FormsModule,
+  ],
 })
-export class ClientpageModule { }
+export class ClientpageModule {}

@@ -24,4 +24,5 @@ export enum ApiPaths {
   Admin = 'admin',
   Fares = 'fares',
   Rating = 'rating',
+  Favourites = 'favourites',
 }

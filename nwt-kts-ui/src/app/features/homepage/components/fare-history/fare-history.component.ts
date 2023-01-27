@@ -6,6 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { Role } from 'src/app/shared/models/enums/Role';
 import { FareService } from 'src/app/shared/services/fare-service/fare.service';
+import { MapService } from 'src/app/shared/services/map-service/map.service';
 import { FareDTO } from '../../models/FareDTO';
 import { FareHistoryDTO } from '../../models/FareHistoryDTO';
 
@@ -36,7 +37,8 @@ export class FareHistoryComponent implements OnInit, OnDestroy {
 
   constructor(
     private fareService: FareService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private mapService: MapService
   ) {}
 
   get userId(): number {
@@ -62,7 +64,11 @@ export class FareHistoryComponent implements OnInit, OnDestroy {
   }
 
   rowClick(row: FareDTO) {
+    let stops: L.LatLng[] = this.mapService.getLatLngFromStopsString(row.stops);
     this.focusedFare = row;
+    this.focusedFare!.startCoord = stops[0];
+    this.focusedFare!.endCoord = stops[stops.length - 1];
+    this.focusedFare!.onWayStations = stops.slice(1, stops.length - 1);
   }
 
   fetchData(pageNumber: number) {

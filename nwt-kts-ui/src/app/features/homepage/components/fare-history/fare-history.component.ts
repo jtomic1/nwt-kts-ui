@@ -1,9 +1,10 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
 import { Sort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
+import { MapComponent } from 'src/app/shared/components/map/map.component';
 import { Role } from 'src/app/shared/models/enums/Role';
 import { FareService } from 'src/app/shared/services/fare-service/fare.service';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
@@ -17,6 +18,7 @@ import { FareHistoryDTO } from '../../models/FareHistoryDTO';
 })
 export class FareHistoryComponent implements OnInit, OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild(MapComponent) map!: MapComponent;
 
   count: number = 0;
   items: any[] = [];
@@ -38,7 +40,8 @@ export class FareHistoryComponent implements OnInit, OnDestroy {
   constructor(
     private fareService: FareService,
     private loginService: LoginService,
-    private mapService: MapService
+    private mapService: MapService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   get userId(): number {
@@ -69,6 +72,11 @@ export class FareHistoryComponent implements OnInit, OnDestroy {
     this.focusedFare!.startCoord = stops[0];
     this.focusedFare!.endCoord = stops[stops.length - 1];
     this.focusedFare!.onWayStations = stops.slice(1, stops.length - 1);
+    this.cdr.detectChanges();
+    this.map.centerView();
+    this.map.setStartingMarker();
+    this.map.setDestinationMarker();
+    this.map.addOnWayStations();
   }
 
   fetchData(pageNumber: number) {

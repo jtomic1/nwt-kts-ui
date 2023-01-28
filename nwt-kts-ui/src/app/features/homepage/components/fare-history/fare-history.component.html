@@ -83,12 +83,10 @@
   <mat-grid-tile rowspan="2">
     <mat-card class="details-card" style="padding-bottom: 10px">
       <span *ngIf="focusedFare !== null">
-        <app-map
+        <app-map #map
           [startCoord]="focusedFare!.startCoord"
           [endCoord]="focusedFare!.endCoord"
-          [onWayStations]="focusedFare!.onWayStations"
-          [readOnly]="true"
-          [displayRoute]="true"
+          [onWayStations]="focusedFare!.onWayStations"          
         ></app-map></span
     ></mat-card>
   </mat-grid-tile>

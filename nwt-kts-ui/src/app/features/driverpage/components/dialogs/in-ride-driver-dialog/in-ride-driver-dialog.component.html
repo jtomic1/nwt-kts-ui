@@ -3,14 +3,12 @@
 </h2>
 
 <mat-dialog-content class="mat-typography">
-    <app-map
-    [readOnly]="true"
+    <app-map #map
     [addWaypoints]="true"
     [startCoord]="startCord"
     [endCoord]="endCord"
     [onWayStations]="onWayStations"
-    [mapInDialog]="true"
-    [displayRoute]="true"
+    [mapInDialog]="true"    
     [displayDrivers]="true"
     >
     </app-map>

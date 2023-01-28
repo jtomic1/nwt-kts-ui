@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -9,6 +9,7 @@ import { MessageService, MessageType } from 'src/app/shared/services/message-ser
 import { DriverRideService } from '../../../services/ride-service/driver-ride.service';
 import * as L from 'leaflet';
 import { InRideDriverDialogComponent } from '../in-ride-driver-dialog/in-ride-driver-dialog.component';
+import { MapComponent } from 'src/app/shared/components/map/map.component';
 
 @Component({
   selector: 'app-new-ride-driver-dialog',
@@ -17,6 +18,7 @@ import { InRideDriverDialogComponent } from '../in-ride-driver-dialog/in-ride-dr
 })
 export class NewRideDriverDialogComponent implements OnInit {
   destroy$: Subject<boolean> = new Subject<boolean>();
+  @ViewChild(MapComponent) map!: MapComponent;
   
   driverId: number = -1;
   noteType :NoteType =  NoteType.CANCEL_FARE;
@@ -35,7 +37,8 @@ export class NewRideDriverDialogComponent implements OnInit {
     private driverRideService: DriverRideService,
     private mapService: MapService,
     private messageService: MessageService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private cdr: ChangeDetectorRef
   ) { }
   
 
@@ -89,6 +92,11 @@ export class NewRideDriverDialogComponent implements OnInit {
       tempCord = cords.pop();
     }
     this.startCord = tempCord!;
+    this.cdr.detectChanges();
+    this.map.centerView();
+    this.map.setStartingMarker();
+    this.map.setDestinationMarker();
+    this.map.addOnWayStations();
   }
 
   getStartName():string{

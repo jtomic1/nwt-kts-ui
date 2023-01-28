@@ -1,6 +1,7 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
+import { MapComponent } from 'src/app/shared/components/map/map.component';
 import { NoteType } from 'src/app/shared/models/enums/NoteType';
 import { Ride } from 'src/app/shared/models/Ride';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
@@ -13,6 +14,7 @@ import { DriverRideService } from '../../../services/ride-service/driver-ride.se
   styleUrls: ['./in-ride-driver-dialog.component.css']
 })
 export class InRideDriverDialogComponent implements OnInit {
+  @ViewChild(MapComponent) map!: MapComponent;
   driverId: number = -1;
   noteType :NoteType =  NoteType.CANCEL_FARE;
   openDeniedDialog : boolean = false;
@@ -29,7 +31,8 @@ export class InRideDriverDialogComponent implements OnInit {
     private driverRideService: DriverRideService ,
     private messageService: MessageService,
     private loginService: LoginService,
-    private mapService:MapService
+    private mapService:MapService,
+    private cdr: ChangeDetectorRef
   ) { 
   }
 
@@ -82,5 +85,10 @@ export class InRideDriverDialogComponent implements OnInit {
       tempCord = cords.pop();
     }
     this.startCord = tempCord!;
+    this.cdr.detectChanges();
+    this.map.centerView();
+    this.map.setStartingMarker();
+    this.map.setDestinationMarker();
+    this.map.addOnWayStations();
   }
 }

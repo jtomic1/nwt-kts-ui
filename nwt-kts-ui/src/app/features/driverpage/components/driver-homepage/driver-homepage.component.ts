@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
 import { DriverStatus } from 'src/app/shared/models/enums/DriverStatus';
 import { NewRideDriverRequest } from 'src/app/shared/models/NewRideDriverRequest';
@@ -33,7 +34,8 @@ export class DriverHomepageComponent implements OnInit {
     private messageService:MessageService,
     private tokensService:TokensService,
     private driverRideService:DriverRideService,
-    private driverService:DriverService
+    private driverService:DriverService,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -100,7 +102,11 @@ export class DriverHomepageComponent implements OnInit {
     this.socket.on("notification-reservation",(message:ReservationNotification)=>{
       this.messageService.showMessage(message.message,MessageType.INFO);
     });
-    
+
+    this.socket.on('logout-driver',()=>{
+      this.loginService.logout();
+      this.router.navigateByUrl('login');
+    });
   }
 
   startCurrentRideDialog(){

@@ -210,6 +210,13 @@ app.post('/notify-for-reservation',(req,res) => {
   res.json({ message: "notification emited" });
 });
 
+app.post("/logout-driver", (req, res) => {  
+  let driverId = req.body['driverId'].toString();
+  console.log(driverId);
+  io.to(driverId).emit("logout-driver", {});
+  res.json({message: "Driver logged-out"});
+});
+
 http.listen(3000, () => {
   console.log('listening on *:3000');
 });

@@ -46,7 +46,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
 
 
   //private map: any;
-  private route: any;
+  //private route: any;
 
   isStartSet: boolean = false;
   isDestinationSet: boolean = false;
@@ -95,7 +95,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit(): void {    
-    //this.setUpSocket();
+    this.setUpSocket();
     this.checkIsClientInRide();
   }
 
@@ -370,7 +370,7 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
     if (this.isStartSet && this.isDestinationSet) {
 
       let allStops: string = '';
-      let waypoints: L.Routing.Waypoint[] = this.route.getWaypoints();
+      let waypoints: L.Routing.Waypoint[] = this.map.getWaypoints();
       allStops += this.form.controls['start'].value+','+waypoints[0].latLng.lat+','+waypoints[0].latLng.lng+';';
       for (let ii = 0; ii < this.onWayStations.length; ii++) {        
         allStops += this.onWayStations[ii].address+','+this.onWayStations[ii].lat+','+this.onWayStations[ii].lng+';';

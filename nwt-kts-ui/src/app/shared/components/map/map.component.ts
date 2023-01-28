@@ -36,14 +36,17 @@ export class MapComponent implements AfterViewInit {
   constructor(private driverService: DriverService) {}
 
   ngAfterViewInit(): void {
-    L.Icon.Default.imagePath = "assets/leaflet/";
+    L.Icon.Default.imagePath = "assets/leaflet/";    
     this.initMap();
     if (this.displayDrivers) {
       this.driverService.setMap(this.map);
-    }    
+    }
   }
 
   private initMap(): void {
+    if (this.mapInDialog) {
+      this.map = undefined;
+    }
     this.map = L.map('map').setView(
       [45.255351359492444, 19.84542310237885], 14
     );
@@ -201,5 +204,9 @@ export class MapComponent implements AfterViewInit {
     this.map.setView(
       [(this.startCoord.lat + this.endCoord.lat) / 2,
        (this.startCoord.lng + this.endCoord.lng) / 2,],13);
+  }
+
+  getWaypoints(): L.Routing.Waypoint[] {
+    return this.route.getWaypoints();
   }
 }

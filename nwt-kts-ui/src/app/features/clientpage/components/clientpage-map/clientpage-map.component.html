@@ -2,11 +2,24 @@
     <mat-card-content>
         <mat-grid-list cols="5" rowHeight="160px">
             <mat-grid-tile colspan="3" rowspan="4">
-                <div class="map-container">
+                <!-- <div class="map-container">
                     <div class="map-frame">
                       <div id="map"></div>
                     </div>
-                </div>
+                </div> -->
+                <app-map #map
+                        [addWaypoints]="true"                                                                    
+                        [startCoord]="startCoord"
+                        [onWayStations]="onWayStationsLatLng"
+                        [endCoord]="endCoord"
+                        [displayDrivers]="true"
+                        (startChanged)="updateStartFormControl($event)"
+                        (endChanged)="updateEndFormControl($event)"
+                        (priceChanged)="setPriceFormControl($event)"
+                        (timeChanged)="setTimeFormControl($event)"
+                        (simCoordsChanged)="setCoordsForSimulation($event)"
+                        (onWayStationsAdded)="setOnWayStations($event)">
+                </app-map>
             </mat-grid-tile>
             <mat-grid-tile colspan="2" rowspan="4" *ngIf="!rideIsGoing">
                 <mat-card class="data-card">                        

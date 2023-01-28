@@ -87,7 +87,7 @@ export enum MessageType {
 }
 
 @Component({
-  selector: 'success-message',
+  selector: 'app-success-message',
   template: `
     <div class="message-content">
       <fa-icon class="icon fa-2x" [icon]="data.icon"></fa-icon>

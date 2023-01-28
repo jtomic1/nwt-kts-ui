@@ -1,6 +1,6 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
+import {  ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-// import * as L from 'leaflet';
+import * as L from 'leaflet';
 // import 'leaflet-routing-machine';
 import { Subject, takeUntil } from 'rxjs';
 import { MapComponent } from 'src/app/shared/components/map/map.component';
@@ -13,7 +13,7 @@ import { MessageService, MessageType } from 'src/app/shared/services/message-ser
   templateUrl: './startpage-map.component.html',
   styleUrls: ['./startpage-map.component.css']
 })
-export class StartpageMapComponent implements AfterViewInit, OnDestroy {
+export class StartpageMapComponent implements  OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   
   @ViewChild(MapComponent) map!: MapComponent;
@@ -35,9 +35,7 @@ export class StartpageMapComponent implements AfterViewInit, OnDestroy {
               private messageService: MessageService,
               private cdr: ChangeDetectorRef) { }  
 
-  ngAfterViewInit(): void {
   
-  }
   
   ngOnDestroy(): void {
     this.destroy$.next(true);

@@ -18,7 +18,7 @@
                         (priceChanged)="setPriceFormControl($event)"
                         (timeChanged)="setTimeFormControl($event)"
                         (simCoordsChanged)="setCoordsForSimulation($event)"
-                        (onWayStationsAdded)="setOnWayStations($event)">
+                        (wayStationsAdded)="setOnWayStations($event)">
                 </app-map>
             </mat-grid-tile>
             <mat-grid-tile colspan="2" rowspan="4" *ngIf="!rideIsGoing">

@@ -5,14 +5,11 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './blocking-users.component.html',
   styleUrls: ['./blocking-users.component.css']
 })
-export class BlockingUsersComponent implements OnInit {
+export class BlockingUsersComponent{
 
   clients: string = 'clients';
   drivers: string = 'drivers';
 
   constructor() { }
-
-  ngOnInit(): void {
-  }
 
 }

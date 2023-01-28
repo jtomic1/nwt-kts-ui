@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { PersonalDataMode } from './PersonalDataMode';
 
@@ -7,12 +7,12 @@ import { PersonalDataMode } from './PersonalDataMode';
   templateUrl: './personal-data.component.html',
   styleUrls: ['./personal-data.component.css'],
 })
-export class PersonalDataComponent implements OnInit {
+export class PersonalDataComponent  {
   @Input() form: FormGroup = new FormGroup({});
   @Input() mode: PersonalDataMode = PersonalDataMode.REGISTRATION;
   constructor() {}
 
-  ngOnInit(): void {}
+  
 
   get showPasswords(): boolean {
     return this.mode === PersonalDataMode.REGISTRATION;

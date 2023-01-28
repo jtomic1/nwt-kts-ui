@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
 import { Rating } from 'src/app/features/homepage/models/Rating';
@@ -8,7 +8,7 @@ import { Rating } from 'src/app/features/homepage/models/Rating';
   templateUrl: './rating-card.component.html',
   styleUrls: ['./rating-card.component.css'],
 })
-export class RatingCardComponent implements OnInit {
+export class RatingCardComponent  {
   solidStar = solidStar;
   emptyStar = regularStar;
 
@@ -28,5 +28,5 @@ export class RatingCardComponent implements OnInit {
     };
   }
 
-  ngOnInit(): void {}
+  
 }

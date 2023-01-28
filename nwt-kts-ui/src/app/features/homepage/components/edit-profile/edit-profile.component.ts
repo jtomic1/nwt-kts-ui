@@ -1,5 +1,5 @@
 import { HttpHeaders } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
@@ -22,7 +22,7 @@ import { ChangeUserDataDTO } from '../../models/ChangeUserDataDTO';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.css'],
 })
-export class EditProfileComponent implements OnInit {
+export class EditProfileComponent  {
   destroy$: Subject<boolean> = new Subject<boolean>();
   editForm: FormGroup;
   editFormCache: string = '';
@@ -41,7 +41,6 @@ export class EditProfileComponent implements OnInit {
     this.editFormCache = JSON.stringify(this.editForm.getRawValue());
   }
 
-  ngOnInit(): void {}
 
   get PersonalDataMode(): typeof PersonalDataMode {
     return PersonalDataMode;
@@ -89,7 +88,6 @@ export class EditProfileComponent implements OnInit {
 
   uploadFile() {
     const file = this.fileInput.nativeElement.files[0];
-    console.log(this.fileInput.nativeElement.files);
     if (file.size > 5 * 1024 * 1024) {
       this.messageService.showMessage(
         'Fotografija je prevelika!',

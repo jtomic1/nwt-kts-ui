@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
@@ -13,7 +13,7 @@ import { LoginService } from '../../services/login-service/login.service';
   templateUrl: './forgot-password-dialog.component.html',
   styleUrls: ['./forgot-password-dialog.component.css'],
 })
-export class ForgotPasswordDialogComponent implements OnInit, OnDestroy {
+export class ForgotPasswordDialogComponent implements  OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   email: FormControl = new FormControl('');
   constructor(
@@ -22,7 +22,7 @@ export class ForgotPasswordDialogComponent implements OnInit, OnDestroy {
     private messageService: MessageService
   ) {}
 
-  ngOnInit(): void {}
+  
 
   onConfirmClick(): void {
     this.loginRequest();

@@ -20,7 +20,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
   @Input() email: string = '';
   @Input() phone: string = '';
 
-  @Output() onDeleted = new EventEmitter<number>();
+  @Output() deletedUser = new EventEmitter<number>();
 
   title: string = 'Unesite napomenu';
   placeholder: string = 'Unesite tekst';
@@ -63,7 +63,7 @@ export class ListUserComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(BlockingDialogComponent, dialogConfig);
     dialogRef.afterClosed().subscribe(result => {      
       if (result === true) {
-        this.onDeleted.emit(this.id);
+        this.deletedUser.emit(this.id);
       }
     });
   }

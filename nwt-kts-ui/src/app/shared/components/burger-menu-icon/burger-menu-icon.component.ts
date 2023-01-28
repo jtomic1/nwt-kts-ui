@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { DrawerService } from '../../services/drawer-service/drawer.service';
 
 @Component({
@@ -6,12 +6,12 @@ import { DrawerService } from '../../services/drawer-service/drawer.service';
   templateUrl: './burger-menu-icon.component.html',
   styleUrls: ['./burger-menu-icon.component.css'],
 })
-export class BurgerMenuIconComponent implements OnInit {
+export class BurgerMenuIconComponent  {
   @ViewChild('burgerButton') button!: HTMLButtonElement;
 
   constructor(public drawerService: DrawerService) {}
 
-  ngOnInit(): void {}
+  
 
   toggleIcon() {
     this.drawerService.toggleOpened();

@@ -1,8 +1,8 @@
 import {
   Component,
   Input,
+  OnChanges,
   OnDestroy,
-  OnInit,
   SimpleChanges,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -30,7 +30,7 @@ export type IsFavourite = {
   templateUrl: './client-fare-details.component.html',
   styleUrls: ['./client-fare-details.component.css'],
 })
-export class ClientFareDetailsComponent implements OnInit, OnDestroy {
+export class ClientFareDetailsComponent implements  OnDestroy,OnChanges {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() fareData!: FareDTO;
@@ -46,7 +46,7 @@ export class ClientFareDetailsComponent implements OnInit, OnDestroy {
     private favouriteService: FavouriteService
   ) {}
 
-  ngOnInit(): void {}
+  
 
   ngOnChanges(change: SimpleChanges) {
     let fareData = change['fareData'].currentValue;

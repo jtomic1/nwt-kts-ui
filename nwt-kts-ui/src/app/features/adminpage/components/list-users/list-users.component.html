@@ -5,7 +5,7 @@
         [surname]="item.lastName"
         [email]="item.email"
         [phone]="item.phone"
-        (onDeleted)="deleteUser($event)"></app-list-user>
+        (deletedUser)="deleteUser($event)"></app-list-user>
 </mat-card>
 <div class="paginator-container">
     <mat-paginator [length]="totalItems"

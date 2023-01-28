@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, OnDestroy, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { ConnectableObservable, Subject, takeUntil } from 'rxjs';
@@ -90,9 +90,6 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
                 
               }
 
-  ngOnInit(): void {
-    
-  }
 
   ngAfterViewInit(): void {    
     this.setUpSocket();
@@ -239,11 +236,11 @@ export class ClientpageMapComponent implements AfterViewInit, OnDestroy {
           .subscribe((result: any) => {
             var data = result.features[0].properties.geocoding;
             if (data.housenumber !== undefined && data.street !== undefined) {
-              var station: OnWayStation = {address: data.street + ' ' + data.housenumber, lat: coord.lat, lng: coord.lng};
+              let station: OnWayStation = {address: data.street + ' ' + data.housenumber, lat: coord.lat, lng: coord.lng};
               this.onWayStations.push(station);
             } 
             else {
-              var station: OnWayStation = {address: 'NN ' + index, lat: coord.lat, lng: coord.lng};
+              let station: OnWayStation = {address: 'NN ' + index, lat: coord.lat, lng: coord.lng};
               this.onWayStations.push(station);
             }
           }

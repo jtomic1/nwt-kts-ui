@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NoteType } from 'src/app/shared/models/enums/NoteType';
 import { Ride } from 'src/app/shared/models/Ride';
 
@@ -7,7 +7,7 @@ import { Ride } from 'src/app/shared/models/Ride';
   templateUrl: './client-in-ride.component.html',
   styleUrls: ['./client-in-ride.component.css']
 })
-export class ClientInRideComponent implements OnInit {
+export class ClientInRideComponent  {
 
   @Input() ride!: Ride; 
   
@@ -18,8 +18,6 @@ export class ClientInRideComponent implements OnInit {
   
   constructor() { }
 
-  ngOnInit(): void {
-  }
 
   openComplaintDialog(){
     this.offenderId = this.ride.driverId!;

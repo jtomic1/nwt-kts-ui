@@ -22,7 +22,7 @@ export class MapComponent implements AfterViewInit {
   @Output() priceChanged = new EventEmitter<number>();
   @Output() timeChanged = new EventEmitter<number>();
   @Output() simCoordsChanged = new EventEmitter<any>();
-  @Output() onWayStationsAdded = new EventEmitter<L.LatLng[]>();
+  @Output() wayStationsAdded = new EventEmitter<L.LatLng[]>();
 
   @ViewChild('mapDiv', { static: false }) mapDiv!: ElementRef;
 
@@ -197,7 +197,7 @@ export class MapComponent implements AfterViewInit {
     for (let i = 1; i < waypoints.length - 1; i++) {            
       coords.push(waypoints[i].latLng);
     }
-    this.onWayStationsAdded.emit(coords);    
+    this.wayStationsAdded.emit(coords);    
   }
 
   centerView() {

@@ -10,6 +10,7 @@ import { FareService } from 'src/app/shared/services/fare-service/fare.service';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
 import { FareDTO } from '../../models/FareDTO';
 import { FareHistoryDTO } from '../../models/FareHistoryDTO';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-fare-history',

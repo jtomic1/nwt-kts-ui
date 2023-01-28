@@ -7,6 +7,7 @@ import { Ride } from 'src/app/shared/models/Ride';
 import { MapService } from 'src/app/shared/services/map-service/map.service';
 import { MessageService, MessageType } from 'src/app/shared/services/message-service/message.service';
 import { DriverRideService } from '../../../services/ride-service/driver-ride.service';
+import * as L from 'leaflet';
 
 @Component({
   selector: 'app-in-ride-driver-dialog',

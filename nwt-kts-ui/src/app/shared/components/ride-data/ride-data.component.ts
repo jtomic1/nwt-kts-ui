@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import {  Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { MapService } from '../../services/map-service/map.service';
@@ -10,7 +10,7 @@ import * as L from 'leaflet';
   templateUrl: './ride-data.component.html',
   styleUrls: ['./ride-data.component.css']
 })
-export class RideDataComponent implements AfterViewInit, OnDestroy {
+export class RideDataComponent implements  OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() start: any = {};
@@ -32,9 +32,7 @@ export class RideDataComponent implements AfterViewInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
 
-  ngAfterViewInit(): void {
-    
-  }
+  
 
   createFormGroup(): FormGroup {
     return new FormGroup({

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Subject, takeUntil } from 'rxjs';
 import { RegistrationService } from 'src/app/features/startpage/services/registration-service/registration.service';
@@ -14,7 +14,7 @@ import { AdminRegistrationData } from '../../models/AdminRegistrationData';
   templateUrl: './register-driver.component.html',
   styleUrls: ['./register-driver.component.css'],
 })
-export class RegisterDriverComponent implements OnInit, OnDestroy {
+export class RegisterDriverComponent implements  OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   form: FormGroup = this.createDriverRegistrationForm();
@@ -32,7 +32,7 @@ export class RegisterDriverComponent implements OnInit, OnDestroy {
     private messageService: MessageService
   ) {}
 
-  ngOnInit(): void {}
+  
 
   get enableSubmitButton(): boolean {
     return this.form.valid;

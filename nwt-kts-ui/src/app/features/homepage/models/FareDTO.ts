@@ -1,5 +1,6 @@
 import { UserDTO } from 'src/app/shared/models/UserDTO';
 import { Rating } from './Rating';
+import * as L from 'leaflet';
 
 export interface FareDTO {
   fareId: number;

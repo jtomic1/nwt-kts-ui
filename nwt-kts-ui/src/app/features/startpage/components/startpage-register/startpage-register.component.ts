@@ -20,7 +20,7 @@ import { RegistrationService } from '../../services/registration-service/registr
   templateUrl: './startpage-register.component.html',
   styleUrls: ['./startpage-register.component.css'],
 })
-export class StartpageRegisterComponent implements OnInit, OnDestroy {
+export class StartpageRegisterComponent implements  OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
   @Output() registrationEvent: EventEmitter<boolean> =
     new EventEmitter<boolean>();
@@ -30,8 +30,6 @@ export class StartpageRegisterComponent implements OnInit, OnDestroy {
     private messageService: MessageService,
     private registrationService: RegistrationService
   ) {}
-
-  ngOnInit(): void {}
 
   createRegistrationForm(): FormGroup {
     return new FormGroup(

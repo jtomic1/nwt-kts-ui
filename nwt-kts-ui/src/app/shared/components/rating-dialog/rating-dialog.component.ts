@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
 import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
@@ -12,7 +12,7 @@ type Mode = 'driver' | 'vehicle';
   templateUrl: './rating-dialog.component.html',
   styleUrls: ['./rating-dialog.component.css'],
 })
-export class RatingDialogComponent implements OnInit {
+export class RatingDialogComponent  {
   solidStar = solidStar;
   emptyStar = regularStar;
 
@@ -26,7 +26,7 @@ export class RatingDialogComponent implements OnInit {
     private loginService: LoginService
   ) {}
 
-  ngOnInit(): void {}
+  
 
   get driverRating(): number {
     if (this.driverRatingPlaceholder !== null)

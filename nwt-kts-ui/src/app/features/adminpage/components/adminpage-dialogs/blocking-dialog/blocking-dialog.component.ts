@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, OnDestroy } from '@angular/core';
+import { Component, Inject, OnDestroy } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Subject, takeUntil } from 'rxjs';
 import { User } from 'src/app/shared/models/User';
@@ -14,7 +14,7 @@ export interface DialogData {
   templateUrl: './blocking-dialog.component.html',
   styleUrls: ['./blocking-dialog.component.css']
 })
-export class BlockingDialogComponent implements OnInit, OnDestroy {
+export class BlockingDialogComponent implements  OnDestroy {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   deleted: boolean = false;
@@ -29,8 +29,6 @@ export class BlockingDialogComponent implements OnInit, OnDestroy {
     this.destroy$.unsubscribe();
   }
   
-  ngOnInit(): void {
-  }
 
   onCancelClick(): void {
     this.dialogRef.close();

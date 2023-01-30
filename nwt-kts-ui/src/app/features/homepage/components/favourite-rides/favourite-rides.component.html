@@ -1,5 +1,6 @@
 <div class="main-container">
   <div class="sub-container card-container">
+    <h1 *ngIf="favourites.length === 0">Nemate omiljenih ruta!</h1>
     <div *ngFor="let route of favourites">
       <mat-card class="details">
         <span>{{ route.routeName }} </span>
@@ -7,7 +8,13 @@
           <button mat-raised-button color="accent" (click)="rowClick(route)">
             PRIKAŽI
           </button>
-          <button mat-raised-button color="accent">ZAKAŽI</button>
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="scheduleRoute(route)"
+          >
+            ZAKAŽI
+          </button>
           <button mat-raised-button color="warn" (click)="removeRoute(route)">
             UKLONI
           </button>
@@ -17,7 +24,12 @@
   </div>
   <div class="sub-container map-container">
     <mat-card class="details-card" style="padding-bottom: 10px">
-      <span *ngIf="true"> <app-map></app-map></span
+      <span *ngIf="focusedRoute !== null">
+        <app-map
+          [startCoord]="focusedRoute!.startCoord"
+          [endCoord]="focusedRoute!.endCoord"
+          [onWayStations]="focusedRoute!.onWayStations"
+        ></app-map></span
     ></mat-card>
   </div>
 </div>

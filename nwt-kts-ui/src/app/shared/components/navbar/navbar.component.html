@@ -7,13 +7,12 @@
     <span class="logo" [routerLink]="['/home']">RideShare</span>
   </span>
   <div *ngIf="loginService.isTokenPresent" class="user-data">
-    
-    <div *ngIf=" user && user.role === driverRole" class="driver-status">
+    <div *ngIf="user && user.role === driverRole" class="driver-status">
       <app-driver-status></app-driver-status>
     </div>
     <app-tokens-count
       class="logout"
-      [routerLink]="['/tokens']"
+      [routerLink]="['home/tokens']"
       [isCurrentUserTokens]="true"
     ></app-tokens-count>
     <div

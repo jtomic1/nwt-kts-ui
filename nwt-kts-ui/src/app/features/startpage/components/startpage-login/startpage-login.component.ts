@@ -79,13 +79,11 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
   }
 
   redirectLoggedUser() {
-    if(this.loginService.user?.role == Role.DRIVER){
-      this.router.navigateByUrl('driverHomePage');
-    } 
-    else if( this.loginService.user?.role == Role.USER){
-      this.router.navigateByUrl('clientmap');
-    }
-    else {
+    if (this.loginService.user?.role == Role.DRIVER) {
+      this.router.navigateByUrl('home/driverHomePage');
+    } else if (this.loginService.user?.role == Role.USER) {
+      this.router.navigateByUrl('home/clientmap');
+    } else {
       this.router.navigateByUrl('home');
     }
   }

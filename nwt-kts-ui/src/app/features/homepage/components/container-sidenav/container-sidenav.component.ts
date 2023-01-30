@@ -8,6 +8,8 @@ import {
   faUserPlus,
   faUserSlash,
   faChartColumn,
+  faMapLocationDot,
+  faCoins,
 } from '@fortawesome/free-solid-svg-icons';
 import { DrawerOption } from 'src/app/features/startpage/models/DrawerOption';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -59,6 +61,12 @@ export class ContainerSidenavComponent implements OnInit {
   }
 
   getUserOptions(): DrawerOption[] {
+    let ride: DrawerOption = {
+      name: 'Poruči vožnju',
+      route: 'clientmap',
+      icon: faMapLocationDot,
+    };
+
     let profile: DrawerOption = {
       name: 'Podaci o profilu',
       route: 'editProfile',
@@ -82,18 +90,13 @@ export class ContainerSidenavComponent implements OnInit {
       icon: faChartColumn,
     };
 
-    let option3: DrawerOption = {
-      name: 'Mock Option 3',
-      route: 'mock',
-      icon: faUserPen,
-    };
-    let option4: DrawerOption = {
-      name: 'Mock Option 4',
-      route: 'mock',
-      icon: faUserPen,
+    let tokens: DrawerOption = {
+      name: 'Finansijska kartica',
+      route: 'tokens',
+      icon: faCoins,
     };
 
-    return [profile, history, favourites, reports, option4];
+    return [ride, profile, history, favourites, reports, tokens];
   }
 
   getDriverOptions(): DrawerOption[] {

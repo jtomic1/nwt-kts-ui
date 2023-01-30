@@ -6,6 +6,7 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
 import * as dayjs from 'dayjs';
 import { mergeMap, of, Subject, takeUntil } from 'rxjs';
 import { LoginService } from 'src/app/features/startpage/services/login-service/login.service';
@@ -17,6 +18,7 @@ import {
   MessageType,
 } from 'src/app/shared/services/message-service/message.service';
 import { RatingService } from 'src/app/shared/services/rating-service/rating.service';
+import { ScheduleService } from 'src/app/shared/services/schedule-service/schedule.service';
 import { FareDTO } from '../../models/FareDTO';
 import { Rating } from '../../models/Rating';
 
@@ -30,7 +32,7 @@ export type IsFavourite = {
   templateUrl: './client-fare-details.component.html',
   styleUrls: ['./client-fare-details.component.css'],
 })
-export class ClientFareDetailsComponent implements  OnDestroy,OnChanges {
+export class ClientFareDetailsComponent implements OnDestroy, OnChanges {
   destroy$: Subject<boolean> = new Subject<boolean>();
 
   @Input() fareData!: FareDTO;
@@ -43,10 +45,10 @@ export class ClientFareDetailsComponent implements  OnDestroy,OnChanges {
     private messageService: MessageService,
     private ratingService: RatingService,
     private loginService: LoginService,
-    private favouriteService: FavouriteService
+    private favouriteService: FavouriteService,
+    private router: Router,
+    private scheduleService: ScheduleService
   ) {}
-
-  
 
   ngOnChanges(change: SimpleChanges) {
     let fareData = change['fareData'].currentValue;
@@ -127,6 +129,10 @@ export class ClientFareDetailsComponent implements  OnDestroy,OnChanges {
         .subscribe(() => {
           this.isFavourite.isFavourite = false;
           this.isFavourite.favouriteId = -1;
+          this.messageService.showMessage(
+            'Ruta izbačena iz omiljenih!',
+            MessageType.SUCCESS
+          );
         });
     } else {
       this.favouriteService
@@ -139,8 +145,22 @@ export class ClientFareDetailsComponent implements  OnDestroy,OnChanges {
         .subscribe((res: IsFavourite) => {
           this.isFavourite.isFavourite = res.isFavourite;
           this.isFavourite.favouriteId = res.favouriteId;
+          this.messageService.showMessage(
+            'Ruta dodata u omiljene!',
+            MessageType.SUCCESS
+          );
         });
     }
+  }
+
+  scheduleRoute() {
+    let data = {
+      startCoord: this.fareData.startCoord,
+      endCoord: this.fareData.endCoord,
+      onWayStations: this.fareData.onWayStations,
+    };
+    this.scheduleService.mapData = data;
+    this.router.navigate(['../clientmap']);
   }
 
   ngOnDestroy(): void {

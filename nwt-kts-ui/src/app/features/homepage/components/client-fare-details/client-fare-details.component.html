@@ -44,7 +44,12 @@
           {{ rateButtonDetails.displayText }}
         </button></span
       >
-      <button mat-raised-button color="basic" style="border: 2px solid gray">
+      <button
+        mat-raised-button
+        color="basic"
+        style="border: 2px solid gray"
+        (click)="scheduleRoute()"
+      >
         ZAKAŽI PONOVO
       </button>
       <button

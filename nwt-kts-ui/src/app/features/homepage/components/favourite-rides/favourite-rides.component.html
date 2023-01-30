@@ -1,1 +1,23 @@
-<p>favourite-rides works!</p>
+<div class="main-container">
+  <div class="sub-container card-container">
+    <div *ngFor="let route of favourites">
+      <mat-card class="details">
+        <span>{{ route.routeName }} </span>
+        <span style="display: flex; gap: 6px">
+          <button mat-raised-button color="accent" (click)="rowClick(route)">
+            PRIKAŽI
+          </button>
+          <button mat-raised-button color="accent">ZAKAŽI</button>
+          <button mat-raised-button color="warn" (click)="removeRoute(route)">
+            UKLONI
+          </button>
+        </span>
+      </mat-card>
+    </div>
+  </div>
+  <div class="sub-container map-container">
+    <mat-card class="details-card" style="padding-bottom: 10px">
+      <span *ngIf="true"> <app-map></app-map></span
+    ></mat-card>
+  </div>
+</div>

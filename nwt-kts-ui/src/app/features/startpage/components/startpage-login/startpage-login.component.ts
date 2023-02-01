@@ -1,7 +1,7 @@
 import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { FacebookLoginProvider } from '@abacritt/angularx-social-login';
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { faFacebook } from '@fortawesome/free-brands-svg-icons';
@@ -13,6 +13,7 @@ import {
   MessageType,
 } from 'src/app/shared/services/message-service/message.service';
 import { LoginData } from '../../models/LoginData';
+import { LoginResponseData } from '../../models/LoginResponseData';
 import { LoginService } from '../../services/login-service/login.service';
 import { ForgotPasswordDialogComponent } from '../forgot-password-dialog/forgot-password-dialog.component';
 
@@ -57,8 +58,8 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
 
   createLoginForm(): FormGroup {
     return new FormGroup({
-      username: new FormControl(''),
-      password: new FormControl(''),
+      username: new FormControl('', Validators.required),
+      password: new FormControl('', Validators.required),
     });
   }
 
@@ -68,7 +69,7 @@ export class StartpageLoginComponent implements OnInit, OnDestroy {
       .sendLoginRequest(data)
       .pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (res: any) => {
+        next: (res: LoginResponseData) => {
           this.loginService.setUserData(res);
           this.redirectLoggedUser();
         },

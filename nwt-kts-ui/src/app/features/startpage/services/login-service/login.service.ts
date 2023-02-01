@@ -41,14 +41,16 @@ export class LoginService {
     return this.token !== null;
   }
 
-  sendLoginRequest(data: LoginData): Observable<LoginData> {
+  sendLoginRequest(data: LoginData): Observable<LoginResponseData> {
     let url = `${environment.baseUrl}/${ApiPaths.Login}`;
-    return this.http.post<LoginData>(url, data);
+    return this.http.post<LoginResponseData>(url, data);
   }
 
-  sendLoginWithFacebookRequest(data: { email: string }): Observable<LoginData> {
+  sendLoginWithFacebookRequest(data: {
+    email: string;
+  }): Observable<LoginResponseData> {
     let url = `${environment.baseUrl}/${ApiPaths.FBLogin}`;
-    return this.http.post<LoginData>(url, data);
+    return this.http.post<LoginResponseData>(url, data);
   }
 
   sendPasswordResetRequest(data: { email: string }): Observable<void> {
@@ -94,15 +96,14 @@ export class LoginService {
   }
 
   logout() {
-    if(this.user?.role == Role.DRIVER)
+    if (this.user?.role === Role.DRIVER)
       this.driverService.logOutDriver().subscribe();
 
-    if(this.facebookFlag)
+    if (this.facebookFlag)
       if (this.facebookFlag) this.authService.signOut(true);
 
     localStorage.clear();
     this.facebookFlag = false;
     this.userChangedSubject.next(this.user!);
-
   }
 }

@@ -5,5 +5,5 @@ export interface RegistrationData {
   name: string;
   lastName: string;
   town: string;
-  phoneNumber: number;
+  phoneNumber: string;
 }

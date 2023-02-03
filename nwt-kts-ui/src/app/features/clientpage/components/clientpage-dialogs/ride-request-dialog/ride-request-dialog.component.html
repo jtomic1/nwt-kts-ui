@@ -13,6 +13,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button mat-raised-button color="primary" *ngIf="processIsFinished" (click)="acceptRide()">Prihvati i prati vožnju na mapi</button>
+    <button mat-raised-button color="primary" name="accept-ride" *ngIf="processIsFinished" (click)="acceptRide()">Prihvati i prati vožnju na mapi</button>
     <button mat-raised-button color="warn" mat-dialog-close (click)="cancelRide()">Odustani od vožnje </button>
 </mat-dialog-actions>

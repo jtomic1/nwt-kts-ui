@@ -6,9 +6,9 @@
         <form [formGroup]="form">
             <mat-form-field appearance="fill">
                 <mat-label>{{placeholder}}</mat-label>
-                <textarea matInput formControlName="textarea" required></textarea>
+                <textarea matInput name="text-area" formControlName="textarea" required></textarea>
             </mat-form-field>
-            <button mat-flat-button color="primary" [disabled]="form.invalid" (click)="sendNote()">Pošalji</button>
+            <button mat-flat-button color="primary" name="send-note" [disabled]="form.invalid" (click)="sendNote()">Pošalji</button>
         </form>
     </mat-card-content>
 </mat-card>

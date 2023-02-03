@@ -50,7 +50,7 @@
 
 <mat-dialog-actions align="center" *ngIf="!acceptedRide && !openDeniedDialog">
     <button mat-raised-button name="accept-ride" color="primary"(click)="acceptRide()" >Prihvati</button>
-    <button mat-raised-button color="warn"  (click)="deniedRide()">Otkaži</button>
+    <button mat-raised-button name="refuse-ride" color="warn"  (click)="deniedRide()">Otkaži</button>
 </mat-dialog-actions>
 <mat-dialog-actions align="center" *ngIf="openDeniedDialog">
     <app-note *ngIf="openDeniedDialog"

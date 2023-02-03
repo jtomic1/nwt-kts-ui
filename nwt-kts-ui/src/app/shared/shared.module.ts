@@ -58,6 +58,7 @@ import { DriverStatusComponent } from './components/driver-status/driver-status.
     RatingCardComponent,
     ProfileDetailsComponent,
     RatingDialogComponent,
+    ReportComponent
   ],
 })
 export class SharedModule {}

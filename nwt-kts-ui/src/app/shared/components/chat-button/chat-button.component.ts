@@ -49,6 +49,12 @@ export class ChatButtonComponent implements OnInit {
 
   }
 
+getRouterLink(){
+  if (this.loginService.user!.role !== Role.ADMIN)
+    return '/home/liveChat'
+  return '/home/liveChatAdmin'
+}
+
   disableAnimation(){
     this.isAnimated = false;
   }

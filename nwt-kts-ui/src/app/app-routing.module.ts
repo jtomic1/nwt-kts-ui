@@ -12,9 +12,6 @@ const routes: Routes = [
   { path: 'login/:status', component: StartpageTabContainerComponent },
   { path: 'resetPassword/:token', component: ResetPasswordComponent },
 
-  { path: 'liveChat', component: LiveChatClientComponent },
-  { path: 'liveChatAdmin', component: LiveChatAdminComponent },
-
   //*************//
   {
     path: 'home',

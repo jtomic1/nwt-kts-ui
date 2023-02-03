@@ -47,6 +47,8 @@ export class InRideDriverDialogComponent implements OnInit {
     this.driverRideService.finishRide(this.data.ride).subscribe({
       next:(res)=>{
         this.messageService.showMessage(res,MessageType.SUCCESS);
+        
+        this.loginService.userChangedSubject.next(this.loginService.user!);
       },
       error:(err)=>{
         this.messageService.showMessage(err,MessageType.ERROR);
@@ -59,6 +61,8 @@ export class InRideDriverDialogComponent implements OnInit {
     this.driverRideService.finishRide(this.data.ride).subscribe({
       next:(res)=>{
         this.messageService.showMessage(res,MessageType.SUCCESS);
+        
+        this.loginService.userChangedSubject.next(this.loginService.user!);
       },
       error:(err)=>{
         this.messageService.showMessage(err,MessageType.ERROR);

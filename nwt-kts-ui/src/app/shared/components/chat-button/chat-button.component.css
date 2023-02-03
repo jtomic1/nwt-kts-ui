@@ -3,7 +3,7 @@
 	width:60px;
 	height:60px;
 	bottom:40px;
-	right:40px;
+	left:20px;
 	background-color:#7b1fa2;
 	color:#FFF;
 	text-align:center;
@@ -20,7 +20,7 @@
     opacity: 1;
 }
 
-.live-chat-btn:before {
+/* .live-chat-btn:before {
     position: absolute;
     top:10px;
     left: -195px;
@@ -34,7 +34,7 @@
     opacity: 0;
     transition: 1s;
 
-  }
+  } */
 
 .heart-rate {
   animation: blinking 1.2s infinite;

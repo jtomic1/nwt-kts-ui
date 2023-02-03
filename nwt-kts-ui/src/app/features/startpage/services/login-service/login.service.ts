@@ -16,7 +16,7 @@ import { ResetPasswordDTO } from '../../models/ResetPasswordDTO';
   providedIn: 'root',
 })
 export class LoginService {
-  private userChangedSubject = new BehaviorSubject<User>(this.user!);
+  public userChangedSubject = new BehaviorSubject<User>(this.user!);
   public userChanged = this.userChangedSubject.asObservable();
 
   facebookFlag: boolean = false;

@@ -4,6 +4,8 @@ import { ReportComponent } from 'src/app/shared/components/report/report.compone
 import { BlockingUsersComponent } from '../adminpage/components/blocking-users/blocking-users.component';
 import { ClientpageMapComponent } from '../clientpage/components/clientpage-map/clientpage-map.component';
 import { DriverHomepageComponent } from '../driverpage/components/driver-homepage/driver-homepage.component';
+import { LiveChatAdminComponent } from '../live-chat/components/live-chat-admin/live-chat-admin.component';
+import { LiveChatClientComponent } from '../live-chat/components/live-chat-client/live-chat-client.component';
 import { AddNewTokensComponent } from '../tokens/components/add-new-tokens/add-new-tokens.component';
 import { DriverChangeListComponent } from './components/driver-change/driver-change-list/driver-change-list.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
@@ -23,6 +25,8 @@ const routes: Routes = [
   { path: 'favourites', component: FavouriteRidesComponent },
   { path: 'tokens', component: AddNewTokensComponent },
   { path: 'driverHomePage', component: DriverHomepageComponent },
+  { path: 'liveChat', component: LiveChatClientComponent },
+  { path: 'liveChatAdmin', component: LiveChatAdminComponent },
 ];
 
 @NgModule({

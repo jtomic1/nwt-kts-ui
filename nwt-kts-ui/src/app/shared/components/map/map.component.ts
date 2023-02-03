@@ -171,7 +171,7 @@ export class MapComponent implements AfterViewInit {
       waypoints: [this.startCoord, this.endCoord],
       //draggableWaypoints: false,
       addWaypoints: this.addWaypoints,
-      showAlternatives: this.showAlternatives,
+      showAlternatives: this.showAlternatives,      
       altLineOptions: {
         styles: [
           { color: 'black', opacity: 0.15, weight: 9 },

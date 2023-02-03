@@ -62,8 +62,8 @@
       </h1>
       <mat-paginator
         [length]="count"
-        [pageSize]="3"
-        [pageSizeOptions]="[3]"
+        [pageSize]="2"
+        [pageSizeOptions]="[2]"
         [hidePageSize]="true"
         aria-label="Izaberi stranicu"
         (page)="onPageChange($event)"
@@ -72,7 +72,7 @@
     </div>
   </mat-grid-tile>
   <mat-grid-tile rowspan="2">
-    <mat-card class="details-card">
+    <mat-card class="details-card" style="overflow-y: auto">
       <div *ngIf="focusedFare !== null">
         <app-client-fare-details
           [fareData]="focusedFare"

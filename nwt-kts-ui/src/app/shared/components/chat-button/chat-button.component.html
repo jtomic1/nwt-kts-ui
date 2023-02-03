@@ -1,7 +1,7 @@
 <button *ngIf="loggedUserId !== -1" 
 mat-fab extended  
 class="float live-chat-btn " 
-[routerLink]="['/liveChat']" 
+[routerLink]="[getRouterLink()]" 
 (click)="disableAnimation()"
 [ngClass]="{'heart-rate':isAnimated}"
 >

@@ -23,6 +23,7 @@ export class MapComponent implements AfterViewInit {
   @Input() endCoord!: L.LatLng;
   @Input() mapInDialog: boolean = false;
   @Input() displayDrivers: boolean = false;
+  @Input() showAlternatives: boolean = true;
 
   @Output() startChanged = new EventEmitter<L.LatLng>();
   @Output() endChanged = new EventEmitter<L.LatLng>();
@@ -30,6 +31,7 @@ export class MapComponent implements AfterViewInit {
   @Output() timeChanged = new EventEmitter<number>();
   @Output() simCoordsChanged = new EventEmitter<any>();
   @Output() wayStationsAdded = new EventEmitter<L.LatLng[]>();
+  @Output() routeIndexChanged = new EventEmitter<string>();
 
   @ViewChild('mapDiv', { static: false }) mapDiv!: ElementRef;
 
@@ -169,7 +171,7 @@ export class MapComponent implements AfterViewInit {
       waypoints: [this.startCoord, this.endCoord],
       //draggableWaypoints: false,
       addWaypoints: this.addWaypoints,
-      showAlternatives: true,
+      showAlternatives: this.showAlternatives,
       altLineOptions: {
         styles: [
           { color: 'black', opacity: 0.15, weight: 9 },
@@ -181,6 +183,7 @@ export class MapComponent implements AfterViewInit {
       },
     })
       .on('routesfound', (e) => {
+        console.log(e)
         this.simCoordsChanged.emit(e.routes[0].coordinates);
         this.startChanged.emit(e.waypoints[0].latLng);
         this.endChanged.emit(e.waypoints[e.waypoints.length - 1].latLng);
@@ -188,6 +191,8 @@ export class MapComponent implements AfterViewInit {
         this.timeChanged.emit(e.routes[0].summary.totalTime);
       })
       .on('routeselected', (e) => {
+        console.log(e)
+        this.routeIndexChanged.emit(e.route.routesIndex);        
         this.simCoordsChanged.emit(e.route.coordinates);
         this.priceChanged.emit(e.route.summary.totalDistance);
         this.timeChanged.emit(e.route.summary.totalTime);

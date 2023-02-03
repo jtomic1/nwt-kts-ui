@@ -57,8 +57,7 @@ export class ClientpageMapComponent
   price!: string;
   time!: string;
 
-  //private map: any;
-  //private route: any;
+  routeIndex: string = '1';
 
   isStartSet: boolean = false;
   isDestinationSet: boolean = false;
@@ -161,6 +160,10 @@ export class ClientpageMapComponent
   setTimeFormControl(time: number): void {
     this.time = Math.round(time / 60) + ' minuta';
     this.form.controls['time'].setValue(this.time);
+  }
+
+  setRouteIndex(routeIndex: string): void {
+    this.routeIndex = routeIndex;
   }
 
   updateStartFormControl(latlng: L.LatLng) {
@@ -504,6 +507,7 @@ export class ClientpageMapComponent
         startTime: this.startTime.toISOString(),
         endTime: this.endTime.toISOString(),
         pathForRide: JSON.stringify(this.coordinatesForSimulation),
+        routeIndex: this.routeIndex
       };
 
       this.openDialogForOrderRideProcess();

@@ -83,3 +83,7 @@ mat-expansion-panel {
   transition-duration: 200ms;
   cursor: pointer;
 }
+
+.mat-form-field-label{
+  color: white !important
+}

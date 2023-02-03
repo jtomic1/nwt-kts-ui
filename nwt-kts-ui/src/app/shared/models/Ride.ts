@@ -15,5 +15,6 @@ export interface Ride {
     deniedDrivers:number[],
     startTime:string,
     endTime:string,
-    pathForRide:string
+    pathForRide:string,
+    routeIndex: string
 }

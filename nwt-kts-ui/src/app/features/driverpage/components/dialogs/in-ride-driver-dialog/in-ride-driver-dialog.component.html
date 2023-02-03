@@ -15,7 +15,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="center">
-    <button mat-raised-button color="primary" mat-dialog-close (click)="finishRide()" *ngIf="!openDeniedDialog">Završi vožnju</button>
+    <button mat-raised-button color="primary" name="end-ride" mat-dialog-close (click)="finishRide()" *ngIf="!openDeniedDialog">Završi vožnju</button>
     <button mat-raised-button color="warn" (click)="interruptRide()" *ngIf="!openDeniedDialog">Prekini vožnju</button>
 
     <app-note *ngIf="openDeniedDialog"

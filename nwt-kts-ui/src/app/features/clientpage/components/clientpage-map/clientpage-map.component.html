@@ -24,14 +24,14 @@
             <mat-grid-tile colspan="2" rowspan="4" *ngIf="!rideIsGoing">
                 <mat-card class="data-card">                        
                     <mat-card-title class="card-title">Podaci o vožnji</mat-card-title>  
-                    <mat-card-content [style.overflow]="'auto'" [style.height.px]="'550'">
+                    <mat-card-content id="scrollable-content" [style.overflow]="'auto'" [style.height.px]="'550'">
                       <form class="form" [formGroup]="form">
                         <div class="search-part">
                             <mat-form-field class="input-field" appearance="fill">
                                 <mat-label>Polazište</mat-label>
-                                <input matInput formControlName="start">
+                                <input matInput name="start" formControlName="start">
                             </mat-form-field>
-                            <button class="search-button" (click)="onStartSearch()"><mat-icon>search</mat-icon></button>
+                            <button class="search-button" name="start-search" (click)="onStartSearch()"><mat-icon>search</mat-icon></button>
                         </div>
 
                         <mat-accordion>
@@ -66,9 +66,9 @@
                         <div class="search-part">
                             <mat-form-field class="input-field" appearance="fill">
                                 <mat-label>Odredište</mat-label>
-                                <input matInput formControlName="destination">
+                                <input matInput name="end" formControlName="destination">
                             </mat-form-field>                                
-                            <button class="search-button" (click)="onDestinationSearch()"><mat-icon>search</mat-icon></button>
+                            <button class="search-button" name="end-search" (click)="onDestinationSearch()"><mat-icon>search</mat-icon></button>
                         </div>      
                         
                         <mat-accordion>
@@ -144,7 +144,7 @@
                         <div class="buttons">
                             <button mat-raised-button (click)="cancelScheduleRide()" *ngIf="schedulingRide">Otkaži zakazivanje</button>
                             <button mat-raised-button (click)="scheduleRide()" *ngIf="!schedulingRide">Zakaži</button>
-                            <button mat-raised-button color="primary" (click)="orderRide()">{{orderText}}</button>
+                            <button mat-raised-button name="order-ride" color="primary" (click)="orderRide()">{{orderText}}</button>
                         </div>        
                     
                       </form>                                         

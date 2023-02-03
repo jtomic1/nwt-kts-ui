@@ -165,6 +165,8 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   receiveMessageInChat(message: string) {
     const element = document.createElement('li');
     element.innerHTML = message;
+    element.style.color = 'black';
+    element.style.fontWeight=  'bold';
     element.style.background = 'linear-gradient(-8deg, #7b1fa220 0%, white 59%)';
     element.style.padding = '15px 30px';
     element.style.margin = '10px';
@@ -177,6 +179,8 @@ export class LiveChatComponent implements OnInit, OnDestroy {
   sendMessageInChat(message: string) {
     const element = document.createElement('li');
     element.innerHTML = message;
+    element.style.color = 'black';
+    element.style.fontWeight=  'bold';
     element.style.background = 'linear-gradient(8deg, #7b1fa220 0%, white 59%)';
     element.style.padding = '15px 30px';
     element.style.margin = '10px';

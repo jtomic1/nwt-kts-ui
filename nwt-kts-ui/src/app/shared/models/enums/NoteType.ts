@@ -1,0 +1,5 @@
+export enum NoteType {
+    BLOCK_NOTICE = 'BLOCK_NOTICE',
+    CANCEL_FARE = 'CANCEL_FARE',
+    COMPLAINT = 'COMPLAINT',
+  }

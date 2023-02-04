@@ -1,0 +1,67 @@
+.float{
+	position:fixed;
+	width:60px;
+	height:60px;
+	bottom:40px;
+	left:20px;
+	background-color:#7b1fa2;
+	color:#FFF;
+	text-align:center;
+  font-size:30px;
+	box-shadow: 2px 2px 3px #000;
+  z-index:100;
+}
+
+.live-chat-btn{
+    cursor: pointer;
+}
+
+.live-chat-btn:hover:before{
+    opacity: 1;
+}
+
+/* .live-chat-btn:before {
+    position: absolute;
+    top:10px;
+    left: -195px;
+    background: rgba(0,0,0,.75);
+    border-radius: 5px;
+    color: #fff;
+    content: 'Kontaktirajte našu podršku';
+    font-size: 14px;
+    padding: 6px 10px;
+    white-space: nowrap;
+    opacity: 0;
+    transition: 1s;
+
+  } */
+
+.heart-rate {
+  animation: blinking 1.2s infinite;
+}
+@keyframes blinking {
+  0% {
+    transform: rotate(0deg) scale(0.8); 
+    background-color:#7b1fa2;
+  }
+  5% {
+    transform: rotate(20deg) scale(0.9);
+    background-color: red;
+  }
+  10% {
+    transform: rotate(0deg) scale(0.8); 
+    background-color:#7b1fa2;
+  }
+  15% {
+    transform: rotate(-20deg) scale(1);
+    background-color: red;
+  }
+  50% {
+    transform: rotate(45deg) scale(0.8); 
+    background-color:#7b1fa2;
+  }
+  100% {
+    transform: rotate(20deg) scale(0.8); 
+    background-color:#7b1fa2;
+  }
+}

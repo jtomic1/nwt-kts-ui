@@ -1,0 +1,47 @@
+<mat-card>
+  <mat-card-content>
+    <h2>{{ user.name + " " + user.lastName }}</h2>
+    <mat-divider></mat-divider>
+
+    <app-avatar [placeholder]="placeholder"></app-avatar>
+    <button
+      mat-button
+      [ngClass]="{
+        'upload-button': placeholder === null,
+        'remove-upload-button': placeholder !== null
+      }"
+      (click)="openFileInput()"
+    >
+      {{ uploadText }}
+    </button>
+    <input
+      type="file"
+      #fileInput
+      style="display: none"
+      accept="image/*"
+      (change)="uploadFile()"
+    />
+
+    <app-personal-data
+      [form]="editForm"
+      [mode]="PersonalDataMode.EDIT"
+    ></app-personal-data>
+    <div class="update-container">
+      <button
+        mat-button
+        class="upload-button"
+        [disabled]="!enableUpdateButton"
+        (click)="sendProfileDataChangeRequest()"
+      >
+        AŽURIRAJ
+      </button>
+      <button
+        mat-button
+        class="change-password-button"
+        (click)="openPasswordResetDialog()"
+      >
+        PROMENI LOZINKU
+      </button>
+    </div>
+  </mat-card-content>
+</mat-card>

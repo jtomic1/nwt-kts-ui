@@ -1,0 +1,65 @@
+<h2 mat-dialog-title>
+    Zahtev za novu vožnju
+</h2>
+
+<mat-dialog-content class="mat-typography">
+    <app-map #map
+        [addWaypoints]="false"
+        [startCoord]="startCord"
+        [endCoord]="endCord"
+        [onWayStations]="onWayStations"
+        [mapInDialog]="true"
+    >
+    </app-map>
+    <div class="table">
+        <div class="col">
+            <div>
+                <span class="info-text">Početna stanica:</span>
+                <span class="info-data">{{getStartName()}}</span>
+            </div>
+            <div>
+                <span class="info-text">Odredište:</span>
+                <span  class="info-data">{{getEndName()}}</span>
+            </div>
+        </div>
+        <div class="col">
+            
+            <div>
+                <span class="info-text">Vreme trajanja:</span>
+                <span class="info-data">{{data.ride.duration}}</span>
+            </div>
+            <div>
+                <span class="info-text">Zarada:</span>
+                <span class="info-data">
+                    <app-tokens-count
+                    [isCurrentUserTokens]="false"
+                    [value]="data.ride.price"
+                    >
+                    </app-tokens-count>
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="acceptedRide" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+        <h3>Čeka se potvrda klijenta</h3>
+        <mat-spinner ></mat-spinner>
+    </div>
+    
+</mat-dialog-content>
+
+<mat-dialog-actions align="center" *ngIf="!acceptedRide && !openDeniedDialog">
+    <button mat-raised-button name="accept-ride" color="primary"(click)="acceptRide()" >Prihvati</button>
+    <button mat-raised-button name="refuse-ride" color="warn"  (click)="deniedRide()">Otkaži</button>
+</mat-dialog-actions>
+<mat-dialog-actions align="center" *ngIf="openDeniedDialog">
+    <app-note *ngIf="openDeniedDialog"
+    [title]="titleReason"
+    [placeholder]="'Morate uneti razlog odbijanja ...'"
+    [offenderId]="driverId"
+    [noteType]="noteType"
+    class=" cancelConfirmationDialog"
+    (noteSent)="closeDialog($event)"
+    >
+    </app-note>
+</mat-dialog-actions>

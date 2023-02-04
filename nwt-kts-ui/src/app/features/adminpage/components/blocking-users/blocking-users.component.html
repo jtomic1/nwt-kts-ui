@@ -1,0 +1,12 @@
+<mat-tab-group mat-align-tabs="center">
+    <mat-tab label="Korisnici">
+        <ng-template matTabContent>
+            <app-list-users [userType]="clients"></app-list-users>
+        </ng-template>        
+    </mat-tab>
+    <mat-tab label="Vozači">
+        <ng-template matTabContent>
+            <app-list-users [userType]="drivers"></app-list-users>
+        </ng-template>    
+    </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>
+    {{title}}
+</h2>
+
+<mat-dialog-content class="mat-typography" style="height: 84%;">
+    <h4> {{message}}</h4>
+    <div style="display: flex; justify-content: center;">
+        <mat-spinner *ngIf="!processIsFinished && !cantFindRide"></mat-spinner>
+        <mat-icon *ngIf="cantFindRide" class="processFailedImg">report</mat-icon>
+        <mat-icon  *ngIf="processIsFinished" class="processFinishedImg">verified</mat-icon>
+    </div>
+    <app-ride-payment *ngIf="processIsFinished" [ride]="ride"></app-ride-payment>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-raised-button color="primary" name="accept-ride" *ngIf="processIsFinished" (click)="acceptRide()">Prihvati i prati vožnju na mapi</button>
+    <button mat-raised-button color="warn" mat-dialog-close (click)="cancelRide()">Odustani od vožnje </button>
+</mat-dialog-actions>

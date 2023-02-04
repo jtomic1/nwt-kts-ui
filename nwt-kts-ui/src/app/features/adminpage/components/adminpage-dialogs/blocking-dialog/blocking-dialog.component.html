@@ -1,0 +1,5 @@
+<h1 mat-dialog-title>Da li ste sigurni da želite da blokirate korisnika?</h1>
+<div mat-dialog-actions>
+  <button mat-raised-button (click)="onCancelClick()">Otkaži</button>
+  <button mat-raised-button color="warn" [mat-dialog-close]="deleted" cdkFocusInitial (click)="blockUser()">Blokiraj</button>
+</div>

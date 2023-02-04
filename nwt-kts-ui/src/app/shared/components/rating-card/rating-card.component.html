@@ -1,0 +1,42 @@
+<mat-card mat-elevation-z16>
+  <div style="display: flex; align-items: center">
+    <app-avatar
+      width="42px"
+      height="42px"
+      [placeholder]="rating.userProfilePhoto"
+    ></app-avatar>
+    <h3 style="display: inline; margin-left: 6px">{{ rating.userFullName }}</h3>
+  </div>
+  <table>
+    <tr>
+      <td>Ocena vozača:&nbsp;</td>
+      <td>
+        <span *ngFor="let i of [1, 2, 3, 4, 5]; let j = index">
+          <fa-icon [icon]="solidStar" *ngIf="j < rating.driverRating"></fa-icon>
+          <fa-icon
+            [icon]="emptyStar"
+            *ngIf="j >= rating.driverRating"
+          ></fa-icon>
+          <i class="fa fa-star-o" *ngIf="j >= rating.driverRating"></i>
+        </span>
+      </td>
+    </tr>
+    <tr>
+      <td>Ocena vozila:&nbsp;</td>
+      <td>
+        <span *ngFor="let i of [1, 2, 3, 4, 5]; let j = index">
+          <fa-icon
+            [icon]="solidStar"
+            *ngIf="j < rating.vehicleRating"
+          ></fa-icon>
+          <fa-icon
+            [icon]="emptyStar"
+            *ngIf="j >= rating.vehicleRating"
+          ></fa-icon>
+          <i class="fa fa-star-o" *ngIf="j >= rating.vehicleRating"></i>
+        </span>
+      </td>
+    </tr>
+  </table>
+  <p style="margin-top: 16px">{{ rating.comment }}</p>
+</mat-card>

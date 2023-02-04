@@ -1,0 +1,13 @@
+* {
+    color: gold;
+    font-weight: bold;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.muted{
+    color: rgb(195, 165, 0);
+}

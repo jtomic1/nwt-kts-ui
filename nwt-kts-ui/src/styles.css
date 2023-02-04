@@ -1,4 +1,89 @@
 /* You can add global styles to this file, and also import other style files */
-
+@import "~leaflet/dist/leaflet.css";
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; background-color: #303030;}
+a {color: #69F0AE}
+
+/* Message Styles -----------------------------------------------------------------------------------*/
+
+.success {
+  background-color: green !important;
+  color: white !important;
+}
+
+.error {
+  background-color: red !important;
+  color: white !important;
+}
+
+.info {
+  background-color: rgb(15, 93, 238) !important;
+  color: white !important;
+}
+
+.warning {
+  background-color: rgb(192, 126, 2) !important;
+  color: white !important;
+}
+/* Message Styles -----------------------------------------------------------------------------------*/
+
+.mat-drawer-inner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.css-shadow {
+  border-radius: 50%;
+  margin-bottom: 20px;
+}
+
+.shadow-white {
+  border: 2px solid white;
+  filter: drop-shadow(0 0 8px gray);
+}
+
+.shadow-blue {
+  border: 2px solid rgb(102, 165, 246);
+  filter: drop-shadow(0 0 8px rgb(136, 203, 226));
+}
+
+.shadow-gold {
+  border: 2px solid yellow;
+  filter: drop-shadow(0 0 8px gold);
+}
+
+.shadow-gray {
+  border: 2px solid lightgray;
+  filter: drop-shadow(0 0 8px lightgray);
+}
+
+/*****************************/
+
+mat-expansion-panel-header .mat-content {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+mat-expansion-panel {
+  border: 1px solid gray
+}
+
+.mat-grid-tile-content {
+  align-items: start !important;
+}
+
+.mat-grid-list {
+  height: 99%;
+}
+
+.mat-row:hover {
+  transform: scale(1.01);
+  transition-duration: 200ms;
+  cursor: pointer;
+}
+
+.mat-form-field-label{
+  color: white !important
+}

@@ -1,0 +1,16 @@
+<mat-card *ngFor="let item of users" class="mx-auto main-card">
+    <app-list-user *ngIf="isLoaded"
+        [id]="item.id"
+        [name]="item.name"
+        [surname]="item.lastName"
+        [email]="item.email"
+        [phone]="item.phone"
+        (deletedUser)="deleteUser($event)"></app-list-user>
+</mat-card>
+<div class="paginator-container">
+    <mat-paginator [length]="totalItems"
+                [pageSize]="pageSize"
+                (page)="onPageChange($event)"
+                aria-label="Select page">
+    </mat-paginator>
+</div>

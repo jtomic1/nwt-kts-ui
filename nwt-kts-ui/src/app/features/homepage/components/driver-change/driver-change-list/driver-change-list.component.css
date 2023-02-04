@@ -1,0 +1,45 @@
+mat-paginator{
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+
+.action-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.mat-action-row {
+  display: flex;
+  justify-content: center;
+  height: 50px;
+}
+
+.panel-cell {
+  text-align: center;
+  width: 50%
+}
+
+.header-text {
+  color: white;
+  margin-top: 10px
+}
+
+table,
+th,
+td {
+  border: 1px solid lightgray;
+  min-width: 200px;
+  height: 60px;
+  text-align: center;
+}
+
+img {
+  margin-top: 20px;
+}
+
+.master-container {
+  margin-bottom: 56px;
+}

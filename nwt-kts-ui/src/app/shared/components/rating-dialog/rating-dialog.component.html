@@ -1,0 +1,86 @@
+<mat-card class="card">
+  <h1 class="title">Oceni Vožnju</h1>
+  <mat-card-content
+    style="display: flex; justify-content: center; align-items: center"
+  >
+    <table>
+      <tr>
+        <td>Ocena vozača:&nbsp;</td>
+        <td>
+          <span *ngFor="let i of [1, 2, 3, 4, 5]; let j = index">
+            <fa-icon
+              [icon]="solidStar"
+              *ngIf="j < driverRating"
+              style="cursor: pointer"
+              (mouseenter)="onMouseEnter(i, 'driver')"
+              (mouseleave)="onMouseLeave('driver')"
+              (click)="onClick(i, 'driver')"
+              class="fa-2x"
+            ></fa-icon>
+            <fa-icon
+              [icon]="emptyStar"
+              *ngIf="j >= driverRating"
+              (mouseenter)="onMouseEnter(i, 'driver')"
+              (mouseleave)="onMouseLeave('driver')"
+              style="cursor: pointer"
+              class="fa-2x"
+            ></fa-icon>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td>Ocena vozila:&nbsp;</td>
+        <td>
+          <span *ngFor="let i of [1, 2, 3, 4, 5]; let j = index">
+            <fa-icon
+              [icon]="solidStar"
+              *ngIf="j < vehicleRating"
+              style="cursor: pointer"
+              (mouseenter)="onMouseEnter(i, 'vehicle')"
+              (mouseleave)="onMouseLeave('vehicle')"
+              (click)="onClick(i, 'vehicle')"
+              class="fa-2x"
+            ></fa-icon>
+            <fa-icon
+              [icon]="emptyStar"
+              *ngIf="j >= vehicleRating"
+              (mouseenter)="onMouseEnter(i, 'vehicle')"
+              (mouseleave)="onMouseLeave('vehicle')"
+              style="cursor: pointer"
+              class="fa-2x"
+            ></fa-icon>
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td colspan="2">
+          <mat-form-field appearance="fill">
+            <mat-label>Unesite komentar...</mat-label>
+            <input
+              matInput
+              type="text"
+              name="comment"
+              [(ngModel)]="rating.comment"
+          /></mat-form-field>
+        </td>
+      </tr>
+    </table>
+  </mat-card-content>
+  <mat-card-actions style="text-align: center">
+    <span
+      [matTooltip]="'Morate uneti obe ocene!'"
+      [matTooltipDisabled]="!disableSubmit"
+      matTooltipPosition="above"
+    >
+      <button
+        mat-button
+        [color]="disableSubmit ? 'disabled' : 'accent'"
+        (click)="onConfirmClick()"
+        [disabled]="disableSubmit"
+      >
+        POŠALJI
+      </button></span
+    >
+    <button mat-button (click)="onCloseClick()">ODUSTANI</button>
+  </mat-card-actions>
+</mat-card>

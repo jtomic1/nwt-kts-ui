@@ -1,0 +1,89 @@
+<mat-card style="max-height: 700px">
+  <mat-card-title style="margin-bottom: 50px"
+    >Registracija Vozača</mat-card-title
+  >
+  <mat-card-content>
+    <mat-grid-list cols="2" rowHeight="1.5:1">
+      <mat-grid-tile rowspan="2" class="tile-top">
+        <div class="container">
+          <h2>Podaci o Vozaču</h2>
+          <app-personal-data [form]="form"></app-personal-data>
+        </div>
+      </mat-grid-tile>
+      <mat-grid-tile rowspan="2" class="tile-top">
+        <div class="container">
+          <h2>Podaci o Vozilu</h2>
+          <form [formGroup]="form">
+            <!-- Name -->
+            <mat-form-field>
+              <input
+                matInput
+                formControlName="vehicleName"
+                placeholder="Ime Vozila"
+                name="vehicleName"
+                required
+              />
+            </mat-form-field>
+
+            <!-- Plate -->
+            <mat-form-field>
+              <input
+                matInput
+                formControlName="plateNumber"
+                placeholder="Registarska Oznaka"
+                name="plateNumber"
+                required
+              />
+            </mat-form-field>
+
+            <!-- Capacity -->
+            <mat-form-field>
+              <input
+                matInput
+                formControlName="capacity"
+                placeholder="Kapacitet"
+                name="capacity"
+                type="number"
+                required
+              />
+              <mat-error *ngIf="form.controls['capacity'].hasError('min')"
+                >Minimalna vrednost je 1</mat-error
+              >
+              <mat-error *ngIf="form.controls['capacity'].hasError('max')"
+                >Maksimalna vrednost je 10</mat-error
+              >
+            </mat-form-field>
+
+            <!-- Vehicle Type -->
+            <mat-form-field>
+              <mat-label>Tip Vozila</mat-label>
+              <mat-select formControlName="vehicleType" required>
+                <mat-option
+                  *ngFor="let option of vehicleTypes"
+                  [value]="option.value"
+                >
+                  {{ option.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </form>
+        </div>
+      </mat-grid-tile>
+    </mat-grid-list>
+    <div class="action-container">
+      <span>
+        <button
+          mat-button
+          class="upload-button"
+          [disabled]="!enableSubmitButton"
+          (click)="submitButtonClick()"
+        >
+          PODNESI ZAHTEV
+        </button>
+        <button mat-button class="clear-button" (click)="clearButtonClick()">
+          ISPRAZNI FORMU
+        </button>
+      </span>
+    </div>
+  </mat-card-content>
+</mat-card>

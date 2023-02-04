@@ -1,0 +1,15 @@
+<mat-tab-group [(selectedIndex)]="selectedIndex" mat-align-tabs="center">
+  <mat-tab label="Prijava">
+    <app-startpage-login></app-startpage-login>
+  </mat-tab>
+  <mat-tab label="Registracija">
+    <app-startpage-register
+      (registrationEvent)="switchActiveTab($event)"
+    ></app-startpage-register>
+  </mat-tab>
+  <mat-tab label="Pregled Mape">
+    <ng-template matTabContent>
+      <app-startpage-map></app-startpage-map>
+    </ng-template>
+  </mat-tab>
+</mat-tab-group>

@@ -1,0 +1,94 @@
+<mat-grid-list cols="2" rowHeight="33%" style="height: 99% !important">
+  <mat-grid-tile colspan="2" rowHeight="">
+    <div class="mat-elevation-z7" style="width: 100%">
+      <table
+        mat-table
+        matSort
+        matSortDisableClear
+        [dataSource]="dataSource"
+        style="width: 100%"
+        (matSortChange)="announceSortChange($event)"
+      >
+        <!-- Vreme polaska -->
+        <ng-container matColumnDef="startTime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Vreme Polaska
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.startTime }}</td>
+        </ng-container>
+
+        <!-- Adresa polaska -->
+        <ng-container matColumnDef="startAddress">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Adresa Polazišta
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.startAddress }}</td>
+        </ng-container>
+
+        <!-- Vreme dolaska -->
+        <ng-container matColumnDef="endTime">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Vreme Dolaska
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.endTime }}</td>
+        </ng-container>
+
+        <!-- Adresa odredišta -->
+        <ng-container matColumnDef="endAddress">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>
+            Adresa Odredišta
+          </th>
+          <td mat-cell *matCellDef="let item">{{ item.endAddress }}</td>
+        </ng-container>
+
+        <!-- Cena -->
+        <ng-container matColumnDef="price">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Cena</th>
+          <td mat-cell *matCellDef="let item">{{ item.price }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr
+          mat-row
+          *matRowDef="let row; columns: displayedColumns"
+          (click)="rowClick(row)"
+        ></tr>
+      </table>
+      <h1
+        *ngIf="dataSource.data.length === 0"
+        style="text-align: center; margin-bottom: 20px; margin-top: 20px"
+      >
+        Nema pronađenih vožnji!
+      </h1>
+      <mat-paginator
+        [length]="count"
+        [pageSize]="2"
+        [pageSizeOptions]="[2]"
+        [hidePageSize]="true"
+        aria-label="Izaberi stranicu"
+        (page)="onPageChange($event)"
+      >
+      </mat-paginator>
+    </div>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="2">
+    <mat-card class="details-card" style="overflow-y: auto">
+      <div *ngIf="focusedFare !== null">
+        <app-client-fare-details
+          [fareData]="focusedFare"
+        ></app-client-fare-details>
+      </div>
+    </mat-card>
+  </mat-grid-tile>
+  <mat-grid-tile rowspan="2">
+    <mat-card class="details-card" style="padding-bottom: 10px">
+      <span *ngIf="focusedFare !== null">
+        <app-map #map
+          [startCoord]="focusedFare!.startCoord"
+          [endCoord]="focusedFare!.endCoord"
+          [onWayStations]="focusedFare!.onWayStations"
+          [showAlternatives]="false"          
+        ></app-map></span
+    ></mat-card>
+  </mat-grid-tile>
+</mat-grid-list>

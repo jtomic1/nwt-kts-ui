@@ -1,0 +1,44 @@
+.main-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.driver-title {
+  display: block;
+  width: 100%;
+  border-bottom: 1px solid lightgray;
+  border-top: 1px solid lightgray;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.bold {
+  font-weight: 550;
+}
+
+td {
+  font-size: large;
+}
+
+.ratings-container{
+  display: flex;
+  overflow-x: auto;
+  gap: 6px;
+  width: 100%;
+}
+
+.action-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-left: 10px;
+}
+
+.action-container button {
+  min-width: 205px;
+}

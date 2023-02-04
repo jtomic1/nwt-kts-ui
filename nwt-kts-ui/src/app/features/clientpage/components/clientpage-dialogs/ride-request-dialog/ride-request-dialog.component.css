@@ -1,0 +1,13 @@
+*{
+    text-align: center;
+}
+
+.processFinishedImg{
+    color:lightgreen;
+    font-size: 95px;
+}
+
+.processFailedImg{
+    color: darkred;
+    font-size: 95px;
+}
